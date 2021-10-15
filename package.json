@@ -4,7 +4,6 @@
     "dev": "nuxt dev",
     "build": "nuxt build",
     "start": "node .output/server/index.mjs",
-    "postinstall": "npm run build",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "lint:check": "eslint --print-config .eslintrc.json",
