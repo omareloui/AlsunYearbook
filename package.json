@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "start": "node .output/server/index.mjs",
+    "postinstall": "npm run build",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "lint:check": "eslint --print-config .eslintrc.json",
+    "format": "prettier --write \"{,!(node_modules|.nuxt|.output)/**/}*.{[t|j]s,vue,scss}\""
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^7.19.1",
+    "nuxt3": "latest",
+    "prettier": "^2.4.1",
+    "sass": "^1.43.2",
+    "sass-loader": "^12.2.0"
+  }
+}
