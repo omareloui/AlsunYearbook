@@ -4,6 +4,3 @@ node_modules
 nuxt.d.ts
 .output
 .vscode
-
-
-public/images
