@@ -1,0 +1,29 @@
+@use "sass:list";
+
+@mixin e($elements...) {
+  @if list.length($elements) == 2 {
+    .#{list.nth($elements, 1)}__#{list.nth($elements, 2)} {
+      @content;
+    }
+  } @else if list.length($elements) == 1 {
+    &__#{$elements} {
+      @content;
+    }
+  } @else {
+    @error "Invalid elements #{$elements} on e mixin";
+  }
+}
+
+@mixin m($elements...) {
+  @if list.length($elements) == 2 {
+    .#{list.nth($elements, 1)}--#{list.nth($elements, 2)} {
+      @content;
+    }
+  } @else if list.length($elements) == 1 {
+    &--#{$elements} {
+      @content;
+    }
+  } @else {
+    @error "Invalid elements #{$elements} on m mixin";
+  }
+}

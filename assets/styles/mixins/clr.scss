@@ -1,0 +1,46 @@
+@use "sass:map";
+@use "sass:list";
+@use "../functions/get-clr.scss" as *;
+
+@mixin clr(
+  $name,
+  $property: color,
+  $opacity: null,
+  $lightness: null,
+  $important: false
+) {
+  // Setting the color
+  $color: get-clr($name, $opacity, $lightness);
+
+  // Setting if it's important
+  @if $important {
+    $color: $color !important;
+  }
+
+  // Setting the prop, value pair
+  #{$property}: $color;
+}
+
+@mixin clr-txt(
+  $type: main,
+  $opacity: null,
+  $lightness: null,
+  $important: false
+) {
+  @if list.index(main light dark invert, $type) {
+    $type: text-#{$type};
+  }
+  @include clr($type, color, $opacity, $lightness, $important);
+}
+
+@mixin clr-bg(
+  $type: main,
+  $opacity: null,
+  $lightness: null,
+  $important: false
+) {
+  @if list.index(main secondary tertiary invert, $type) {
+    $type: background-#{$type};
+  }
+  @include clr($type, background-color, $opacity, $lightness, $important);
+}

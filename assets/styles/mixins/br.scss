@@ -1,0 +1,41 @@
+@use "sass:map";
+@use "../variables/borders-radius" as brs;
+
+@mixin br($size) {
+  @if not map.get(brs.$borders-radius, $size) {
+    @error "#{$size} is invalid border-radius size";
+  }
+  border-radius: var(--br-#{$size});
+}
+
+@mixin br-sm {
+  @include br(sm);
+}
+@mixin br-md {
+  @include br(md);
+}
+@mixin br-lg {
+  @include br(lg);
+}
+@mixin br-xl {
+  @include br(xl);
+}
+@mixin br-cr {
+  border-radius: 50%;
+}
+@mixin br-bl {
+  border-radius: 9999px;
+}
+
+@mixin br-b-sm {
+  border-radius: 0 0 var(--br-sm) var(--br-sm);
+}
+@mixin br-b-md {
+  border-radius: 0 0 var(--br-md) var(--br-md);
+}
+@mixin br-b-lg {
+  border-radius: 0 0 var(--br-lg) var(--br-lg);
+}
+@mixin br-b-xl {
+  border-radius: 0 0 var(--br-xl) var(--br-xl);
+}

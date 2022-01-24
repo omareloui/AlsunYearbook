@@ -1,0 +1,16 @@
+@mixin not-clickable {
+  pointer-events: none;
+}
+
+@mixin clickable {
+  cursor: pointer;
+  pointer-events: all;
+}
+
+@mixin no-select {
+  user-select: none;
+}
+
+@mixin not-allowed {
+  cursor: not-allowed;
+}

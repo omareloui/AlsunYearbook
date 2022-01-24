@@ -1,0 +1,9 @@
+@use "../variables/borders-radius.scss" as br;
+@use "../mixins//br.scss" as brm;
+
+// Border radius
+@each $br-size, $br-value in br.$borders-radius {
+  .br-#{$br-size} {
+    @include brm.br($br-size);
+  }
+}

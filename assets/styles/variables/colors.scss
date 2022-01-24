@@ -1,0 +1,75 @@
+@use "sass:map";
+@use "../functions/opacify" as o;
+
+$core: (
+  primary: hsl(234, 85%, 66%),
+  light: hsl(360, 100%, 100%),
+  dark: hsl(0, 0%, 5%),
+);
+
+$colors: (
+  candy-apple-red: hsl(350, 95%, 45%),
+  persian-rose: hsl(320, 88%, 52%),
+  lemon-yellow: hsl(56, 92%, 62%),
+  safety-orange: hsl(27, 100%, 52%),
+  maya-blue: hsl(201, 100%, 67%),
+  neon-green: hsl(108, 84%, 51%),
+  majorelle-blue: hsl(244, 86%, 61%),
+  teal: #adf6e9,
+  mauve: #b5b8fa,
+);
+
+$shared: (
+  button-cta: map.get($core, primary),
+  link: hsl(201, 100%, 67%),
+  text-light: map.get($core, light),
+  text-dark: map.get($core, dark),
+  focus: o.opacify(map.get($core, primary), 48),
+  scrollbar-thumb: o.opacify(map.get($core, primary), 30),
+  scrollbar-thumb-hover: map.get($core, primary),
+);
+
+$shared: map.merge($core, $shared);
+$shared: map.merge($shared, $colors);
+
+$light: (
+  text-main: map.get($shared, text-dark),
+  text-invert: map.get($shared, text-light),
+  background-main: hsl(0, 0%, 96%),
+  background-secondary: hsl(0, 0%, 93%),
+  background-tertiary: hsl(0, 0%, 88%),
+  background-invert: hsl(220, 11%, 11%),
+  box-shadow: hsl(220, 11%, 11%),
+  button: hsl(218, 16%, 68%),
+  card: hsl(0, 0%, 100%),
+  glass: hsl(0, 0%, 98%, 10%),
+  danger: hsl(4, 91%, 59%),
+  error: hsl(4, 91%, 59%),
+  cancel: hsl(4, 91%, 59%),
+  warn: hsl(54, 96%, 55%),
+  safe: hsl(112, 92%, 49%),
+  success: hsl(112, 92%, 49%),
+  info: hsl(201, 100%, 67%),
+);
+
+$default: map.merge($shared, $light);
+
+$dark: (
+  text-main: map.get($shared, text-light),
+  text-invert: map.get($shared, text-dark),
+  background-main: hsl(220, 11%, 11%),
+  background-secondary: hsl(220, 11%, 20%),
+  background-tertiary: hsl(220, 11%, 25%),
+  background-invert: hsl(0, 0%, 98%),
+  box-shadow: hsl(0, 0%, 98%),
+  button: hsl(223, 12%, 31%),
+  card: hsl(220, 9%, 14%),
+  glass: hsl(0, 0%, 35%, 10%),
+  danger: hsl(5, 74%, 48%),
+  error: hsl(5, 74%, 48%),
+  cancel: hsl(5, 74%, 48%),
+  warn: hsl(54, 59%, 46%),
+  safe: hsl(112, 87%, 33%),
+  success: hsl(112, 87%, 33%),
+  info: hsl(201, 72%, 43%),
+);

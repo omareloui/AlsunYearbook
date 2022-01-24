@@ -1,0 +1,33 @@
+@use "br" as br;
+@use "clr" as c;
+@use "brdr" as brdr;
+@use "sizes" as s;
+
+@mixin scroll {
+  scrollbar-color: var(--clr-scrollbar-thumb) transparent;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    @include s.size(16px);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @include br.br-bl;
+    @include c.clr-bg(scrollbar-thumb);
+    @include brdr.brdr(none, 5px);
+    background-clip: padding-box;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    @include c.clr-bg(scrollbar-thumb-hover);
+  }
+}
+
+@mixin no-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

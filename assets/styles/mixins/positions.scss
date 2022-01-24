@@ -1,0 +1,51 @@
+@use "./paddings-margins.scss" as pm;
+
+@mixin position($position, $args) {
+  position: $position;
+  @each $o in top right bottom left {
+    $i: index($args, $o);
+    @if $i and $i + 1 <= length($args) and type-of(nth($args, $i + 1)) == number
+    {
+      #{$o}: nth($args, $i + 1);
+    }
+  }
+}
+
+@mixin pos-unset() {
+  @include position(unset, "");
+}
+@mixin pos-a($args: "") {
+  @include position(absolute, $args);
+}
+@mixin pos-f($args: "") {
+  @include position(fixed, $args);
+}
+@mixin pos-r($args: "") {
+  @include position(relative, $args);
+}
+@mixin pos-s($args: "") {
+  @include position(sticky, $args);
+}
+
+@mixin center-v {
+  @include pos-a(top 50%);
+  transform: translateY(-50%);
+}
+@mixin center-h {
+  @include pos-a(left 50%);
+  transform: translateX(-50%);
+}
+@mixin center {
+  @include pos-a(top 50% left 50%);
+  transform: translate(-50%, -50%);
+}
+@mixin center-inset {
+  @include pos-a;
+  @include pm.ma(auto);
+  inset: 0;
+}
+
+@mixin center-grid {
+  display: grid;
+  place-items: center;
+}

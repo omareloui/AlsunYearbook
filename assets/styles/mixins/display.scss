@@ -1,0 +1,18 @@
+@use "./sizes" as s;
+
+@mixin remove {
+  display: none;
+  @include s.size(0)
+}
+
+@mixin block {
+  display: block
+}
+
+@mixin inline-block {
+  display: inline-block
+}
+
+@mixin inline {
+  display: inline
+}

@@ -1,0 +1,12 @@
+@use "../mixins/generate-variables" as *;
+
+$borders-radius: (
+  sm: 3px,
+  md: 5px,
+  lg: 10px,
+  xl: 20px
+);
+
+@mixin borders-radius {
+  @include generate-variables($borders-radius, "br");
+}

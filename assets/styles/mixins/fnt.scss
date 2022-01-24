@@ -1,0 +1,9 @@
+@use "sass:map";
+@use "../variables/fonts" as fnts;
+
+@mixin fnt($family) {
+  @if not map.get(fnts.$fonts-families, $family) {
+    @error "#{$family} is invalid font family";
+  }
+  font-family: var(--ff-#{$family});
+}

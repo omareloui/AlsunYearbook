@@ -1,0 +1,36 @@
+@mixin size($size) {
+  @if length($size) == 2 {
+    $width: nth($size, 1);
+    $height: nth($size, 2);
+    height: $height;
+    width: $width;
+  }
+
+  @if length($size) == 1 {
+    height: $size;
+    width: $size;
+  }
+}
+
+@mixin dimensions($dimension, $args) {
+  @if not $dimension == width or not $dimension == height {
+    @error "#{$dimension} is invalid dimension value";
+  }
+
+  @if length($args) == 1 {
+    #{$dimension}: $args;
+  } @else if length($args) == 2 {
+    @if not nth($args, 1) == min or not nth($args, 1) == max {
+      @error "#{nth($args, 1)} is invalid width mode";
+    }
+    #{nth($args, 1)}-#{$dimension}: nth($args, 2);
+  }
+}
+
+@mixin w($args) {
+  @include dimensions(width, $args);
+}
+
+@mixin h($args) {
+  @include dimensions(height, $args);
+}

@@ -1,0 +1,55 @@
+@use "sass:map";
+@use "sass:list";
+@use "sass:math";
+@use "./colors" as *;
+@use "../functions/match-light-and-dark-colors" as *;
+
+// I'm adding the colors for readability
+// Validate that all light colors are in dark colors and vice versa
+$validating-result: match-light-and-dark-colors($light, $dark);
+@if $validating-result == "dark" {
+  @error "Dark colors is missing at least a color.";
+} @else if $validating-result == "light" {
+  @error "Light colors is missing at least a color.";
+}
+
+@mixin generate-colors($map) {
+  @each $name, $value in $map {
+    $hue: hue($value);
+    $sat: saturation($value);
+    $lightness: lightness($value);
+    $alpha: alpha($value);
+
+    --clr-hs-#{"" + $name}: #{$hue $sat};
+    --clr-l-#{"" + $name}: #{$lightness};
+    @if $alpha < 1 {
+      --clr-a-#{"" + $name}: #{$alpha};
+    }
+
+    $color: var(--clr-hs-#{$name}) var(--clr-l-#{$name});
+    @if $alpha < 1 {
+      $color: #{$color} / var(--clr-a-#{$name});
+    }
+    --clr-#{"" + $name}: hsl(#{$color});
+  }
+}
+
+@mixin colors {
+  color-scheme: light;
+
+  // Colors helpers
+  @for $i from 0 through 10 {
+    --clr-o-#{$i * 10}: #{math.div($i, 10)};
+  }
+  @for $i from 0 through 10 {
+    --clr-l-#{$i * 10}: #{$i * 10%};
+  }
+
+  // The actual colors
+  @include generate-colors($default);
+}
+
+@mixin colors-dark {
+  color-scheme: dark;
+  @include generate-colors($dark);
+}

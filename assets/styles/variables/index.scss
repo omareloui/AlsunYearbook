@@ -1,0 +1,17 @@
+@use "fonts" as fnt;
+@use "colors-generator" as clr;
+@use "screens" as bp;
+@use "z-indexes" as zi;
+@use "borders-radius" as br;
+
+:root {
+  @include clr.colors;
+  @include fnt.fonts;
+  @include zi.z-index;
+  @include bp.screens;
+  @include br.borders-radius;
+}
+
+:root[theme="dark"] {
+  @include clr.colors-dark;
+}

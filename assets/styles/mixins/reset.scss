@@ -1,0 +1,47 @@
+@use "paddings-margins" as mp;
+@use "brdr";
+
+@mixin list-reset {
+  @include mp.ma(0);
+  list-style: none;
+}
+
+@mixin link-reset($color: true) {
+  @if $color {
+    color: --clr-dark;
+  }
+  text-decoration: none;
+}
+
+@mixin button-reset {
+  background: none;
+  @include brdr.brdr(none);
+}
+
+@mixin input-reset-appearance {
+  appearance: none;
+}
+
+@mixin input-radio-reset {
+  @include input-reset-appearance;
+  display: none;
+}
+
+@mixin input-search-reset {
+  &[type="search"] {
+    // Clears the 'X' from Internet Explorer
+    &::-ms-clear,
+    &::-ms-reveal {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+    // Clears the 'X' from Chrome
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-results-button,
+    &::-webkit-search-results-decoration {
+      display: none;
+    }
+  }
+}

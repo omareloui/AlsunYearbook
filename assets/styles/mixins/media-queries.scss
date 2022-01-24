@@ -1,0 +1,36 @@
+@use "sass:map";
+@use "sass:list";
+@use "../variables/screens" as s;
+
+@mixin screen($size) {
+  @if list.index(map.keys(s.$screens), $size) {
+    @media screen and (min-width: map.get(s.$screens, $size)) {
+      @content;
+    }
+  } @else {
+    @media screen and (min-width: $size) {
+      @content;
+    }
+  }
+}
+
+@mixin lt-narrow {
+  @include screen("narrow") {
+    @content;
+  }
+}
+@mixin lt-mobile {
+  @include screen("mobile") {
+    @content;
+  }
+}
+@mixin lt-tablet {
+  @include screen("tablet") {
+    @content;
+  }
+}
+@mixin lt-desktop {
+  @include screen("desktop") {
+    @content;
+  }
+}

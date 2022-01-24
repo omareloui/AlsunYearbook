@@ -1,0 +1,38 @@
+@use "sass:map";
+@use "sass:list";
+
+@function match-light-and-dark-colors($light, $dark) {
+  $light-keys: map.keys($light);
+  $dark-keys: map.keys($dark);
+
+  @if not every($light-keys, check-if-in-other-list, $dark-keys) {
+    @return "dark";
+  }
+
+  @if not every($dark-keys, check-if-in-other-list, $light-keys) {
+    @return "light";
+  }
+
+  @return "valid";
+}
+
+@function check-if-in-other-list($name, $list-to-check-in) {
+  @if not list.index($list-to-check-in, $name) {
+    @return false;
+  }
+  @return true;
+}
+
+@function every($list, $function, $args...) {
+  @if not function-exists($function) {
+    @error "There is no \"#{$function}\" function.";
+  }
+
+  @each $item in $list {
+    @if not call(get-function($function), $item, $args...) {
+      @return false;
+    }
+  }
+
+  @return true;
+}

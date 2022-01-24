@@ -1,0 +1,5 @@
+@use "sass:string";
+
+@function is-custom-property($value) {
+  @return string.index("" + $value, "--") == 1;
+}

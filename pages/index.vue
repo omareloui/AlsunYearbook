@@ -1,6 +1,3 @@
-<script setup lang="ts">
-</script>
-
-<template></template>
+<template>hi</template>
 
 <style scoped lang="sass"></style>

@@ -1,0 +1,31 @@
+@mixin capitalize {
+  text-transform: capitalize;
+}
+
+@mixin no-wrap {
+  white-space: nowrap;
+}
+
+@mixin break-word {
+  word-wrap: break-word;
+}
+
+@mixin center-text {
+  text-align: center;
+}
+
+@mixin italic {
+  font-style: italic;
+}
+
+@mixin underline {
+  text-decoration: underline;
+}
+
+@mixin no-underline {
+  text-decoration: none;
+}
+
+@mixin break-word {
+  word-break: break-word;
+}

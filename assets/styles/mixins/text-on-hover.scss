@@ -1,0 +1,31 @@
+@use "paddings-margins" as mp;
+@use "positions" as p;
+@use "tran" as t;
+@use "br" as b;
+@use "clr" as c;
+@use "fnt-s" as fs;
+
+@mixin text-on-hover($text) {
+  @if not $text {
+    @error "You have to enter a text for text on hover.";
+  }
+
+  @include p.pos-r;
+
+  &::after {
+    @include t.tran(opacity);
+    @include p.pos-a(top 50% left 90%);
+    @include b.br-s;
+    @include mp.pa(6px);
+    @include c.clr(dark);
+    @include c.clr(hover-text-background, background);
+    @include fs.fnt-sm;
+    width: max-content;
+    content: $text;
+    opacity: 0;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}

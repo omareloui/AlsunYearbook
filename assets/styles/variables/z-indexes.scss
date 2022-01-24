@@ -1,0 +1,32 @@
+@use "sass:map";
+@use "../mixins/generate-variables" as *;
+
+// Helpers
+$base: 0;
+$above: 1;
+$below: -1;
+
+// Helper functions
+@function above($new-element, $above-what) {
+  @return map.set(
+    $z-indexes,
+    $new-element,
+    map.get($z-indexes, $above-what) + $above
+  );
+}
+@function below($new-element, $below-what) {
+  @return map.set(
+    $z-indexes,
+    $new-element,
+    map.get($z-indexes, $below-what) + $below
+  );
+}
+
+// Data
+$z-indexes: (
+  base: $base,
+);
+
+@mixin z-index {
+  @include generate-variables($z-indexes, "zi");
+}

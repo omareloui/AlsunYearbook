@@ -1,0 +1,69 @@
+@use "sass:map";
+@use "sass:list";
+@use "sass:string";
+@use "../variables/colors" as clrs;
+@use "is-custom-property.scss" as *;
+
+@function get-clr($name, $opacity: null, $lightness: null) {
+  // Return immediately if the color is none with transparent value
+  @if $name == none {
+    @return transparent;
+  }
+
+  // Return the value as is if it's already a custom property
+  @if is-custom-property($name) {
+    @return var(#{$name});
+  }
+
+  // Check if valid name
+  $keys: map.keys(clrs.$default);
+  @if not list.index($keys, $name) {
+    @error "#{$name} is invalid color name";
+  }
+
+  // Handle changing values
+  $hs: var(--clr-hs-#{"" + $name});
+  $l: var(--clr-l-#{"" + $name});
+  $a: null;
+
+  // Lightness
+  @if $lightness and $lightness > 0 and $lightness <= 100 {
+    // Handle the lightness and return the helper custom-property if it exists
+    @if list.index(10 20 30 40 50 60 70 80 90 100, $lightness) {
+      $l: var(--clr-l-#{$lightness});
+    } @else {
+      // Else return the value as it's provided
+      $l: $lightness * 1%;
+    }
+  }
+
+  // Opacity
+  // Check if there's a provided opacity
+  @if $opacity and $opacity <= 1 {
+    // Handle the opacity and return the helper custom-property if it exists
+    @if list.index(0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1, $opacity) {
+      $a: var(--clr-o-#{$opacity * 100});
+    } @else {
+      // Else return the value as it's provided
+      $a: $opacity;
+    }
+  }
+  // Check if the color it self has an alpha to return it's custom property if
+  //    not overridden with a provided opacity
+  @else if alpha(map.get(clrs.$default, $name)) < 1 {
+    $a: var(--clr-a-#{"" + $name});
+  }
+
+  // If no changes to the real color return with the value
+  @if not $opacity and not $lightness {
+    @return var(--clr-#{$name});
+  }
+
+  // Set the color
+  $color: $hs $l;
+  @if $a {
+    $color: $color / $a;
+  }
+
+  @return hsl($color);
+}
