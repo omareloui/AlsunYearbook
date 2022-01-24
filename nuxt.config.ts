@@ -16,10 +16,13 @@ export default defineNuxtConfig({
       },
     ],
   },
+
   css: [
     "~/assets/styles/core/index.scss",
     "~/assets/styles/variables/index.scss",
     "~/assets/styles/base/index.scss",
     "~/assets/styles/utilities/index.scss",
   ],
+
+  buildModules: ["@pinia/nuxt"],
 });

@@ -27,6 +27,7 @@ $shared: (
   focus: o.opacify(map.get($core, primary), 48),
   scrollbar-thumb: o.opacify(map.get($core, primary), 30),
   scrollbar-thumb-hover: map.get($core, primary),
+  border-default: map.get($core, primary),
 );
 
 $shared: map.merge($core, $shared);

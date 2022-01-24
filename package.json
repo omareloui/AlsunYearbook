@@ -20,5 +20,10 @@
     "prettier": "^2.4.1",
     "sass": "^1.43.2",
     "sass-loader": "^12.2.0"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.1.8",
+    "cookie-universal": "^2.1.5",
+    "pinia": "^2.0.9"
   }
 }

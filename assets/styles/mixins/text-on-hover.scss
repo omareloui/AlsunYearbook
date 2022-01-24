@@ -3,7 +3,7 @@
 @use "tran" as t;
 @use "br" as b;
 @use "clr" as c;
-@use "fnt-s" as fs;
+@use "fs";
 
 @mixin text-on-hover($text) {
   @if not $text {
@@ -15,11 +15,11 @@
   &::after {
     @include t.tran(opacity);
     @include p.pos-a(top 50% left 90%);
-    @include b.br-s;
+    @include b.br-sm;
     @include mp.pa(6px);
-    @include c.clr(dark);
-    @include c.clr(hover-text-background, background);
-    @include fs.fnt-sm;
+    @include c.clr-txt(invert);
+    @include c.clr-bg(invert);
+    @include fs.fs-sm;
     width: max-content;
     content: $text;
     opacity: 0;

@@ -1,6 +1,6 @@
 @use "../functions/get-clr" as *;
 
-@mixin brdr($color: default-border, $size: 2px, $style: solid) {
+@mixin brdr($color: border-default, $size: 2px, $style: solid) {
   @if $color == none {
     border: $size $style transparent;
   } @else {

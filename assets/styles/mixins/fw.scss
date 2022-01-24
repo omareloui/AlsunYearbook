@@ -1,0 +1,38 @@
+@use "sass:map";
+@use "../variables/fonts" as fnts;
+
+@mixin fw($weight) {
+  @if not map.get(fnts.$fonts-weights, $weight) {
+    @error "#{$weight} is invalid font weight";
+  }
+
+  font-weight: var(--fw-#{$weight});
+}
+
+@mixin fw-thin {
+  @include fw(thin);
+}
+@mixin fw-extralight {
+  @include fw(extralight);
+}
+@mixin fw-light {
+  @include fw(light);
+}
+@mixin fw-normal {
+  @include fw(normal);
+}
+@mixin fw-medium {
+  @include fw(medium);
+}
+@mixin fw-semibold {
+  @include fw(semibold);
+}
+@mixin fw-bold {
+  @include fw(bold);
+}
+@mixin fw-extrabold {
+  @include fw(extrabold);
+}
+@mixin fw-black {
+  @include fw("black");
+}

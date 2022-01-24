@@ -1,0 +1,50 @@
+@use "sass:list";
+@use "../variables/fonts" as fnts;
+
+@mixin fs($size) {
+  @if not list.index(fnts.$fonts-sizes-names, $size) {
+    @error "#{$size} is invalid font size";
+  }
+  font-size: var(--fs-#{$size});
+  line-height: var(--fh-#{$size});
+}
+
+@mixin fs-xs {
+  @include fs("xs");
+}
+@mixin fs-sm {
+  @include fs("sm");
+}
+@mixin fs-base {
+  @include fs("base");
+}
+@mixin fs-lg {
+  @include fs("lg");
+}
+@mixin fs-xl {
+  @include fs("xl");
+}
+@mixin fs-2xl {
+  @include fs("2xl");
+}
+@mixin fs-3xl {
+  @include fs("3xl");
+}
+@mixin fs-4xl {
+  @include fs("4xl");
+}
+@mixin fs-5xl {
+  @include fs("5xl");
+}
+@mixin fs-6xl {
+  @include fs("6xl");
+}
+@mixin fs-7xl {
+  @include fs("7xl");
+}
+@mixin fs-8xl {
+  @include fs("8xl");
+}
+@mixin fs-9xl {
+  @include fs("9xl");
+}
