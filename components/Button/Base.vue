@@ -1,5 +1,23 @@
+<script setup lang="ts">
+withDefaults(defineProps<{ isNormalized?: boolean }>(), {
+  isNormalized: false,
+});
+
+const emit = defineEmits(["click"]);
+</script>
+
 <template>
-  <button>
+  <button :class="{ normalized: isNormalized }" @click="emit('click')">
     <slot></slot>
   </button>
 </template>
+
+<style scoped lang="scss">
+@use "~~/assets/styles/mixins" as *;
+
+button.normalized {
+  @include brdr(none);
+  @include clr-bg(none);
+  @include clickable;
+}
+</style>

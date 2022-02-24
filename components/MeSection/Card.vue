@@ -9,7 +9,7 @@
 
 .card {
   @include clr-bg(primary);
-  @include pa(15%);
+  @include pa(25%);
   @include br-xl;
   @include grid($center: true);
   @include float(2);

@@ -15,7 +15,7 @@
 
 .me {
   @include grid($center: true, $columns: repeat(2, 1fr), $gap: 40px);
-  @include w(max 300px);
+  @include w(max 250px);
   @include mx(auto);
 }
 </style>
