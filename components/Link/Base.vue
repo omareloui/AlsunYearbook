@@ -1,5 +1,7 @@
 <script setup lang="ts">
-withDefaults(defineProps<{ to: string; newTab: boolean }>(), { newTab: false });
+withDefaults(defineProps<{ to: string; newTab?: boolean }>(), {
+  newTab: false,
+});
 </script>
 
 <template>

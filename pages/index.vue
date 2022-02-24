@@ -1,7 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePageMeta({ layout: "landing" });
+</script>
 
 <template>
-  <NuxtLayout name="landing">
+  <div>
     <h1 class="heading">Alsun's Yearbook</h1>
 
     <div class="subheading">
@@ -21,7 +23,7 @@
 
     <div class="action-links">
       <LinkButton
-        to="#!"
+        to="/yearbook"
         is-cta
         is-large
         class="action-links__link action-links__link--cta"
@@ -29,7 +31,7 @@
         To The Yearbook
       </LinkButton>
     </div>
-  </NuxtLayout>
+  </div>
 </template>
 
 <style scoped lang="scss">

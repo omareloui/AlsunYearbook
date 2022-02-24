@@ -9,8 +9,14 @@
   $lightness: null,
   $important: false
 ) {
+  $color: null;
+
   // Setting the color
-  $color: get-clr($name, $opacity, $lightness);
+  @if $name == "current" {
+    $color: currentColor;
+  } @else {
+    $color: get-clr($name, $opacity, $lightness);
+  }
 
   // Setting if it's important
   @if $important {

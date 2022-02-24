@@ -5,7 +5,7 @@
 .fade-leave-active {
   @include t.tran(opacity);
 }
-.fade-enter,
+.fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
@@ -15,7 +15,7 @@
 .slide-down-leave-active {
   @include t.tran;
 }
-.slide-down-enter,
+.slide-down-enter-from,
 .slide-down-leave-to {
   opacity: 0;
   transform: translateY(-20px);
@@ -27,7 +27,7 @@
   @include t.tran(all, 0.1s);
 }
 
-.scale-out-enter,
+.scale-out-enter-from,
 .scale-out-leave-to {
   transform: scale(0);
 }
@@ -37,7 +37,7 @@
 .page-leave-active {
   @include t.tran(opacity, 0.2s);
 }
-.page-enter,
+.page-enter-from,
 .page-leave-to {
   opacity: 0;
 }
@@ -45,110 +45,20 @@
 // Layout transition
 .layout-enter-active,
 .layout-leave-active {
-  @include t.tran(opacity, 0.2s);
+  @include t.tran(opacity, 200ms);
 }
-.layout-enter,
+.layout-enter-from,
 .layout-leave-to {
   opacity: 0;
 }
 
-// navbar menu
-.nav-menu-enter-active,
-.nav-menu-leave-active {
-  @include t.tran(transform opacity);
-}
-.nav-menu-enter,
-.nav-menu-leave-to {
-  opacity: 0;
-  transform: translateY(-100%);
-}
-
-.floating-menu-enter-active,
-.floating-menu-leave-active {
-  @include t.tran(transform opacity);
-}
-.floating-menu-enter,
-.floating-menu-leave-to {
-  opacity: 0;
-  transform: translateY(100%);
-}
-
-// Input check
-.input-check-enter-active,
-.input-check-leave-active {
-  @include t.tran(transform, 150ms);
-}
-.input-check-enter,
-.input-check-leave-to {
-  transform: scale(0);
-}
-
-// Dialogue
-.dialogue-enter-active,
-.dialogue-leave-active {
-  @include t.tran(opacity);
-}
-.dialogue-enter,
-.dialogue-leave-to {
-  transform: translateY(-100%);
-}
-
-// Chip
-.chips-enter-active,
-.chips-leave-active {
+// Navbar
+.nav-enter-active,
+.nav-leave-active {
   @include t.tran;
 }
-.chips-enter,
-.chips-leave-to {
+.nav-enter-from,
+.nav-leave-to {
   opacity: 0;
-  margin-left: -100px;
-}
-
-// Input select
-.input-select-search-enter-active,
-.input-select-search-leave-active {
-  @include t.tran($duration: 500ms);
-}
-.input-select-search-enter,
-.input-select-search-leave-to {
-  opacity: 0;
-  transform: translateY(-20px);
-}
-
-// Fade transition
-.note-dates-enter-active,
-.note-dates-leave-active {
-  @include t.tran(opacity, $duration: 150ms);
-}
-.note-dates-enter,
-.note-dates-leave-to {
-  opacity: 0;
-}
-
-// List transitions
-.list-enter-active,
-.list-leave-active,
-.list-move {
-  transition: 500ms cubic-bezier(0.59, 0.12, 0.34, 0.95);
-  transition-property: opacity, transform;
-}
-
-.list-enter {
-  opacity: 0;
-  transform: translateX(50px) scaleY(0.5);
-}
-
-.list-enter-to {
-  opacity: 1;
-  transform: translateX(0) scaleY(1);
-}
-
-.list-leave-active {
-  position: absolute;
-}
-
-.list-leave-to {
-  opacity: 0;
-  transform: scaleY(0);
-  transform-origin: center top;
+  transform: translateY(-100%);
 }

@@ -61,7 +61,7 @@ function onLoaded() {
 
   .text {
     @include tran;
-    @include pos-a(top 80% left 4%);
+    @include pos-a(top 75% left 4%);
     @include fw-semibold;
     @include fs-2xl;
 
@@ -69,6 +69,10 @@ function onLoaded() {
 
     :first-child {
       @include mb(5px);
+    }
+
+    @include lt-desktop {
+      top: 80%;
     }
 
     @include lt-tablet {
