@@ -24,13 +24,14 @@ function toggle() {
 @use "~~/assets/styles/mixins" as *;
 
 .burger-button {
-  --line-height: 4px;
-  --gap: 3px;
+  --line-height: 3px;
+  --gap: 2px;
+  --width: 24px;
 
   @include clr-bg(none);
   @include brdr(none);
   @include clickable;
-  @include size(32px calc(var(--line-height) * 4 + var(--gap) * 2));
+  @include size(var(--width) calc(var(--line-height) * 4 + var(--gap) * 2));
 
   .line {
     @include pos-a(left 0);
