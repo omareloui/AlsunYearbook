@@ -3,7 +3,7 @@ import { defineNuxtConfig } from "nuxt3";
 export default defineNuxtConfig({
   meta: {
     link: [
-      // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       {
         rel: "preconnect",
@@ -12,7 +12,7 @@ export default defineNuxtConfig({
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Poppins&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap",
       },
     ],
   },

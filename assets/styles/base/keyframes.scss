@@ -1,0 +1,11 @@
+@use "../mixins" as m;
+
+@keyframes skeleton-loading {
+  from {
+    @include m.clr-bg(skeleton-from);
+  }
+
+  to {
+    @include m.clr-bg(skeleton-to);
+  }
+}

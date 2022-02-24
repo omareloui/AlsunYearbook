@@ -1,25 +1,28 @@
 @forward "transitions";
+@forward "keyframes";
 
 @use "sass:math";
 @use "../mixins/focus" as f;
 @use "../mixins/clr" as c;
 @use "../mixins/fs";
 @use "../mixins/ff";
+@use "../mixins/fw";
 @use "../mixins/zi";
 @use "../mixins/tran" as t;
 
-::selection {
-  @include c.clr-bg(primary);
-  @include c.clr-txt(light);
-}
+// ::selection {
+//   @include c.clr-bg(primary);
+//   @include c.clr-txt(light);
+// }
 
 body {
   @include c.clr-bg;
   @include c.clr-txt;
   @include ff.ff(main);
+  @include fw.fw-medium;
   @include fs.fs-base;
 
-  @include t.tran(color background);
+  // @include t.tran(color background);
 
   overflow-x: hidden;
 }
@@ -32,5 +35,5 @@ body {
 
 a {
   @include c.clr-txt(link);
-  @include f.focus-effect;
+  // @include f.focus-effect;
 }
