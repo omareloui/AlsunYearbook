@@ -46,7 +46,7 @@ function select(section: Section) {
     @include w(100%);
 
     @include fs-base;
-    @include fw-bold;
+    @include fw-extrabold;
 
     @include tran;
 

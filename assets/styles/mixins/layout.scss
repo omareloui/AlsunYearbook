@@ -55,8 +55,18 @@
   @include grid($auto-fill: $minmax, $gap: $gap, $center: $center);
 }
 
-@mixin flex($gap: null, $center-v: false, $wrap: false, $space-between: false) {
+@mixin flex(
+  $gap: null,
+  $center-v: false,
+  $wrap: false,
+  $space-between: false,
+  $invert-dir: false
+) {
   display: flex;
+
+  @if $invert-dir {
+    flex-direction: column;
+  }
 
   @if $wrap {
     flex-wrap: wrap;

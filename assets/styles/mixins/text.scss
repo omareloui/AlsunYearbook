@@ -2,6 +2,10 @@
   text-transform: capitalize;
 }
 
+@mixin uppercase {
+  text-transform: uppercase;
+}
+
 @mixin no-wrap {
   white-space: nowrap;
 }

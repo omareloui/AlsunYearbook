@@ -15,12 +15,15 @@
 //   @include c.clr-txt(light);
 // }
 
+* {
+  @include ff.ff(main);
+  @include fs.fs-base;
+}
+
 body {
   @include c.clr-bg;
   @include c.clr-txt;
-  @include ff.ff(main);
   @include fw.fw-medium;
-  @include fs.fs-base;
 
   // @include t.tran(color background);
 

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-const { src } = withDefaults(
+const { src, borderRadius, isSquare } = withDefaults(
   defineProps<{
     src: string;
     alt: string;
     borderRadius?: "none" | "sm" | "md" | "lg" | "xl" | "cr" | "bl";
+    isSquare?: boolean;
   }>(),
-  { borderRadius: "md" }
+  { borderRadius: "md", isSquare: false }
 );
 
 const emit = defineEmits(["loaded"]);
@@ -25,18 +26,18 @@ function loadImage() {
   };
 }
 
+function getClasses() {
+  let classes = "";
+  if (borderRadius !== "none")
+    classes += ` image-container--br-${borderRadius}`;
+  if (isSquare) classes += " image-container--square";
+  return classes.trim();
+}
 onMounted(loadImage);
 </script>
 
 <template>
-  <div
-    class="image-container"
-    :class="
-      borderRadius !== 'none'
-        ? `image-container--br-${borderRadius}`
-        : undefined
-    "
-  >
+  <div class="image-container" :class="getClasses()">
     <div v-if="isLoading" class="skeleton-overlay"></div>
 
     <img
@@ -58,6 +59,10 @@ onMounted(loadImage);
 .image-container {
   @include pos-r;
   overflow: hidden;
+
+  &--square {
+    aspect-ratio: 1;
+  }
 
   &--br-sm {
     @include br-sm;
