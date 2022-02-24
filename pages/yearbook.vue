@@ -2,11 +2,11 @@
   <div>
     <Container>
       <MeSection />
-    </Container>
 
-    <Container>
       <YearbookSectionsSelection />
     </Container>
+
+    <YearbookBody />
   </div>
 </template>
 

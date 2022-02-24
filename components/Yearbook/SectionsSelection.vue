@@ -30,10 +30,12 @@ function select(section: Section) {
   @include clr-bg(secondary);
   @include br-bl;
   @include pa(15px);
-  @include ma(30px auto);
+  @include ma(25px auto);
   @include w(max 580px);
 
   @include grid($gap: 20px, $center: true, $columns: repeat(2, 1fr));
+
+  @include float(2);
 
   .section-button {
     @include clr-bg(secondary);
