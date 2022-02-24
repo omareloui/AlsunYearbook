@@ -1,6 +1,6 @@
 <template>
   <Container>
-    <div>hi</div>
+    <MeSection />
   </Container>
 </template>
 

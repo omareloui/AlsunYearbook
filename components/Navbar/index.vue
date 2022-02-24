@@ -94,6 +94,6 @@ function toggle() {
   @include size(100% 100vh);
   @include pos-f(top 0 left 0);
 
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
 }
 </style>
