@@ -1,41 +1,45 @@
 <script setup lang="ts">
-import { useMockData } from "~~/composables/useMockData";
-import { UserRole } from "~~/@types";
+import { useYearbookStore } from "~~/store/useYearbook";
 
-const mockData = useMockData();
+const yearbookStore = useYearbookStore();
 
-const { currentIndex } =
-  defineProps<{ currentIndex: number; role: UserRole }>();
+// import { useMockData } from "~~/composables/useMockData";
+// import { UserRole } from "~~/@types";
 
-const next =
-  currentIndex === mockData.length - 1
-    ? mockData[0]
-    : mockData[currentIndex + 1];
+// const mockData = useMockData();
 
-const prev =
-  currentIndex === 0
-    ? mockData[mockData.length - 1]
-    : mockData[currentIndex - 1];
+// const { currentIndex } =
+//   defineProps<{ currentIndex: number; role: UserRole }>();
+
+// const next =
+//   currentIndex === mockData.length - 1
+//     ? mockData[0]
+//     : mockData[currentIndex + 1];
+
+// const prev =
+//   currentIndex === 0
+//     ? mockData[mockData.length - 1]
+//     : mockData[currentIndex - 1];
 </script>
 
 <template>
   <div class="yearbook-nav-links">
     <LinkBase
-      :to="`/yearbook/${prev.username}`"
+      :to="`/yearbook/${yearbookStore.prevPreviewedUser.socialMedia.fb}`"
       class="yearbook-nav-links__link yearbook-nav-links__link--prev"
     >
       <IconLeft />
     </LinkBase>
 
     <LinkBase
-      :to="`/yearbook?section=${role.toLowerCase()}`"
+      :to="`/yearbook?section=${yearbookStore.section}`"
       class="yearbook-nav-links__link yearbook-nav-links__link--back"
     >
-      <IconGraduationHat v-if="role === 'STUDENT'" />
+      <IconGraduationHat v-if="yearbookStore.section === 'students'" />
     </LinkBase>
 
     <LinkBase
-      :to="`/yearbook/${next.username}`"
+      :to="`/yearbook/${yearbookStore.nextPreviewedUser.socialMedia.fb}`"
       class="yearbook-nav-links__link yearbook-nav-links__link--next"
     >
       <IconRight />

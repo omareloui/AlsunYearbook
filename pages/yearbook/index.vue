@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import { useYearbookStore } from "~~/store/useYearbook";
+
+const yearbookStore = useYearbookStore();
+
+await yearbookStore.getCurrentSection();
+</script>
+
 <template>
   <div>
     <Container>

@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { useMockData } from "~~/composables/useMockData";
-
 const route = useRoute();
-const mockData = useMockData();
+const username = route.params.username as string;
 
-const userIndex = mockData.findIndex(
-  user => user.username === route.params.username
+const { data: user } = await useFetch(
+  `/api/yearbook/user?username=${username}`
 );
-
-const user = mockData[userIndex];
 </script>
 
 <template>
@@ -39,11 +35,7 @@ const user = mockData[userIndex];
 
     <LineBreak width="60%" margin="25px" />
 
-    <YearbookNavigationButtons
-      class="user__nav"
-      :current-index="userIndex"
-      :role="user.role"
-    />
+    <!-- <YearbookNavigationButtons class="user__nav" /> -->
   </Container>
 </template>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const res = await useFetch("/api/users");
-const users = res.data;
+import { useYearbookStore } from "~~/store/useYearbook";
+const yearbookStore = useYearbookStore();
 </script>
 
 <template>
@@ -9,7 +9,10 @@ const users = res.data;
       <InputSearch class="yearbook__search" />
 
       <div class="yearbook__cards">
-        <YearbookCard v-for="user in users" :user="user" />
+        <YearbookCard
+          v-for="user in yearbookStore[yearbookStore.section]"
+          :user="user"
+        />
       </div>
     </Container>
   </div>

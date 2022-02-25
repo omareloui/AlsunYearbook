@@ -11,7 +11,7 @@ function onLoaded() {
 </script>
 
 <template>
-  <LinkBase class="yearbook-card" :to="`/yearbook/${user.username}`">
+  <LinkBase class="yearbook-card" :to="`/yearbook/${user.socialMedia.fb}`">
     <ImageWithOverlay
       class="yearbook-card__image"
       :src="`/images/${user.role.toLowerCase()}s/${user.img}.jpg`"

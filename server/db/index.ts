@@ -5,7 +5,7 @@ export const connect = () =>
   new Promise((res, rej) =>
     mongoose.connect(config.dbLink as string, err => {
       if (err) rej(err);
-      console.log(`Connected to database on ${config.dbLink}`);
+      // console.log(`Connected to database on ${config.dbLink}`);
       res(true);
     })
   );

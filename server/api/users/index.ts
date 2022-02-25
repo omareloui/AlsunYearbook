@@ -1,3 +1,3 @@
-import { UserController } from "~~/server/controllers/user.controller";
+import { UserController } from "~~/server/controllers";
 
 export default UserController.getAll;
