@@ -16,6 +16,8 @@ const isLoading = ref(true);
 const notFound = ref(false);
 const imageContainerClasses = ref("");
 
+let observer: IntersectionObserver;
+
 function loadImage() {
   if (!imageEl.value) return;
 
@@ -48,17 +50,22 @@ function setContainerClasses() {
 setContainerClasses();
 
 function addIntersectionObserver() {
-  const observer = new IntersectionObserver((entries, _observer) => {
+  observer = new IntersectionObserver((entries, _observer) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting || !isLoading.value) return;
       loadImage();
     });
   });
-
   observer.observe(imageEl.value);
 }
 
+function removeObserver() {
+  if (!observer) return;
+  observer.disconnect();
+}
+
 onMounted(addIntersectionObserver);
+onUnmounted(removeObserver);
 </script>
 
 <template>
