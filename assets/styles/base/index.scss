@@ -30,10 +30,15 @@ body {
   overflow-x: hidden;
 }
 
-@for $size-number from 1 through 6 {
+@for $size-number from 2 through 6 {
   h#{$size-number} {
     @include fs.fs(#{math.abs($size-number - 8)}xl);
   }
+}
+
+h1 {
+  @include fs.fs-6xl;
+  line-height: 100%;
 }
 
 a {

@@ -71,11 +71,6 @@ const user = data.value as User;
     @include mt(25px);
   }
 
-  &__name {
-    @include fs-6xl;
-    line-height: 100%;
-  }
-
   &__nickname {
     @include fs-3xl;
     @include clr-txt(fade);
