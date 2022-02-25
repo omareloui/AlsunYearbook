@@ -23,7 +23,11 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.1.8",
+    "@typegoose/typegoose": "^9.7.0",
     "cookie-universal": "^2.1.5",
-    "pinia": "^2.0.9"
+    "express": "^4.17.3",
+    "mongoose": "^6.2.3",
+    "pinia": "^2.0.9",
+    "yup": "^0.32.11"
   }
 }

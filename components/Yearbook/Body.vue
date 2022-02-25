@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { useMockData } from "~~/composables/useMockData";
-const mockData = useMockData();
+const res = await useFetch("/api/users");
+const users = res.data;
 </script>
+
 <template>
   <div class="yearbook">
     <Container>
       <InputSearch class="yearbook__search" />
 
       <div class="yearbook__cards">
-        <YearbookCard v-for="user in mockData" :user="user" />
+        <YearbookCard v-for="user in users" :user="user" />
       </div>
     </Container>
   </div>

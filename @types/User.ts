@@ -1,10 +1,12 @@
 export type UserRole = "STUDENT" | "PROFESSOR" | "SPECIAL_MENTION" | "VISITOR";
+
 export type UserAuthority =
   | "ADMIN"
   | "ASSISTANT_ADMIN"
   | "ASSISTANT_TO_ADMIN"
   | "MODERATOR"
   | "USER";
+
 export type UserGender = "MALE" | "FEMALE";
 
 export interface UserSocialMedia {
