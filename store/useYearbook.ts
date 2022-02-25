@@ -59,7 +59,7 @@ export const useYearbookStore = defineStore("yearbook", {
       this.previewedUser = user;
     },
 
-    async setCurrentPreviewedUser(fbId: string) {
+    async setCurrentPreviewedUser(userId: string) {
       const currentUsers = [...this.students, ...this.professors];
 
       if (!currentUsers.length) {
@@ -68,7 +68,7 @@ export const useYearbookStore = defineStore("yearbook", {
         await this.getProfessors();
       }
 
-      this.previewedUser = currentUsers.find(u => u.socialMedia.fb === fbId);
+      this.previewedUser = currentUsers.find(u => u.socialMedia.fb === userId);
 
       // console.log(currentUsers);
       // console.log("============================================");

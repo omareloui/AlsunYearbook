@@ -26,12 +26,12 @@ export class YearbookController {
 
   static getUser: APIFunction = async req => {
     const query = useQuery(req);
-    const username = query.username as string | undefined;
-    if (!username) return;
+    const userId = query.userId as string | undefined;
+    if (!userId) return;
 
     const user = await User.findOne({
       isShown: true,
-      "socialMedia.fb": username,
+      "socialMedia.fb": userId,
     });
 
     if (!user)

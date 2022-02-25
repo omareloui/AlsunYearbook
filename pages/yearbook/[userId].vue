@@ -1,10 +1,8 @@
 <script setup lang="ts">
 const route = useRoute();
-const username = route.params.username as string;
+const userId = route.params.userId as string;
 
-const { data: user } = await useFetch(
-  `/api/yearbook/user?username=${username}`
-);
+const { data: user } = await useFetch(`/api/yearbook/user?userId=${userId}`);
 </script>
 
 <template>
