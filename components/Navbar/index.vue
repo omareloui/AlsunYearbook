@@ -23,10 +23,13 @@ function toggle() {
     <Transition name="nav">
       <nav class="body" v-if="isOpen">
         <ul>
-          <li>Edit profile</li>
-          <li>Dashboard</li>
+          <li><LinkBase to="/yearbook" @click="toggle">Yearbook</LinkBase></li>
+          <li><LinkBase to="#!" @click="toggle">Edit profile</LinkBase></li>
+          <li>
+            <LinkBase to="/dashboard" @click="toggle">Dashboard</LinkBase>
+          </li>
           <LineBreak />
-          <li>Logout</li>
+          <li><LinkBase to="#!" @click="toggle">Logout</LinkBase></li>
         </ul>
       </nav>
     </Transition>
@@ -76,13 +79,18 @@ function toggle() {
       list-style: none;
       text-align: center;
 
-      @include grid($gap: 15px);
+      @include grid($gap: 5px);
 
       li {
-        @include br-md;
         @include pa(5px);
-        @include fw-black;
-        @include fs-lg;
+
+        ::v-deep(a) {
+          @include clr-txt;
+          @include block;
+          @include fw-black;
+          @include fs-lg;
+          @include no-underline;
+        }
       }
     }
   }
