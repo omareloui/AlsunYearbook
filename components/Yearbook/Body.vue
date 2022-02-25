@@ -23,6 +23,7 @@ const yearbookStore = useYearbookStore();
 
 .yearbook {
   @include clr-bg(secondary);
+  @include h(min calc(100vh - 300px));
   @include float(2);
   @include py(40px);
 

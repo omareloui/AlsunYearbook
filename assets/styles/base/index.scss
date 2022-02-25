@@ -20,6 +20,10 @@
   @include fs.fs-base;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   @include c.clr-bg;
   @include c.clr-txt;

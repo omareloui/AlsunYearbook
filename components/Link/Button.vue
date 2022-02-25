@@ -1,8 +1,11 @@
 <script setup lang="ts">
-withDefaults(defineProps<{ to: string; isCta: boolean; isLarge: boolean }>(), {
-  isCta: false,
-  isLarge: false,
-});
+withDefaults(
+  defineProps<{ to: string; isCta?: boolean; isLarge?: boolean }>(),
+  {
+    isCta: false,
+    isLarge: false,
+  }
+);
 </script>
 
 <template>

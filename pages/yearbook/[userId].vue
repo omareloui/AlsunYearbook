@@ -4,8 +4,12 @@ import type { User } from "~~/@types";
 const route = useRoute();
 const userId = route.params.userId as string;
 
+const scrollToTop = useScrollToTop();
+
 const { data } = await useFetch(`/api/yearbook/user?userId=${userId}`);
 const user = data.value as User;
+
+onMounted(scrollToTop);
 </script>
 
 <template>
