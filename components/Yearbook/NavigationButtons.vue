@@ -3,7 +3,9 @@ import { useYearbookStore } from "~~/store/useYearbook";
 import type { User } from "~~/@types";
 
 const yearbookStore = useYearbookStore();
-defineProps<{ next: User; prev: User }>();
+const { currentUser } = defineProps<{ currentUser: User }>();
+
+const { next, prev } = await yearbookStore.getPrevAndNext(currentUser);
 </script>
 
 <template>
@@ -20,6 +22,7 @@ defineProps<{ next: User; prev: User }>();
       class="yearbook-nav-links__link yearbook-nav-links__link--back"
     >
       <IconGraduationHat v-if="yearbookStore.section === 'students'" />
+      <IconProfessor v-if="yearbookStore.section === 'professors'" />
     </LinkBase>
 
     <LinkBase
@@ -43,7 +46,6 @@ defineProps<{ next: User; prev: User }>();
   &__link {
     @include grid($center: true);
     @include clr-txt;
-    @include pa(10%);
     @include br-cr;
     @include no-underline;
     @include tran;
@@ -52,14 +54,20 @@ defineProps<{ next: User; prev: User }>();
     &--next,
     &--prev {
       @include size(40px);
+      @include pa(10%);
     }
 
     &--back {
       @include size(60px);
+      @include pa(15%);
     }
 
     &:hover {
       @include clr-bg(primary);
+    }
+
+    ::v-deep(svg) {
+      @include size(100%);
     }
   }
 }

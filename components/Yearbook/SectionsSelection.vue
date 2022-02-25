@@ -1,11 +1,14 @@
 <script setup lang="ts">
-type Section = "students" | "professors";
+import { useYearbookStore } from "~~/store/useYearbook";
+import type { YearbookSection } from "~~/@types";
 
-const sections = ["students", "professors"] as Section[];
+const sections = useYearbookSections();
+const yearbookStore = useYearbookStore();
 
-const current = ref("students" as Section);
+const current = ref(yearbookStore.section);
 
-function select(section: Section) {
+async function select(section: YearbookSection) {
+  await yearbookStore.changeSection(section);
   current.value = section;
 }
 </script>

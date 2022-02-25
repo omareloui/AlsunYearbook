@@ -1,6 +1,8 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import type { User, YearbookSection } from "~~/@types";
 
+import { useYearbookSections } from "~~/composables/useYearbookSections";
+
 export const useYearbookStore = defineStore("yearbook", {
   state: () => ({
     students: [] as User[],
@@ -12,6 +14,7 @@ export const useYearbookStore = defineStore("yearbook", {
 
   getters: {
     currentUserIndex() {
+      if (!this.currentUser) return null;
       const currentUsers = this[this.section] as User[];
       return currentUsers.findIndex(
         u => u.socialMedia.fb === this.currentUser.socialMedia.fb
@@ -33,23 +36,60 @@ export const useYearbookStore = defineStore("yearbook", {
         ? currentUsers[currentUsers.length - 1]
         : currentUsers[index - 1];
     },
+
+    sectionFromRoute() {
+      const route = useRoute();
+      const sectionFromQuery = route.query.section as
+        | undefined
+        | YearbookSection;
+
+      if (
+        !sectionFromQuery ||
+        !useYearbookSections().includes(sectionFromQuery)
+      )
+        return "students";
+
+      return sectionFromQuery as YearbookSection;
+    },
   },
 
   actions: {
-    async getCurrentSectionUsers() {
-      return await this.getYearbook(this.section);
+    setSectionOnLoad() {
+      this.setSection(this.sectionFromRoute as YearbookSection);
     },
 
-    async getYearbook(section: YearbookSection) {
-      if (section === "students") return await this.getStudents();
-      if (section === "professors") return await this.getProfessors();
+    setSection(section: YearbookSection) {
+      this.section =
+        section === "students" || section === "professors"
+          ? section
+          : "students";
+    },
+
+    setSectionAndRoute(section: YearbookSection) {
+      this.setSection(section);
+
+      const router = useRouter();
+      router.push({ query: { section: this.section } });
+    },
+
+    async changeSection(section: YearbookSection) {
+      this.setSectionAndRoute(section);
+      await this.getCurrentSectionUsers();
+    },
+
+    getCurrentSectionUsers() {
+      return this.getYearbook(this.section);
+    },
+
+    getYearbook(section: YearbookSection) {
+      if (section === "students") return this.getStudents();
+      if (section === "professors") return this.getProfessors();
     },
 
     async getStudents() {
       if (this.students.length) return;
 
       const { data } = await useFetch("/api/yearbook?section=students");
-
       this.students = data.value;
     },
 
@@ -60,7 +100,7 @@ export const useYearbookStore = defineStore("yearbook", {
     },
 
     async getPrevAndNext(user: User) {
-      this.section = `${user.role.toLowerCase()}s` as YearbookSection;
+      this.setSection(`${user.role.toLowerCase()}s` as YearbookSection);
       let currentUsers = this[this.section] as User[];
 
       if (!currentUsers.length) await this.getCurrentSectionUsers();
