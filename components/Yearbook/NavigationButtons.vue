@@ -1,31 +1,15 @@
 <script setup lang="ts">
 import { useYearbookStore } from "~~/store/useYearbook";
+import type { User } from "~~/@types";
 
 const yearbookStore = useYearbookStore();
-
-// import { useMockData } from "~~/composables/useMockData";
-// import { UserRole } from "~~/@types";
-
-// const mockData = useMockData();
-
-// const { currentIndex } =
-//   defineProps<{ currentIndex: number; role: UserRole }>();
-
-// const next =
-//   currentIndex === mockData.length - 1
-//     ? mockData[0]
-//     : mockData[currentIndex + 1];
-
-// const prev =
-//   currentIndex === 0
-//     ? mockData[mockData.length - 1]
-//     : mockData[currentIndex - 1];
+defineProps<{ next: User; prev: User }>();
 </script>
 
 <template>
   <div class="yearbook-nav-links">
     <LinkBase
-      :to="`/yearbook/${yearbookStore.prevPreviewedUser.socialMedia.fb}`"
+      :to="`/yearbook/${prev.socialMedia.fb}`"
       class="yearbook-nav-links__link yearbook-nav-links__link--prev"
     >
       <IconLeft />
@@ -39,7 +23,7 @@ const yearbookStore = useYearbookStore();
     </LinkBase>
 
     <LinkBase
-      :to="`/yearbook/${yearbookStore.nextPreviewedUser.socialMedia.fb}`"
+      :to="`/yearbook/${next.socialMedia.fb}`"
       class="yearbook-nav-links__link yearbook-nav-links__link--next"
     >
       <IconRight />

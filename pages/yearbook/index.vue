@@ -3,7 +3,7 @@ import { useYearbookStore } from "~~/store/useYearbook";
 
 const yearbookStore = useYearbookStore();
 
-await yearbookStore.getCurrentSection();
+await yearbookStore.getCurrentSectionUsers();
 </script>
 
 <template>

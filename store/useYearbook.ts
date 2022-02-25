@@ -6,26 +6,28 @@ export const useYearbookStore = defineStore("yearbook", {
     students: [] as User[],
     professors: [] as User[],
 
-    previewedUser: null as null | User,
     section: "students" as YearbookSection,
+    currentUser: null as null | User,
   }),
 
   getters: {
-    previewedUserIndex() {
+    currentUserIndex() {
       const currentUsers = this[this.section] as User[];
       return currentUsers.findIndex(
-        u => u.socialMedia.fb === this.socialMedia.fb
+        u => u.socialMedia.fb === this.currentUser.socialMedia.fb
       );
     },
-    nextPreviewedUser() {
-      const index = this.previewedUserIndex();
+
+    nextUser() {
+      const index = this.currentUserIndex;
       const currentUsers = this[this.section] as User[];
       return index === currentUsers.length - 1
         ? currentUsers[0]
         : currentUsers[index + 1];
     },
-    prevPreviewedUser() {
-      const index = this.previewedUserIndex();
+
+    prevUser() {
+      const index = this.currentUserIndex;
       const currentUsers = this[this.section] as User[];
       return index === 0
         ? currentUsers[currentUsers.length - 1]
@@ -34,18 +36,20 @@ export const useYearbookStore = defineStore("yearbook", {
   },
 
   actions: {
-    getCurrentSection() {
-      this.getYearbook(this.section);
+    async getCurrentSectionUsers() {
+      return await this.getYearbook(this.section);
     },
 
-    getYearbook(section: YearbookSection) {
-      if (section === "students") return this.getStudents();
-      if (section === "professors") return this.getProfessors();
+    async getYearbook(section: YearbookSection) {
+      if (section === "students") return await this.getStudents();
+      if (section === "professors") return await this.getProfessors();
     },
 
     async getStudents() {
       if (this.students.length) return;
+
       const { data } = await useFetch("/api/yearbook?section=students");
+
       this.students = data.value;
     },
 
@@ -55,27 +59,19 @@ export const useYearbookStore = defineStore("yearbook", {
       this.professors = data.value;
     },
 
-    setPreviewedUser(user: User) {
-      this.previewedUser = user;
-    },
+    async getPrevAndNext(user: User) {
+      this.section = `${user.role.toLowerCase()}s` as YearbookSection;
+      let currentUsers = this[this.section] as User[];
 
-    async setCurrentPreviewedUser(userId: string) {
-      const currentUsers = [...this.students, ...this.professors];
+      if (!currentUsers.length) await this.getCurrentSectionUsers();
 
-      if (!currentUsers.length) {
-        // TODO: call only what is needed
-        await this.getStudents();
-        await this.getProfessors();
-      }
+      currentUsers = this[this.section];
 
-      this.previewedUser = currentUsers.find(u => u.socialMedia.fb === userId);
+      this.currentUser = currentUsers.find(
+        u => u.socialMedia.fb === user.socialMedia.fb
+      );
 
-      // console.log(currentUsers);
-      // console.log("============================================");
-      // console.log(this.previewedUser);
-
-      if (this.previewedUser)
-        this.section = `${this.previewedUser.role.toLowerCase()}s`;
+      return { next: this.nextUser as User, prev: this.prevUser as User };
     },
   },
 });

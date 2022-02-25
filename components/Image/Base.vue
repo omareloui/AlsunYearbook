@@ -48,17 +48,12 @@ function setContainerClasses() {
 setContainerClasses();
 
 function addIntersectionObserver() {
-  let options = {
-    rootMargin: "0px",
-    threshold: 0.2,
-  };
-
   const observer = new IntersectionObserver((entries, _observer) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       loadImage();
     });
-  }, options);
+  });
 
   observer.observe(imageEl.value);
 }

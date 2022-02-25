@@ -1,8 +1,15 @@
 <script setup lang="ts">
+import { useYearbookStore } from "~~/store/useYearbook";
+import type { User } from "~~/@types";
+
+const yearbookStore = useYearbookStore();
 const route = useRoute();
 const userId = route.params.userId as string;
 
-const { data: user } = await useFetch(`/api/yearbook/user?userId=${userId}`);
+const { data } = await useFetch(`/api/yearbook/user?userId=${userId}`);
+const user = data.value as User;
+
+const { next, prev } = await yearbookStore.getPrevAndNext(user);
 </script>
 
 <template>
@@ -33,7 +40,7 @@ const { data: user } = await useFetch(`/api/yearbook/user?userId=${userId}`);
 
     <LineBreak width="60%" margin="25px" />
 
-    <!-- <YearbookNavigationButtons class="user__nav" /> -->
+    <YearbookNavigationButtons class="user__nav" v-bind="{ next, prev }" />
   </Container>
 </template>
 
