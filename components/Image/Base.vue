@@ -50,7 +50,7 @@ setContainerClasses();
 function addIntersectionObserver() {
   const observer = new IntersectionObserver((entries, _observer) => {
     entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
+      if (!entry.isIntersecting || !isLoading.value) return;
       loadImage();
     });
   });
