@@ -11,10 +11,10 @@ function onLoaded() {
 </script>
 
 <template>
-  <div class="yearbook-card">
+  <LinkBase class="yearbook-card" :to="`/yearbook/${user.username}`">
     <ImageWithOverlay
       class="yearbook-card__image"
-      :src="`images/${user.role.toLowerCase()}s/${user.img}.jpg`"
+      :src="`/images/${user.role.toLowerCase()}s/${user.img}.jpg`"
       :alt="`${user.name.first}'s image`"
       :line-one="user.name.first"
       :line-two="user.name.second"
@@ -52,7 +52,7 @@ function onLoaded() {
         </YearbookPatch>
       </div>
     </div>
-  </div>
+  </LinkBase>
 </template>
 
 <style scoped lang="scss">
@@ -63,6 +63,7 @@ function onLoaded() {
   @include w(80%);
   @include tran;
   @include br-lg;
+  @include clr-txt;
 
   &__patches {
     @include pos-a(top 20px left 0);

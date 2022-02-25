@@ -91,7 +91,7 @@ onMounted(loadImage);
   .skeleton-overlay {
     @include pos-a(top 0 left 0);
     @include size(100%);
-    opacity: 0.7;
+    opacity: 0.4;
     animation: skeleton-loading 1s linear infinite alternate;
   }
 

@@ -32,4 +32,5 @@ export interface User {
   currentJob?: string;
   authorityRole: UserAuthority;
   isShown: boolean;
+  quote: string;
 }

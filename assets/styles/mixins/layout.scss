@@ -57,15 +57,21 @@
 
 @mixin flex(
   $gap: null,
+  $center: false,
   $center-v: false,
   $wrap: false,
   $space-between: false,
+  $space-around: false,
   $invert-dir: false
 ) {
   display: flex;
 
   @if $invert-dir {
     flex-direction: column;
+  }
+
+  @if $center {
+    place-items: center;
   }
 
   @if $wrap {
@@ -82,5 +88,9 @@
 
   @if $space-between {
     justify-content: space-between;
+  }
+
+  @if $space-around {
+    justify-content: space-around;
   }
 }

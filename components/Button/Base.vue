@@ -15,9 +15,12 @@ const emit = defineEmits(["click"]);
 <style scoped lang="scss">
 @use "~~/assets/styles/mixins" as *;
 
-button.normalized {
-  @include brdr(none);
-  @include clr-bg(none);
+button {
   @include clickable;
+
+  &.normalized {
+    @include brdr(none);
+    @include clr-bg(none);
+  }
 }
 </style>

@@ -13,14 +13,14 @@ export const useMockData = () => {
       img: "omar-hussein",
       gender: "m",
       quote:
-        '“Truth is, most of that was just luck. I didn\'t know what I was doing half the time and I always had help.” — <a href="https://drive.google.com/file/d/16xz4QCCHpdbt8x6aavCXnrnuIvkjf6l0/view" target="_blank" style="color: #4aa3ff; text-decoration: none;">Harry Potter</a>',
+        "“Truth is, most of that was just luck. I didn't know what I was doing half the time and I always had help.” — Harry Potter",
       socialMedia: {
         fb: "omareloui",
         twitter: "_ussin",
         ig: "omarh.eloui",
       },
       whereNow:
-        'He\'s a freelancer full-stack web developer. He\'s also the founder of <a href="https://www.instagram.com/odinleatherstore/" target="_blank" style="color: #4aa3ff; text-decoration: none;">Odin Leather Store</a>.',
+        "He's a freelancer full-stack web developer. He's also the founder of Odin Leather Store.",
       fBDisplayName: "Omar H. Eloui",
     },
 
