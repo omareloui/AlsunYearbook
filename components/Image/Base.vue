@@ -13,6 +13,8 @@ const emit = defineEmits(["loaded"]);
 
 const imageEl = ref(null as null | HTMLImageElement);
 const isLoading = ref(true);
+const notFound = ref(false);
+const imageContainerClasses = ref("");
 
 function loadImage() {
   if (!imageEl.value) return;
@@ -24,20 +26,32 @@ function loadImage() {
     isLoading.value = false;
     emit("loaded");
   };
+
+  img.onerror = () => {
+    isLoading.value = false;
+    emit("loaded");
+    notFound.value = true;
+    addClassToContainer("not-found");
+  };
 }
 
-function getClasses() {
-  let classes = "";
-  if (borderRadius !== "none")
-    classes += ` image-container--br-${borderRadius}`;
-  if (isSquare) classes += " image-container--square";
-  return classes.trim();
+function addClassToContainer(containerClass: string) {
+  imageContainerClasses.value += ` image-container--${containerClass}`;
+  imageContainerClasses.value.trim();
 }
+
+function setContainerClasses() {
+  if (borderRadius !== "none") addClassToContainer(`br-${borderRadius}`);
+  if (isSquare) addClassToContainer("square");
+}
+
+setContainerClasses();
+
 onMounted(loadImage);
 </script>
 
 <template>
-  <div class="image-container" :class="getClasses()">
+  <div class="image-container" :class="imageContainerClasses">
     <div v-if="isLoading" class="skeleton-overlay"></div>
 
     <img
@@ -58,6 +72,7 @@ onMounted(loadImage);
 
 .image-container {
   @include pos-r;
+  @include tran(background);
   overflow: hidden;
 
   &--square {
@@ -101,10 +116,15 @@ onMounted(loadImage);
     @include block;
     @include size(100%);
     @include tran(opacity);
+  }
 
-    &--hidden {
-      opacity: 0;
-    }
+  &--not-found .image,
+  .image--hidden {
+    opacity: 0;
+  }
+
+  &--not-found {
+    @include clr-bg(error, 0.8);
   }
 }
 </style>
