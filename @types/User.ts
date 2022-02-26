@@ -36,3 +36,22 @@ export interface User {
   isShown: boolean;
   quote: string;
 }
+
+export interface CreateUser {
+  firstName: string;
+  secondName: string;
+  thirdName: string;
+  nickname: string;
+
+  gender: string;
+  role: string;
+
+  fb: string;
+  ig: string;
+  twt: string;
+  yt: string;
+
+  img: string;
+  quote: string;
+  currentJob: string;
+}

@@ -1,9 +1,16 @@
 <script setup lang="ts">
-withDefaults(defineProps<{ isLarge: boolean }>(), { isLarge: false });
+const props = withDefaults(
+  defineProps<{ modelValue: string; isLarge?: boolean }>(),
+  { isLarge: false }
+);
+
+const emit = defineEmits(["update:modelValue"]);
+
+const content = useModelWrapper(props, emit);
 </script>
 
 <template>
-  <input :class="{ large: isLarge }" />
+  <input type="text" v-model="content" />
 </template>
 
 <style scoped lang="scss">
@@ -15,6 +22,7 @@ input {
   @include br-lg;
   @include pa(8px 10px);
   @include block;
+  @include w(100%);
 
   &.large {
     @include fs-lg;

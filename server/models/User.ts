@@ -13,10 +13,10 @@ import {
 
 @modelOptions({ options: { allowMixed: Severity.ALLOW } })
 class User {
-  @prop({ type: String, required: true, trim: true, lowercase: true })
+  @prop({ type: String, trim: true, lowercase: true, unique: true })
   public username!: string;
 
-  @prop({ type: String, required: true, unique: true })
+  @prop({ type: String })
   public password!: string;
 
   @prop({

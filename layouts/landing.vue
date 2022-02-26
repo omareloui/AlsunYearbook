@@ -2,6 +2,7 @@
   <Container tag="main">
     <LogoLandingPage class="logo" />
     <slot></slot>
+    <Notify />
   </Container>
 </template>
 
