@@ -1,8 +1,12 @@
 <script setup lang="ts">
-const image = ref(null);
+const image = ref(null as null | FileList);
 
 function onSubmit() {
-  console.log(image.value);
+  if (!image.value) return;
+
+  const imageUploader = useImageUploader();
+
+  imageUploader.upload(image.value);
 }
 </script>
 
