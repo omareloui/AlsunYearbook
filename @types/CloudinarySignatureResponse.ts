@@ -3,4 +3,5 @@ export interface CloudinarySignatureResponse {
   timestamp: number;
   cloudName: string;
   apiKey: string;
+  options: { folder: string };
 }

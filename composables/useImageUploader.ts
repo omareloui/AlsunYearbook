@@ -3,50 +3,44 @@ import type { CloudinarySignatureResponse } from "~~/@types";
 export function useImageUploader() {
   async function upload(images: FileList) {
     const { data } = await useFetch("/api/cloudinary-signature");
-    const { apiKey, cloudName, signature, timestamp } =
-      data.value as CloudinarySignatureResponse;
+    const {
+      apiKey,
+      cloudName,
+      signature,
+      timestamp,
+      options: { folder },
+    } = data.value as CloudinarySignatureResponse;
 
-    console.log(apiKey, cloudName, signature, timestamp);
-
-    return;
-    const signResponse = await fetch("/api/signuploadform");
-    const signData = await signResponse.json();
-
-    const url =
-      "https://api.cloudinary.com/v1_1/" + signData.cloudname + "/auto/upload";
-    const form = document.querySelector("form");
-
-    form.addEventListener("submit", e => {
-      e.preventDefault();
-
-      const files = (
-        document.querySelector("[type=file]") as unknown as { files: FileList }
-      ).files;
+    for (let i = 0; i < images.length; i++) {
       const formData = new FormData();
 
-      for (let i = 0; i < files.length; i++) {
-        let file = files[i];
-        formData.append("file", file);
-        formData.append("api_key", signData.apikey);
-        formData.append("timestamp", signData.timestamp);
-        formData.append("signature", signData.signature);
-        formData.append("eager", "c_pad,h_300,w_400|c_crop,h_200,w_260");
-        formData.append("folder", "signed_upload_demo_form");
+      let file = images[i];
 
-        fetch(url, {
-          method: "POST",
-          body: formData,
-        })
-          .then(response => {
-            return response.text();
-          })
-          .then(data => {
-            console.log(JSON.parse(data));
-            var str = JSON.stringify(JSON.parse(data), null, 4);
-            document.getElementById("formdata").innerHTML += str;
-          });
+      formData.append("file", file);
+      formData.append("api_key", apiKey);
+      formData.append("timestamp", timestamp.toString());
+      formData.append("signature", signature);
+      formData.append("folder", folder);
+
+      try {
+        const res = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const data = await res.text();
+        const body = JSON.parse(data, null);
+
+        if (res.status > 200) throw new Error(body.error.message);
+
+        return body.url as string;
+      } catch (e) {
+        return useNotify().error(e.message, { duration: 60 * 1000 });
       }
-    });
+    }
   }
 
   return { upload };

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 const image = ref(null as null | FileList);
 
-function onSubmit() {
+async function onSubmit() {
   if (!image.value) return;
 
   const imageUploader = useImageUploader();
 
-  imageUploader.upload(image.value);
+  const url = await imageUploader.upload(image.value);
+  console.log(url);
 }
 </script>
 
