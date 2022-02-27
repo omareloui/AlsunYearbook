@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { useYearbookStore } from "~~/store/useYearbook";
 const yearbookStore = useYearbookStore();
+
+const search = ref("");
 </script>
 
 <template>
   <div class="yearbook">
     <Container>
-      <InputSearch class="yearbook__search" />
+      <InputSearch v-model="search" class="yearbook__search" />
 
       <div class="yearbook__cards">
         <YearbookCard
