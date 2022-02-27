@@ -5,9 +5,16 @@ async function onSubmit() {
   if (!image.value) return;
 
   const imageUploader = useImageUploader();
+  const notify = useNotify();
 
-  const url = await imageUploader.upload(image.value);
-  console.log(url);
+  try {
+    console.log("uploading...");
+    const { original, thumbnail } = await imageUploader.upload(image.value);
+    console.log(original);
+    console.log(thumbnail);
+  } catch (e) {
+    notify.error(e.message);
+  }
 }
 </script>
 
