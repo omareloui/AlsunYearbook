@@ -8,6 +8,12 @@
           <IconUsers />
         </template>
       </DashboardCard>
+
+      <DashboardCard to="/dashboard/actions" title="actions">
+        <template #icon>
+          <IconActions />
+        </template>
+      </DashboardCard>
     </section>
   </Container>
 </template>
