@@ -1,21 +1,31 @@
 <script setup lang="ts">
-withDefaults(
+const props = withDefaults(
   defineProps<{
     name?: string;
     identifier?: string;
     label?: string;
     isMulti?: boolean;
     notRequired?: boolean;
+    modelValue: FileList;
     error?: { message: string; field: string; clear: () => void };
   }>(),
   { label: "Select image", name: "image", isMulti: false, notRequired: false }
 );
 
 const preview = ref("");
+const emit = defineEmits(["update:modelValue"]);
+
+const content = useModelWrapper(props, emit);
 
 function onChange(e: InputEvent) {
   const { files } = e.target as unknown as { files: FileList };
-  if (!files.length) return;
+  if (!files.length) {
+    content.value = null;
+    preview.value = null;
+    return;
+  }
+
+  content.value = files;
   preview.value = URL.createObjectURL(files[0]);
 }
 </script>

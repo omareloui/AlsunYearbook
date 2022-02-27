@@ -77,7 +77,7 @@ function setError(message: string) {
   <Container>
     <h1 class="heading">Add User</h1>
 
-    <FormBase ref="form" @submit="onSubmit">
+    <FormBase @submit="onSubmit">
       <h2>Name</h2>
       <InputText
         :error="error"

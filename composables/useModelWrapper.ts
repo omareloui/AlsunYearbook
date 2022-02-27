@@ -1,5 +1,5 @@
 export function useModelWrapper(
-  props: { modelValue: string },
+  props: any,
   emit: (event: "update:modelValue", ...args: any[]) => void
 ) {
   return computed({
