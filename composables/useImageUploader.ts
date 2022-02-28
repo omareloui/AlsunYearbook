@@ -13,10 +13,16 @@ export function useImageUploader() {
 
     for (let i = 0; i < images.length; i++) {
       const file = images[i];
+
       const handledFile = await getBase64(file);
+      const optimized = await optimizeImage(handledFile);
+
       const thumbnail = await createThumbnail(handledFile);
       const options = { apiKey, cloudName, signature, timestamp, folder };
-      const originalUrl = await uploadToCloudinary({ file, ...options });
+      const originalUrl = await uploadToCloudinary({
+        file: optimized,
+        ...options,
+      });
       const thumbnailUrl = await uploadToCloudinary({
         file: thumbnail,
         ...options,
@@ -94,10 +100,17 @@ export function useImageUploader() {
     );
   }
 
+  async function optimizeImage(image: ArrayBuffer) {
+    return dataURLToFile(
+      await resizeImage(image),
+      Number(new Date()).toString()
+    );
+  }
+
   async function resizeImage(
     image: ArrayBuffer,
-    maxWidth: number,
-    maxHeight: number
+    maxWidth?: number,
+    maxHeight?: number
   ) {
     return new Promise<string>(resolve => {
       let img = new Image();
@@ -105,8 +118,8 @@ export function useImageUploader() {
 
       img.onload = () => {
         const canvas = document.createElement("canvas");
-        const MAX_WIDTH = maxWidth;
-        const MAX_HEIGHT = maxHeight;
+        const MAX_WIDTH = maxWidth || img.width;
+        const MAX_HEIGHT = maxHeight || img.height;
 
         let width = img.width;
         let height = img.height;
@@ -124,9 +137,13 @@ export function useImageUploader() {
         }
         canvas.width = width;
         canvas.height = height;
+
         let ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
-        resolve(canvas.toDataURL());
+
+        const imageType = "image/jpeg";
+        const quality = 0.7;
+        resolve(canvas.toDataURL(imageType, quality));
       };
     });
   }
