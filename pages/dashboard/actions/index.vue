@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const image = ref(null as null | FileList);
+const isUploading = ref(false);
 
 async function onSubmit() {
   if (!image.value) return;
@@ -8,12 +9,16 @@ async function onSubmit() {
   const notify = useNotify();
 
   try {
-    console.log("uploading...");
-    const { original, thumbnail } = await imageUploader.upload(image.value);
-    console.log(original);
-    console.log(thumbnail);
+    notify.info("Uploading...");
+
+    isUploading.value = true;
+    await imageUploader.upload(image.value);
+
+    notify.success("uploaded the image successfully");
   } catch (e) {
     notify.error(e.message);
+  } finally {
+    isUploading.value = false;
   }
 }
 </script>
@@ -21,9 +26,9 @@ async function onSubmit() {
 <template>
   <Container>
     <FormBase @submit="onSubmit">
-      <InputImage v-model="image" />
+      <InputImage v-model="image" :is-uploading="isUploading" />
 
-      <template #submit> Upload image </template>
+      <template #submit>Upload image</template>
     </FormBase>
   </Container>
 </template>

@@ -17,6 +17,7 @@ const props = withDefaults(
   }
 );
 
+const previewImageContainer = ref(null as null | HTMLElement);
 const preview = ref("");
 const emit = defineEmits(["update:modelValue"]);
 
@@ -26,7 +27,7 @@ const hasError = computed(
   () => props.error?.message && props.error.field === props.name
 );
 
-function onChange(e: InputEvent) {
+async function onChange(e: InputEvent) {
   if (hasError) props.error?.clear();
 
   const { files } = e.target as unknown as { files: FileList };
@@ -38,6 +39,23 @@ function onChange(e: InputEvent) {
 
   content.value = files;
   preview.value = URL.createObjectURL(files[0]);
+
+  await reloadImage();
+}
+
+async function reloadImage() {
+  if (!previewImageContainer.value) return;
+
+  const imageEl = previewImageContainer.value.querySelector("img");
+  if (!imageEl) return;
+
+  try {
+    await useLoadImage(preview.value, imageEl);
+  } catch (e) {
+    previewImageContainer.value
+      .querySelector(".image-container")
+      ?.classList.add("image-container--not-found");
+  }
 }
 </script>
 
@@ -49,7 +67,7 @@ function onChange(e: InputEvent) {
     }"
   >
     <transition name="fade">
-      <div class="preview" v-if="preview">
+      <div class="preview" v-if="preview" ref="previewImageContainer">
         <ImageBase
           :src="preview"
           alt="Preview image"
@@ -144,6 +162,7 @@ function onChange(e: InputEvent) {
       ::v-deep(svg) {
         @include size(20%);
         animation: upload-icon 750ms ease-in-out infinite alternate;
+        opacity: 0.9;
       }
     }
   }

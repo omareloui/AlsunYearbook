@@ -130,6 +130,7 @@ onUnmounted(removeObserver);
   .not-found-icon {
     @include center;
     @include size(20%);
+    opacity: 0.9;
   }
 
   .image {

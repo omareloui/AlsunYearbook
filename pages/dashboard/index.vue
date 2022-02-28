@@ -27,7 +27,7 @@
 
 section.dashboard-cards {
   @include mt(20px);
-  @include flex($gap: 10px, $wrap: true, $center: true);
+  @include flex($gap: 30px, $wrap: true, $center: true);
   @include w(fit-content);
   @include mx(auto);
 }
