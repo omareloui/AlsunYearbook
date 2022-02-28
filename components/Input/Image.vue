@@ -4,12 +4,17 @@ const props = withDefaults(
     name?: string;
     identifier?: string;
     label?: string;
-    isMulti?: boolean;
     notRequired?: boolean;
     modelValue: FileList;
     error?: { message: string; field: string; clear: () => void };
+    isUploading?: boolean;
   }>(),
-  { label: "Select image", name: "image", isMulti: false, notRequired: false }
+  {
+    label: "Select image",
+    name: "image",
+    notRequired: false,
+    isUploading: false,
+  }
 );
 
 const preview = ref("");
@@ -17,7 +22,13 @@ const emit = defineEmits(["update:modelValue"]);
 
 const content = useModelWrapper(props, emit);
 
+const hasError = computed(
+  () => props.error?.message && props.error.field === props.name
+);
+
 function onChange(e: InputEvent) {
+  if (hasError) props.error?.clear();
+
   const { files } = e.target as unknown as { files: FileList };
   if (!files.length) {
     content.value = null;
@@ -31,14 +42,26 @@ function onChange(e: InputEvent) {
 </script>
 
 <template>
-  <div class="image-input">
+  <div
+    class="image-input"
+    :class="{
+      'image-input--has-error': hasError,
+    }"
+  >
     <transition name="fade">
-      <ImageBase
-        v-if="preview"
-        :src="preview"
-        alt="Preview image"
-        class="image-input__preview"
-      />
+      <div class="preview" v-if="preview">
+        <ImageBase
+          :src="preview"
+          alt="Preview image"
+          class="preview__image"
+          is-square
+        />
+        <transition name="fade">
+          <div v-if="isUploading" class="preview__upload-overlay">
+            <IconUpload />
+          </div>
+        </transition>
+      </div>
     </transition>
 
     <div class="image-input__input-container">
@@ -51,9 +74,7 @@ function onChange(e: InputEvent) {
         :name="name"
         type="file"
         accept="image/png,image/jpg,image/jpeg,image/svg+xml"
-        :multiple="isMulti"
         @change="onChange"
-        :required="!notRequired"
       />
       <span v-if="!notRequired" class="image-input__required-patch"></span>
     </div>
@@ -76,12 +97,7 @@ function onChange(e: InputEvent) {
     @include clickable;
     @include fw-bold;
     @include center-text;
-  }
-
-  &__preview {
-    @include mb(10px);
-    @include mx(auto);
-    @include w(80%);
+    @include tran;
   }
 
   &__input-container {
@@ -95,6 +111,41 @@ function onChange(e: InputEvent) {
     @include clr-bg(danger);
     @include size(8px);
     @include br-cr;
+  }
+
+  &--has-error {
+    label {
+      @include clr-bg(danger);
+    }
+  }
+
+  .preview {
+    @include pos-r;
+    @include mb(10px);
+    @include mx(auto);
+    @include w(80%);
+
+    &__upload-overlay {
+      @include pos-a(top 0 left 0);
+      @include size(100%);
+      @include br-md;
+      @include not-clickable;
+      @include grid($center: true);
+
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 238, 88, 0) 0%,
+        rgba(255, 238, 88, 0.56) 100%
+      );
+      background-position: 0 100%;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+
+      ::v-deep(svg) {
+        @include size(20%);
+        animation: upload-icon 750ms ease-in-out infinite alternate;
+      }
+    }
   }
 }
 </style>

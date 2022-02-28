@@ -9,3 +9,12 @@
     @include m.clr-bg(skeleton-to);
   }
 }
+
+@keyframes upload-icon {
+  from {
+    transform: translateY(50px);
+  }
+  to {
+    transform: translateY(-50px);
+  }
+}

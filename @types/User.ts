@@ -9,6 +9,8 @@ export type UserAuthority =
 
 export type UserGender = "MALE" | "FEMALE";
 
+export type UserImage = { original: string; thumbnail: string };
+
 export interface UserSocialMedia {
   fb: string;
   ig?: string;
@@ -30,7 +32,7 @@ export interface User {
   role: UserRole;
   gender: UserGender;
   socialMedia: UserSocialMedia;
-  img?: string;
+  image: UserImage;
   currentJob?: string;
   authorityRole: UserAuthority;
   isShown: boolean;
@@ -51,7 +53,9 @@ export interface CreateUser {
   twt: string;
   yt: string;
 
-  img: string;
+  image: string;
+  thumbnail: string;
+
   quote: string;
   currentJob: string;
 }

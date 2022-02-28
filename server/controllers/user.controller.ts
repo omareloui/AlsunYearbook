@@ -24,31 +24,9 @@ export class UserController {
   static create: APIFunction = async (req, _res) => {
     const body = (await useBody(req)) as CreateUser;
 
-    const user = new User({ name: {}, socialMedia: {}, ...body });
+    const user = this.populateUserFromCreationData(body);
 
-    (["first", "second", "third", "nickname"] as const).forEach(
-      name =>
-        (user.name[name] =
-          body[name === "nickname" ? name : `${name}Name`].toLowerCase())
-    );
-
-    try {
-      user.socialMedia.fb = extractFBId(body.fb);
-      user.socialMedia.ig = extractIGId(body.ig);
-      user.socialMedia.twt = extractTWTId(body.twt);
-      user.socialMedia.yt = extractYTId(body.yt);
-    } catch (e) {
-      throw createError({
-        message: e.message,
-        statusCode: 400,
-      });
-    }
-
-    await this.checkIfDuplicatedName(user);
-    await this.checkIfDuplicatedFB(user);
-    await this.checkIfDuplicatedIG(user);
-    await this.checkIfDuplicatedTWT(user);
-    await this.checkIfDuplicatedYT(user);
+    await this.validateCreatingUser(user);
 
     // TODO:
     // Create the action and the professor data if he is one
@@ -60,7 +38,7 @@ export class UserController {
     // })
 
     // TODO:
-    // // Create the professor record if s/he's one
+    // Create the professor record if s/he's one
     // if (userData.role === "PROFESSOR") {
     //   await ProfessorData.create({ user: newUser.id, yearsAndSubjects: userData.yearsAndSubjects })
     // }
@@ -69,6 +47,38 @@ export class UserController {
 
     return user;
   };
+
+  static populateUserFromCreationData(userData: CreateUser) {
+    const user = new User({
+      name: {},
+      socialMedia: {},
+      ...userData,
+      image: {},
+    });
+
+    (["first", "second", "third", "nickname"] as const).forEach(
+      name =>
+        (user.name[name] =
+          userData[name === "nickname" ? name : `${name}Name`].toLowerCase())
+    );
+
+    user.image.original = userData.image;
+    user.image.thumbnail = userData.thumbnail;
+
+    user.socialMedia.fb = extractFBId(userData.fb);
+    user.socialMedia.ig = extractIGId(userData.ig);
+    user.socialMedia.twt = extractTWTId(userData.twt);
+    user.socialMedia.yt = extractYTId(userData.yt);
+    return user;
+  }
+
+  static async validateCreatingUser(user: UserInterface) {
+    await this.checkIfDuplicatedName(user);
+    await this.checkIfDuplicatedFB(user);
+    await this.checkIfDuplicatedIG(user);
+    await this.checkIfDuplicatedTWT(user);
+    await this.checkIfDuplicatedYT(user);
+  }
 
   // Utils
   static async checkIfDuplicatedName(user: UserInterface) {

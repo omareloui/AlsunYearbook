@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { User } from "~~/@types";
+import { useUserImage } from "~~/composables/useUserImage";
 
 const route = useRoute();
 const userId = route.params.userId as string;
@@ -16,7 +17,7 @@ onMounted(scrollToTop);
   <Container class="user">
     <ImageBase
       class="user__image"
-      :src="`/images/${user.role.toLowerCase()}s/${user.img}.jpg`"
+      :src="useUserImage(user)"
       :alt="`${user.name.first}'s image.`"
       is-square
       border-radius="lg"

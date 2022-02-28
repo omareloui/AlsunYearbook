@@ -6,6 +6,7 @@ const { prop, modelOptions, getModelForClass, Severity } = typegoose;
 import {
   UserAuthority,
   UserGender,
+  UserImage,
   UserName,
   UserRole,
   UserSocialMedia,
@@ -13,7 +14,7 @@ import {
 
 @modelOptions({ options: { allowMixed: Severity.ALLOW } })
 class User {
-  @prop({ type: String, trim: true, lowercase: true, unique: true })
+  @prop({ type: String, trim: true, lowercase: true })
   public username!: string;
 
   @prop({ type: String })
@@ -28,8 +29,8 @@ class User {
   @prop({ type: String, required: true })
   public gender!: UserGender;
 
-  @prop({ type: String, trim: true })
-  public img?: string;
+  @prop({ type: mongoose.Schema.Types.Mixed, required: true })
+  public image: UserImage;
 
   @prop({ type: String, required: true, trim: true })
   public quote!: string;

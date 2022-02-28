@@ -20,6 +20,9 @@ const genderOptions = useUserGender().map(
 
 const roleOptions = [["STUDENT", "Student"]] as [UserRole, string][];
 
+const image = ref(null);
+const isUploadingImage = ref(false);
+
 const userData = reactive({
   firstName: "",
   secondName: "",
@@ -34,27 +37,44 @@ const userData = reactive({
   twt: "",
   yt: "",
 
-  img: "",
+  image: null,
+  thumbnail: null,
+
   quote: "",
   currentJob: "",
 } as CreateUser);
 
 async function onSubmit() {
+  const notify = useNotify();
+  const router = useRouter();
+  const imageUploader = useImageUploader();
+
   try {
-    const { data, error } = await useFetch("/api/users/create", {
-      method: "POST",
-      body: userData,
-    });
+    if (!image.value) throw new Error("You have to select an image");
 
-    if (error.value) return setError(useParseError(error));
+    const requestOptions = { method: "POST", body: userData };
 
-    console.log("success");
-    console.log(data.value);
+    await useCustomFetch("/api/users/validate-create", requestOptions);
 
-    // useRouter().push("/dashboard/users")
+    notify.info("Uploading the image. That could take a while.");
+    isUploadingImage.value = true;
+    const { original, thumbnail } = await imageUploader.upload(image.value);
+
+    userData.image = original;
+    userData.thumbnail = thumbnail;
+
+    await useCustomFetch("/api/users/create", requestOptions);
+
+    notify.success("Added user successfully");
+
+    // TODO: Add user to the store if needed.
+
+    router.push("/dashboard/users");
   } catch (e) {
-    console.log(e);
-    console.log(e.message);
+    setError(e.message);
+    notify.error(e.message);
+  } finally {
+    isUploadingImage.value = false;
   }
 }
 
@@ -64,12 +84,11 @@ function setError(message: string) {
   else if (message.match(/twitter/i)) error.field = "twitter";
   else if (message.match(/youtube/i)) error.field = "youtube";
   else if (message.match(/with the same name/i)) error.field = "firstName";
+  else if (message.match(/image/i)) error.field = "image";
 
   if (!error.field) return;
 
   error.message = message;
-
-  useNotify().error(error.message);
 }
 </script>
 
@@ -162,11 +181,10 @@ function setError(message: string) {
       <LineBreak margin="var(--line-margin)" />
 
       <h2>Image, Quote and Job</h2>
-      <InputText
-        name="image"
-        label="Image"
-        placeholder="Enter image title"
-        v-model="userData.img"
+      <InputImage
+        v-model="image"
+        :error="error"
+        :is-uploading="isUploadingImage"
       />
       <InputTextarea
         name="quote"

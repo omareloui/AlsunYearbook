@@ -13,11 +13,11 @@ export function extractFBId(fbLink: string) {
   const queryStringsRegEx = /\?.+/;
 
   // Check if it's not a valid Facebook link or invalid profile link
-  if (!fbLink.match(validFbLink) || fbLink.match(invalidProfileFbLink))
-    throw new Error(`Please, enter a valid Facebook profile link.`);
+  // if (!fbLink.match(validFbLink) || fbLink.match(invalidProfileFbLink))
+  //   throw new Error(`Please, enter a valid Facebook profile link.`);
   // Check if the link is with no profile link attached to it
-  if (fbLink.match(absoluteFbLink))
-    throw new Error(`Please, enter a valid Facebook profile link.`);
+  // if (fbLink.match(absoluteFbLink))
+  //   throw new Error(`Please, enter a valid Facebook profile link.`);
 
   // Get out the user id from the link when it's valid link
   // If the id is a number
@@ -34,13 +34,13 @@ export function extractFBId(fbLink: string) {
     );
 
   // Check if the first route is not empty or doesn't equal profile and other existing fb links
-  if (
-    allRoutes[0] === "" ||
-    allRoutes[0].match(
-      /\/?(profile|pages|groups|marketplace|watch|gaming|saved|events|bookmarks)\/?/
-    )
-  )
-    throw new Error(`Please, enter a valid Facebook profile link.`);
+  // if (
+  //   allRoutes[0] === "" ||
+  //   allRoutes[0].match(
+  //     /\/?(profile|pages|groups|marketplace|watch|gaming|saved|events|bookmarks)\/?/
+  //   )
+  // )
+  //   throw new Error(`Please, enter a valid Facebook profile link.`);
 
   // Return the fbId
   return allRoutes[0];

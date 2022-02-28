@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { User } from "~~/@types";
+import { useUserImage } from "~~/composables/useUserImage";
 
 const isLoading = ref(true);
 
@@ -14,7 +15,7 @@ function onLoaded() {
   <LinkBase class="yearbook-card" :to="`/yearbook/${user.socialMedia.fb}`">
     <ImageWithOverlay
       class="yearbook-card__image"
-      :src="`/images/${user.role.toLowerCase()}s/${user.img}.jpg`"
+      :src="useUserImage(user)"
       :alt="`${user.name.first}'s image`"
       :line-one="user.name.first"
       :line-two="user.name.second"
