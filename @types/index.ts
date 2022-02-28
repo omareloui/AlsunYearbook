@@ -5,3 +5,4 @@ export * from "./User";
 export * from "./Yearbook";
 export * from "./Notification";
 export * from "./CloudinarySignatureResponse";
+export * from "./ImageResolution";

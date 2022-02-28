@@ -1,8 +1,8 @@
-import { User } from "~~/@types";
+import { User, imageResolution } from "~~/@types";
 
 export function useUserImage(
   user: User,
-  imageRes: "thumbnail" | "original" = "thumbnail"
+  imageRes: imageResolution = "thumbnail"
 ) {
   return user.image ? user.image[imageRes] : "";
 }
