@@ -79,12 +79,11 @@ async function onSubmit() {
 }
 
 function setError(message: string) {
-  if (message.match(/facebook/i)) error.field = "facebook";
-  else if (message.match(/instagram/i)) error.field = "instagram";
-  else if (message.match(/twitter/i)) error.field = "twitter";
-  else if (message.match(/youtube/i)) error.field = "youtube";
-  else if (message.match(/with the same name/i)) error.field = "firstName";
-  else if (message.match(/image/i)) error.field = "image";
+  const setField = (stringToMatch: string) =>
+    message.match(stringToMatch) && (error.field = stringToMatch);
+
+  ["facebook", "instagram", "twitter", "youtube", "image"].forEach(setField);
+  if (message.match(/with the same name/i)) error.field = "firstName";
 
   if (!error.field) return;
 
@@ -185,6 +184,7 @@ function setError(message: string) {
         v-model="image"
         :error="error"
         :is-uploading="isUploadingImage"
+        has-drop-area
       />
       <InputTextarea
         name="quote"

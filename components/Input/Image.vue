@@ -7,6 +7,7 @@ const props = withDefaults(
     notRequired?: boolean;
     modelValue: FileList;
     error?: { message: string; field: string; clear: () => void };
+    hasDropArea?: boolean;
     isUploading?: boolean;
   }>(),
   {
@@ -14,6 +15,7 @@ const props = withDefaults(
     name: "image",
     notRequired: false,
     isUploading: false,
+    hasDropArea: false,
   }
 );
 
@@ -31,14 +33,17 @@ async function onChange(e: InputEvent) {
   if (hasError) props.error?.clear();
 
   const { files } = e.target as unknown as { files: FileList };
+  updateSelected(files);
+}
+
+async function updateSelected(files: FileList) {
   if (!files.length) {
     content.value = null;
     preview.value = null;
-    return;
+  } else {
+    content.value = files;
+    preview.value = URL.createObjectURL(files[0]);
   }
-
-  content.value = files;
-  preview.value = URL.createObjectURL(files[0]);
 
   await reloadImage();
 }
@@ -50,12 +55,16 @@ async function reloadImage() {
   if (!imageEl) return;
 
   try {
-    await useLoadImage(preview.value, imageEl);
+    await useLoadImage(preview.value || "", imageEl);
   } catch (e) {
     previewImageContainer.value
       .querySelector(".image-container")
       ?.classList.add("image-container--not-found");
   }
+}
+
+function onDrop(files: FileList) {
+  updateSelected(files);
 }
 </script>
 
@@ -81,6 +90,8 @@ async function reloadImage() {
         </transition>
       </div>
     </transition>
+
+    <DropImage v-if="hasDropArea" @drop="onDrop" />
 
     <div class="image-input__input-container">
       <label :for="identifier || name">

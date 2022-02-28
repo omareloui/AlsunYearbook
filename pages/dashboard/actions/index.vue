@@ -26,7 +26,7 @@ async function onSubmit() {
 <template>
   <Container>
     <FormBase @submit="onSubmit">
-      <InputImage v-model="image" :is-uploading="isUploading" />
+      <InputImage v-model="image" :is-uploading="isUploading" has-drop-area />
 
       <template #submit>Upload image</template>
     </FormBase>
