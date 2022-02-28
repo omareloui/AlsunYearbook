@@ -18,23 +18,18 @@ const imageContainerClasses = ref("");
 
 let observer: IntersectionObserver;
 
-function loadImage() {
+async function loadImage() {
   if (!imageEl.value) return;
 
-  const img = new Image();
-  img.src = src;
-  img.onload = async () => {
-    imageEl.value.src = src;
-    isLoading.value = false;
-    emit("loaded");
-  };
-
-  img.onerror = () => {
-    isLoading.value = false;
-    emit("loaded");
+  try {
+    await useLoadImage(src, imageEl.value);
+  } catch (e) {
     notFound.value = true;
     addClassToContainer("not-found");
-  };
+  } finally {
+    isLoading.value = false;
+    emit("loaded");
+  }
 }
 
 function addClassToContainer(containerClass: string) {
@@ -71,6 +66,10 @@ onUnmounted(removeObserver);
 <template>
   <div class="image-container" :class="imageContainerClasses">
     <div v-if="isLoading" class="skeleton-overlay"></div>
+
+    <transition name="fade">
+      <IconNotFound v-if="notFound" class="not-found-icon"></IconNotFound>
+    </transition>
 
     <img
       :alt="alt"
@@ -126,6 +125,11 @@ onUnmounted(removeObserver);
     @include size(100%);
     opacity: 0.4;
     animation: skeleton-loading 1s linear infinite alternate;
+  }
+
+  .not-found-icon {
+    @include center;
+    @include size(20%);
   }
 
   .image {
