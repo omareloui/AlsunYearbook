@@ -51,10 +51,12 @@ function toggle() {
 
   .head {
     @include pos-r;
-    @include clr-bg(primary);
     @include br-lg;
     @include pa(10px 15px);
     @include flex($center-v: true);
+
+    @include clr-bg(primary, 0.5);
+    backdrop-filter: blur(8px);
 
     .logo-link {
       @include h(30px);
@@ -70,10 +72,12 @@ function toggle() {
   .body {
     @include pos-a;
     @include w(calc(100% - 20px));
-    @include clr-bg(primary);
     @include br-lg;
     @include mt(15px);
     @include pa(20px);
+
+    @include clr-bg(primary, 0.5);
+    backdrop-filter: blur(8px);
 
     ul {
       list-style: none;
@@ -102,6 +106,6 @@ function toggle() {
   @include size(100% 100vh);
   @include pos-f(top 0 left 0);
 
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(8px);
 }
 </style>
