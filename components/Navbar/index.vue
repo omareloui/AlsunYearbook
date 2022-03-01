@@ -35,9 +35,9 @@ function toggle() {
     </Transition>
   </Container>
 
-  <Transition name="fade">
-    <div class="nav-overlay" v-if="isOpen"></div>
-  </Transition>
+  <transition name="fade">
+    <div class="nav-overlay" v-if="isOpen" @click="toggle"></div>
+  </transition>
 </template>
 
 <style scoped lang="scss">
