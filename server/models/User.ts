@@ -29,7 +29,7 @@ class User {
   @prop({ type: String, required: true })
   public gender!: UserGender;
 
-  @prop({ type: mongoose.Schema.Types.Mixed, required: true })
+  @prop({ type: mongoose.Schema.Types.Mixed })
   public image: UserImage;
 
   @prop({ type: String, required: true, trim: true })

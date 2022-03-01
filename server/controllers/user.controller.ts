@@ -61,6 +61,26 @@ export class UserController {
     return user;
   };
 
+  static toggleShow: APIFunction = async req => {
+    const body = (await useBody(req)) as { id: string };
+    const userId = body.id;
+
+    if (!userId) return;
+
+    const user = await User.findOne({ "socialMedia.fb": userId });
+
+    if (!user)
+      return createError({ message: "Can't find the user", statusCode: 404 });
+
+    user.isShown = !user.isShown;
+
+    await user.save();
+
+    // TODO: add action
+
+    return user;
+  };
+
   // Utils
   static populateUserFromCreationData(userData: CreateUser) {
     const user = new User({

@@ -56,6 +56,29 @@ export const useUsersStore = defineStore("users", {
 
       return { next: this.nextUser as User, prev: this.prevUser as User };
     },
+
+    async toggleShow(userId: string) {
+      const requestOptions = { method: "POST", body: { id: userId } };
+
+      const { data } = await useFetch(
+        `/api/users/edit/toggle-show`,
+        requestOptions
+      );
+
+      const user = data.value as User;
+      useNotify().success(
+        `Updated ${useCapitalize(user.name.first)}'s show state.`
+      );
+      this.updateUser(user);
+      return user;
+    },
+
+    updateUser(newUserData: User) {
+      this.users = this.users.map(u => {
+        if (u.socialMedia.fb !== newUserData.socialMedia.fb) return u;
+        return newUserData;
+      });
+    },
   },
 });
 

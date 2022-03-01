@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { User } from "~~/@types";
-// import { useUserHasAuthority } from "~~/composables/useUserHasAuthority";
-// import { useCapitalize } from "~~/composables/useCapitalize";
+import { useUsersStore } from "~~/store/useUsers";
+import type { User } from "~~/@types";
 
-defineProps<{ user: User }>();
+const usersStore = useUsersStore();
+const { user } = defineProps<{ user: User }>();
+
+const emit = defineEmits(["toggle-show"]);
 </script>
 
 <template>
   <div class="actions">
-    <ButtonBase class="action action--show">
-      <transition name="fade" mode="in-out">
-        <IconShow v-if="user.isShown" />
-        <IconShow v-else />
+    <ButtonBase class="action action--show" @click="emit('toggle-show')">
+      <transition name="fade" mode="out-in">
+        <IconShow v-if="!user.isShown" />
+        <IconHide v-else />
       </transition>
     </ButtonBase>
 
@@ -19,7 +21,10 @@ defineProps<{ user: User }>();
       <IconReset />
     </ButtonBase>
 
-    <LinkBase class="action action--edit" to="#">
+    <LinkBase
+      class="action action--edit"
+      :to="`/dashboard/users/${user.socialMedia.fb}/edit`"
+    >
       <IconSettings />
     </LinkBase>
   </div>

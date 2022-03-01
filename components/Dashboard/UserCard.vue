@@ -6,10 +6,11 @@ import { useCapitalize } from "~~/composables/useCapitalize";
 const { user } = defineProps<{ user: User }>();
 
 const userHelpers = useUserHelpers(user);
+const emit = defineEmits(["toggle-show"]);
 </script>
 
 <template>
-  <LinkBase class="card" :to="`/dashboard/users/${user.socialMedia.fb}`">
+  <div class="card">
     <ImageBase
       class="card__image"
       :src="userHelpers.image"
@@ -18,9 +19,12 @@ const userHelpers = useUserHelpers(user);
       border-radius="lg"
     />
     <div class="card__info">
-      <div class="full-name">
+      <LinkBase
+        class="full-name"
+        :to="`/dashboard/users/${user.socialMedia.fb}`"
+      >
         {{ userHelpers.fullName }}
-      </div>
+      </LinkBase>
 
       <div
         class="username"
@@ -35,17 +39,20 @@ const userHelpers = useUserHelpers(user);
     </div>
 
     <div class="card__actions">
-      <ButtonBase class="action action--show">
-        <transition name="fade" mode="in-out">
-          <IconShow v-if="user.isShown" />
-          <IconShow v-else />
+      <ButtonBase
+        class="action action--show"
+        @click="emit('toggle-show', user.socialMedia.fb)"
+      >
+        <transition name="fade" mode="out-in">
+          <IconShow v-if="!user.isShown" />
+          <IconHide v-else />
         </transition>
       </ButtonBase>
       <ButtonBase class="action action--reset">
         <IconReset />
       </ButtonBase>
     </div>
-  </LinkBase>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -57,13 +64,7 @@ const userHelpers = useUserHelpers(user);
   @include pa(10px);
   @include w(100%);
   @include grid($columns: 70px 1fr auto, $gap: 10px);
-  @include clr-txt;
-  @include no-underline;
   @include tran;
-
-  &:hover {
-    @include float(3);
-  }
 
   &__info {
     overflow: hidden;
@@ -75,6 +76,8 @@ const userHelpers = useUserHelpers(user);
     .full-name {
       @include fw-bold;
       @include fs-2xl;
+      @include clr-txt;
+      @include no-underline;
     }
     .username {
       @include fw-semibold;

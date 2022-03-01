@@ -28,7 +28,7 @@ defineProps<{ user: User }>();
 
 .roles {
   @include flex($center: true, $gap: 20px, $wrap: true, $center-v: true);
-  @include ma(20px auto);
+  @include ma(30px auto 40px);
   @include w(fit-content);
 
   &__role {

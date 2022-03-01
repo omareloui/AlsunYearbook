@@ -25,7 +25,11 @@ await usersStore.getUsers();
     <InputSearch v-model="search" class="users-dashboard__yearbook__search" />
 
     <div class="users-dashboard__cards">
-      <DashboardUserCard v-for="user in usersStore.users" :user="user" />
+      <DashboardUserCard
+        v-for="user in usersStore.users"
+        :user="user"
+        @toggle-show="usersStore.toggleShow"
+      />
     </div>
   </Container>
 </template>

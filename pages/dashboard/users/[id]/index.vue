@@ -12,6 +12,11 @@ const userHelpers = useUserHelpers(user, { includeThirdName: true });
 
 const { next, prev } = await usersStore.getPrevAndNext(user);
 
+async function toggleShow() {
+  await usersStore.toggleShow(user.socialMedia.fb);
+  user.isShown = !user.isShown;
+}
+
 const scrollTop = useScrollToTop();
 onMounted(scrollTop);
 </script>
@@ -50,7 +55,7 @@ onMounted(scrollTop);
 
     <LineBreak width="60%" margin="25px" />
 
-    <DashboardAction :user="user" />
+    <DashboardActions :user="user" @toggle-show="toggleShow" />
 
     <LineBreak width="60%" margin="25px" />
 
