@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { User, CreateUser, UserGender, UserRole } from "~~/@types";
+import { useUsersStore } from "~~/store/useUsers";
+
+const usersStore = useUsersStore();
 
 const error = reactive({
   field: null,
@@ -26,6 +29,7 @@ const { userToEdit } = defineProps<{ userToEdit?: User }>();
 const isEdit = computed(() => !!userToEdit);
 
 const userData = reactive({
+  _id: userToEdit?._id.toString() || null,
   firstName: userToEdit?.name.first || "",
   secondName: userToEdit?.name.second || "",
   thirdName: userToEdit?.name.third || "",
@@ -55,29 +59,32 @@ async function submitEdit() {
   const imageUploader = useImageUploader();
 
   try {
-    if (isInYearbook.value && !image.value)
-      throw new Error("You have to select an image");
-
     const requestOptions = { method: "POST", body: userData };
 
-    await useCustomFetch("/api/users/validate-edit", requestOptions);
+    if (isInYearbook.value) {
+      if (image.value) {
+        await useCustomFetch("/api/users/validate-edit", requestOptions);
+        notify.info("Uploading the image. That could take a while.");
+        isUploadingImage.value = true;
+        const { original, thumbnail } = await imageUploader.upload(image.value);
 
-    return;
+        userData.image = original;
+        userData.thumbnail = thumbnail;
+      }
+    } else {
+      userData.image = undefined;
+      userData.thumbnail = undefined;
+      userData.quote = undefined;
+      userData.currentJob = undefined;
+    }
 
-    notify.info("Uploading the image. That could take a while.");
-    isUploadingImage.value = true;
-    const { original, thumbnail } = await imageUploader.upload(image.value);
+    const user = await useCustomFetch("/api/users/edit", requestOptions);
 
-    userData.image = original;
-    userData.thumbnail = thumbnail;
+    notify.success(`Edited ${user.name.first} successfully.`);
 
-    await useCustomFetch("/api/users/create", requestOptions);
+    usersStore.updateUser(user);
 
-    notify.success("Added user successfully");
-
-    // TODO: Add user to the store if needed.
-
-    router.push("/dashboard/users");
+    router.push(`/dashboard/users/${user.socialMedia.fb}`);
   } catch (e) {
     setError(e.message);
     notify.error(e.message);
@@ -105,15 +112,23 @@ async function submitCreate() {
 
       userData.image = original;
       userData.thumbnail = thumbnail;
+    } else {
+      userData.image = undefined;
+      userData.thumbnail = undefined;
+      userData.quote = undefined;
+      userData.currentJob = undefined;
     }
 
-    await useCustomFetch("/api/users/create", requestOptions);
+    const user = (await useCustomFetch(
+      "/api/users/create",
+      requestOptions
+    )) as User;
 
-    notify.success("Added user successfully");
+    notify.success(`Added ${user.name.first} successfully.`);
 
     // TODO: Add user to the store if needed.
 
-    router.push("/dashboard/users");
+    router.push(`/dashboard/users/${user.socialMedia.fb}`);
   } catch (e) {
     setError(e.message);
     notify.error(e.message);
@@ -236,7 +251,7 @@ function setError(message: string) {
       :error="error"
       :is-uploading="isUploadingImage"
       has-drop-area
-      :not-required="!isInYearbook"
+      :not-required="!isInYearbook || isEdit"
     />
     <InputTextarea
       v-if="isInYearbook"

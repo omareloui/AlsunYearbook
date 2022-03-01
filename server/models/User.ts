@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 import typegoose from "@typegoose/typegoose";
-const { prop, modelOptions, getModelForClass, Severity } = typegoose;
+const { prop, modelOptions, getModelForClass, Severity, Index } = typegoose;
 
 import {
   UserAuthority,
@@ -12,6 +12,7 @@ import {
   UserSocialMedia,
 } from "~~/@types";
 
+@Index({ "socialMedia.fb": 1 }, { unique: true })
 @modelOptions({ options: { allowMixed: Severity.ALLOW } })
 class User {
   @prop({ type: String, trim: true })

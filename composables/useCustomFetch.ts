@@ -3,5 +3,5 @@ export async function useCustomFetch(...params: Parameters<typeof useFetch>) {
 
   if (error.value) throw new Error(useParseError(error));
 
-  return data;
+  return data.value;
 }

@@ -8,8 +8,6 @@ export function useLoadImage(src: string, element: HTMLImageElement) {
       res(true);
     };
 
-    img.onerror = () => {
-      rej();
-    };
+    img.onerror = rej;
   });
 }

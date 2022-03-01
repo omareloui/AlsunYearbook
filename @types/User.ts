@@ -48,6 +48,8 @@ export interface User {
 }
 
 export interface CreateUser {
+  _id?: string;
+
   firstName: string;
   secondName: string;
   thirdName?: string;
