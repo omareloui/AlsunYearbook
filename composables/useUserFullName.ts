@@ -7,6 +7,6 @@ export function useUserFullName(
   capitalize: boolean = true
 ) {
   let name = `${user.name.first} ${user.name.second}`;
-  if (includeThird) name += ` ${user.name.third}`;
+  if (includeThird && user.name.third) name += ` ${user.name.third}`;
   return capitalize ? useCapitalize(name) : name;
 }

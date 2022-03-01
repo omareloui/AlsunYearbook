@@ -5,8 +5,8 @@ import type { APIFunction, CreateUser } from "~~/@types";
 
 const validate: APIFunction = async (req, _res) => {
   const body = (await useBody(req)) as CreateUser;
-  const user = UserController.populateUserFromCreationData(body);
-  await UserController.validateCreatingUser(user);
+  const user = UserController.populateUser(body);
+  await UserController.validateCreatingUser(user, false);
 
   return { valid: true };
 };

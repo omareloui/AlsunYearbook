@@ -40,6 +40,7 @@ const emit = defineEmits(["toggle-show"]);
 
     <div class="card__actions">
       <ButtonBase
+        v-if="userHelpers.isInYearbook"
         class="action action--show"
         @click="emit('toggle-show', user.socialMedia.fb)"
       >
@@ -95,7 +96,7 @@ const emit = defineEmits(["toggle-show"]);
 
   &__actions {
     @include h(max 80px);
-    @include grid($rows: repeat(2, 1fr), $gap: 8px, $center: true);
+    @include flex($invert-dir: true, $gap: 8px, $center: true);
 
     .action {
       @include clr-bg(primary);

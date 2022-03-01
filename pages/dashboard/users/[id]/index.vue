@@ -49,7 +49,7 @@ onMounted(scrollTop);
 
     <DashboardRoles :user="user" />
 
-    <YearbookQuoteBlock :quote="user.quote" />
+    <YearbookQuoteBlock v-if="user.quote" :quote="user.quote" />
 
     <YearbookJobBlock v-if="user.currentJob" :job="user.currentJob" />
 
@@ -82,16 +82,8 @@ onMounted(scrollTop);
   }
 
   &__name {
-    // &__nickname,
-    // &__job {
-    @include center-text;
-  }
-
-  &__name {
-    // &__nickname,
-    // &__nav,
-    // &__social-media {
     @include mt(25px);
+    @include center-text;
   }
 
   &__username-gender {

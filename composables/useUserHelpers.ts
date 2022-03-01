@@ -2,6 +2,7 @@ import { useUserFullName } from "./useUserFullName";
 import { useUserImage } from "./useUserImage";
 import { useUserUsername } from "./useUserUsername";
 import { useUserHasAuthority } from "./useUserHasAuthority";
+import { useUserIsInYearbook } from "./useUserIsInYearbook";
 
 import type { imageResolution } from "~~/@types";
 
@@ -24,5 +25,6 @@ export function useUserHelpers(
     image: useUserImage(user, imageRes),
     username: useUserUsername(user),
     hasAuthority: useUserHasAuthority(user),
+    isInYearbook: useUserIsInYearbook(user),
   };
 }

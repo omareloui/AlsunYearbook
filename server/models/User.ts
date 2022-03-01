@@ -14,7 +14,7 @@ import {
 
 @modelOptions({ options: { allowMixed: Severity.ALLOW } })
 class User {
-  @prop({ type: String, trim: true, lowercase: true })
+  @prop({ type: String, trim: true })
   public username!: string;
 
   @prop({ type: String })
@@ -32,7 +32,7 @@ class User {
   @prop({ type: mongoose.Schema.Types.Mixed })
   public image: UserImage;
 
-  @prop({ type: String, required: true, trim: true })
+  @prop({ type: String, trim: true })
   public quote!: string;
 
   @prop({ type: String, trim: true })
@@ -47,7 +47,7 @@ class User {
   @prop({ type: String, default: "USER" as UserAuthority })
   public authorityRole!: UserAuthority;
 
-  @prop({ type: Boolean, default: true })
+  @prop({ type: Boolean })
   public isShown!: boolean;
 }
 

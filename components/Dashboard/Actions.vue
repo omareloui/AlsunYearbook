@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { useUsersStore } from "~~/store/useUsers";
 import type { User } from "~~/@types";
 
-const usersStore = useUsersStore();
 const { user } = defineProps<{ user: User }>();
+
+const userHelpers = useUserHelpers(user);
 
 const emit = defineEmits(["toggle-show"]);
 </script>
 
 <template>
   <div class="actions">
-    <ButtonBase class="action action--show" @click="emit('toggle-show')">
+    <ButtonBase
+      v-if="userHelpers.isInYearbook"
+      class="action action--show"
+      @click="emit('toggle-show')"
+    >
       <transition name="fade" mode="out-in">
         <IconShow v-if="!user.isShown" />
         <IconHide v-else />

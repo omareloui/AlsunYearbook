@@ -21,42 +21,52 @@ export interface UserSocialMedia {
 export interface UserName {
   first: string;
   second: string;
-  third: string;
+  third?: string;
   nickname?: string;
 }
 
 export interface User {
   _id: string;
-  username: string;
+
+  username?: string;
   password?: string;
+
   name: UserName;
-  role: UserRole;
-  gender: UserGender;
+
   socialMedia: UserSocialMedia;
-  image: UserImage;
-  currentJob?: string;
+
+  image?: UserImage;
+
+  gender: UserGender;
+  role: UserRole;
   authorityRole: UserAuthority;
-  isShown: boolean;
-  quote: string;
+
+  quote?: string;
+  currentJob?: string;
+
+  isShown?: boolean;
 }
 
 export interface CreateUser {
   firstName: string;
   secondName: string;
-  thirdName: string;
-  nickname: string;
+  thirdName?: string;
+  nickname?: string;
 
-  gender: string;
-  role: string;
+  gender: UserGender;
+  role: UserRole;
+  authorityRole?: UserAuthority;
 
   fb: string;
-  ig: string;
-  twt: string;
-  yt: string;
+  ig?: string;
+  twt?: string;
+  yt?: string;
 
-  image: string;
-  thumbnail: string;
+  image?: string;
+  thumbnail?: string;
 
-  quote: string;
-  currentJob: string;
+  quote?: string;
+  currentJob?: string;
+
+  isShown?: boolean;
 }
