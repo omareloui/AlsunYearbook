@@ -26,7 +26,7 @@ export class YearbookController {
 
   static getUser: APIFunction = async req => {
     const query = useQuery(req);
-    const userId = query.userId as string | undefined;
+    const userId = query.id as string | undefined;
     if (!userId) return;
 
     const user = await User.findOne({

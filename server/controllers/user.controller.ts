@@ -1,4 +1,4 @@
-import { useBody, createError } from "h3";
+import { useBody, createError, useQuery } from "h3";
 import type { APIFunction, CreateUser, User as UserInterface } from "~~/@types";
 
 import { User } from "../models";
@@ -48,6 +48,20 @@ export class UserController {
     return user;
   };
 
+  static getUser: APIFunction = async req => {
+    const query = useQuery(req);
+    const userId = query.id as string | undefined;
+    if (!userId) return;
+
+    const user = await User.findOne({ "socialMedia.fb": userId });
+
+    if (!user)
+      return createError({ message: "Can't find the user", statusCode: 404 });
+
+    return user;
+  };
+
+  // Utils
   static populateUserFromCreationData(userData: CreateUser) {
     const user = new User({
       name: {},
@@ -80,7 +94,6 @@ export class UserController {
     await this.checkIfDuplicatedYT(user);
   }
 
-  // Utils
   static async checkIfDuplicatedName(user: UserInterface) {
     const sameNameUser = await User.findOne({
       "name.first": user.name.first.toLowerCase(),

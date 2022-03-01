@@ -1,32 +1,33 @@
 <script setup lang="ts">
-import { useYearbookStore } from "~~/store/useYearbook";
-import type { User } from "~~/@types";
-
-const yearbookStore = useYearbookStore();
-const { currentUser } = defineProps<{ currentUser: User }>();
-
-const { next, prev } = await yearbookStore.getPrevAndNext(currentUser);
+type HomeIcon = "students" | "professors" | "users";
+const { next, prev, homeIcon, home } = defineProps<{
+  next: string;
+  prev: string;
+  homeIcon: HomeIcon;
+  home: string;
+}>();
 </script>
 
 <template>
   <div class="yearbook-nav-links">
     <LinkBase
-      :to="`/yearbook/${prev.socialMedia.fb}`"
+      :to="prev"
       class="yearbook-nav-links__link yearbook-nav-links__link--prev"
     >
       <IconLeft />
     </LinkBase>
 
     <LinkBase
-      :to="`/yearbook?section=${yearbookStore.section}`"
+      :to="home"
       class="yearbook-nav-links__link yearbook-nav-links__link--back"
     >
-      <IconGraduationHat v-if="yearbookStore.section === 'students'" />
-      <IconProfessor v-if="yearbookStore.section === 'professors'" />
+      <IconGraduationHat v-if="homeIcon === 'students'" />
+      <IconProfessor v-else-if="homeIcon === 'professors'" />
+      <IconUsers v-else-if="homeIcon === 'users'" />
     </LinkBase>
 
     <LinkBase
-      :to="`/yearbook/${next.socialMedia.fb}`"
+      :to="next"
       class="yearbook-nav-links__link yearbook-nav-links__link--next"
     >
       <IconRight />

@@ -7,7 +7,7 @@ import type { imageResolution } from "~~/@types";
 
 interface Options {
   includeThirdName?: boolean;
-  capitalizeName: boolean;
+  capitalizeName?: boolean;
   imageRes?: imageResolution;
 }
 

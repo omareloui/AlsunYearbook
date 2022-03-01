@@ -26,7 +26,7 @@ defineProps<{ quote: string }>();
   @include clr-bg(secondary);
   @include br-lg;
   @include pa(15px 25px);
-  @include ma(20px auto);
+  @include ma(30px auto);
   @include center-text;
 
   @include w(calc(100% - 50px));

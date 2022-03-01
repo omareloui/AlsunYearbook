@@ -1,16 +1,21 @@
 <script setup lang="ts">
-import type { User } from "~~/@types";
+import { useYearbookStore } from "~~/store/useYearbook";
 import { useUserImage } from "~~/composables/useUserImage";
+
+import type { User } from "~~/@types";
 
 const route = useRoute();
 const userId = route.params.userId as string;
 
-const scrollToTop = useScrollToTop();
-
-const { data } = await useFetch(`/api/yearbook/user?userId=${userId}`);
+// TODO: get the data from the store first if it exists if not fetch it.
+const { data } = await useFetch(`/api/yearbook/user?id=${userId}`);
 const user = data.value as User;
 
-onMounted(scrollToTop);
+const yearbookStore = useYearbookStore();
+const { next, prev } = await yearbookStore.getPrevAndNext(user);
+
+const scrollTop = useScrollToTop();
+onMounted(scrollTop);
 </script>
 
 <template>
@@ -31,17 +36,23 @@ onMounted(scrollToTop);
 
     <YearbookQuoteBlock :quote="user.quote" />
 
-    <div v-if="user.currentJob" class="user__job">{{ user.currentJob }}</div>
+    <YearbookJobBlock v-if="user.currentJob" :job="user.currentJob" />
 
     <YearbookSocialMedia class="user__social-media" :sm="user.socialMedia" />
 
     <LineBreak width="60%" margin="25px" />
 
-    <YearbookInteractionsButtons />
+    <YearbookInteractionsButtons :user="user" />
 
     <LineBreak width="60%" margin="25px" />
 
-    <YearbookNavigationButtons class="user__nav" :current-user="user" />
+    <YearbookNavigationButtons
+      class="user__nav"
+      :next="`/yearbook/${next.socialMedia.fb}`"
+      :prev="`/yearbook/${prev.socialMedia.fb}`"
+      :home="`/yearbook?section=${yearbookStore.section}`"
+      :home-icon="yearbookStore.section"
+    />
   </Container>
 </template>
 
@@ -59,8 +70,7 @@ onMounted(scrollToTop);
   }
 
   &__name,
-  &__nickname,
-  &__job {
+  &__nickname {
     @include center-text;
   }
 
@@ -79,19 +89,6 @@ onMounted(scrollToTop);
   &__nickname {
     @include fs-3xl;
     @include clr-txt(fade);
-  }
-
-  &__job {
-    word-break: break-word;
-    @include mx(auto);
-    @include mt(40px);
-
-    @include w(100%);
-    @include w(max 800px);
-
-    @include lt-tablet {
-      @include w(80%);
-    }
   }
 }
 </style>
