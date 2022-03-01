@@ -74,15 +74,19 @@ onUnmounted(removeEvents);
 .drop {
   --height: 100px;
   @include center-text;
-  @include grid($center: true);
   @include h(var(--height));
   @include my(20px);
   @include br-lg;
   @include tran;
 
-  @include float(3);
+  @include float(1);
   @include brdr(primary);
-  @include clr-bg(secondary);
+
+  display: none;
+
+  @include lt-mobile {
+    @include grid($center: true);
+  }
 
   &--highlighted {
     @include clr-bg(primary);
