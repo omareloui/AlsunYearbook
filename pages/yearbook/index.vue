@@ -11,13 +11,14 @@ await yearbookStore.getCurrentSectionUsers();
 
 <template>
   <div>
-    <Container>
+    <Container tag="main">
       <MeSection />
 
       <YearbookSectionsSelection />
     </Container>
 
     <YearbookBody />
+    <YearbookScrollUp />
   </div>
 </template>
 

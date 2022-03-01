@@ -31,6 +31,8 @@ await usersStore.getUsers();
         @toggle-show="usersStore.toggleShow"
       />
     </div>
+
+    <YearbookScrollUp />
   </Container>
 </template>
 
