@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { User, CreateUser, UserGender, UserRole } from "~~/@types";
 import { useUsersStore } from "~~/store/useUsers";
+import { useUserIsInYearbook } from "~~/composables/useUserIsInYearbook";
 
 const usersStore = useUsersStore();
 
@@ -27,6 +28,11 @@ const isUploadingImage = ref(false);
 const { userToEdit } = defineProps<{ userToEdit?: User }>();
 
 const isEdit = computed(() => !!userToEdit);
+const isImageRequired = computed(() => {
+  if (isEdit && !useUserIsInYearbook(userToEdit.role) && isInYearbook.value)
+    return true;
+  if (!isInYearbook.value || isEdit.value) return false;
+});
 
 const userData = reactive({
   _id: userToEdit?._id.toString() || null,
@@ -59,6 +65,9 @@ async function submitEdit() {
   const imageUploader = useImageUploader();
 
   try {
+    if (isImageRequired.value && !image.value)
+      throw new Error("You have to select an image");
+
     const requestOptions = { method: "POST", body: userData };
 
     if (isInYearbook.value) {
@@ -251,7 +260,7 @@ function setError(message: string) {
       :error="error"
       :is-uploading="isUploadingImage"
       has-drop-area
-      :not-required="!isInYearbook || isEdit"
+      :not-required="!isImageRequired"
     />
     <InputTextarea
       v-if="isInYearbook"
