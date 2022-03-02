@@ -24,6 +24,7 @@ onMounted(scrollTop);
 <template>
   <Container class="user">
     <ImageBase
+      v-if="userHelpers.isInYearbook"
       class="user__image"
       :src="userHelpers.image"
       :alt="`${user.name.first}'s image.`"

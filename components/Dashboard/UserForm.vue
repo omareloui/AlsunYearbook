@@ -275,7 +275,7 @@ function setError(message: string) {
       <span v-if="!isEdit">Add User</span>
 
       <IconSettings v-if="isEdit" />
-      <span v-if="isEdit">Edit {{ userData.firstName }}</span>
+      <span v-if="isEdit">Submit editing {{ userData.firstName }}</span>
     </template>
   </FormBase>
 </template>

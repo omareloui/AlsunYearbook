@@ -1,15 +1,28 @@
+import { useQuery, createError } from "h3";
 import c from "cloudinary";
-import type { APIFunction, CloudinarySignatureResponse } from "~~/@types";
+import { useCloudinaryIdParser } from "~~/composables/useCloudinaryIdParser";
+
+import type {
+  APIFunction,
+  CloudinarySignatureResponse,
+  UserImage,
+} from "~~/@types";
+
+const cloudinary = c.v2;
+
+const name = process.env.CLOUDINARY_NAME;
+const secret = process.env.CLOUDINARY_SECRET;
+const key = process.env.CLOUDINARY_KEY;
+
+cloudinary.config({
+  cloud_name: name,
+  api_key: key,
+  api_secret: secret,
+});
 
 export class CloudinaryController {
   static getSignature: APIFunction<Promise<CloudinarySignatureResponse>> =
     async () => {
-      const name = process.env.CLOUDINARY_NAME;
-      const secret = process.env.CLOUDINARY_SECRET;
-      const key = process.env.CLOUDINARY_KEY;
-
-      const cloudinary = c.v2;
-
       const timestamp = Math.round(new Date().getTime() / 1000);
       const options = { folder: "yearbook" };
 
@@ -26,4 +39,32 @@ export class CloudinaryController {
         options,
       };
     };
+
+  static removeImage: APIFunction = async (req, res) => {
+    if (req.method !== "DELETE") return;
+
+    const query = useQuery(req) as UserImage;
+    await this.removeUserImage(query);
+
+    return { ok: true };
+  };
+
+  // Utils
+  static async removeUserImage(image: UserImage) {
+    const getUrl = t => image[t];
+
+    return await Promise.all(
+      ["original", "thumbnail"].map(getUrl).map(this.removeByUrl)
+    );
+  }
+
+  static async removeByUrl(url: string) {
+    const id = useCloudinaryIdParser(url as string);
+    try {
+      const res = await cloudinary.uploader.destroy(id);
+      return res;
+    } catch (e) {
+      throw createError({ message: e.message, statusCode: 400 });
+    }
+  }
 }

@@ -2,7 +2,7 @@ import type { CloudinarySignatureResponse } from "~~/@types";
 
 export function useImageUploader() {
   async function upload(images: FileList) {
-    const { data } = await useFetch("/api/cloudinary-signature");
+    const { data } = await useFetch("/api/cloudinary/signature");
     const {
       apiKey,
       cloudName,

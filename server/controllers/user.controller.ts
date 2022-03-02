@@ -16,10 +16,8 @@ import {
   extractYTId,
 } from "~~/server/utils";
 import { useUserIsInYearbook } from "~~/composables/useUserIsInYearbook";
-import { useRegExHelpers } from "~~/composables/useRegExHelpers";
 
-const regexHelpers = useRegExHelpers();
-const ID_LENGTH = 24;
+import { CloudinaryController } from ".";
 
 export class UserController {
   static getAll: APIFunction = async () => {
@@ -69,8 +67,14 @@ export class UserController {
         statusCode: 404,
       });
 
+    const oldImage = oldUser.image ? { ...oldUser.image } : null;
+    const shouldRemoveImages = this.shouldRemoveOldImage(oldUser, body);
+
     const user = UserController.populateUser(body, oldUser as UserInterface);
     await UserController.validateEditUser(user);
+
+    if (shouldRemoveImages && oldImage)
+      await CloudinaryController.removeUserImage(oldImage);
 
     // TODO:
     // Create the action and the professor data if he is one
@@ -179,14 +183,12 @@ export class UserController {
     if (alreadyExistingUser) {
       if (isInYearbook && (!userData.image || !userData.thumbnail))
         return alreadyExistingUser.image;
-      else if (isInYearbook && userData.image && userData.thumbnail)
-        // TODO: REMOVE THE OLD IMAGES IN THIS CASE
+      else if (isInYearbook && userData.image && userData.thumbnail) {
         return {
           original: userData.image,
           thumbnail: userData.thumbnail,
         } as UserImage;
-      // TODO: REMOVE THE OLD IMAGES IF THEY EXISTED FROM A USER CHANGING FROM YEARBOOK TO NON
-      else return undefined;
+      } else return undefined;
     } else {
       if (isInYearbook && userData.image && userData.thumbnail)
         return {
@@ -194,7 +196,6 @@ export class UserController {
           thumbnail: userData.thumbnail,
         } as UserImage;
       return undefined;
-      // TODO: REMOVE THE OLD IMAGES IF THEY EXISTED FROM A USER CHANGING FROM YEARBOOK TO NON
     }
   }
 
@@ -214,6 +215,18 @@ export class UserController {
 
     if (providedIsShown) return userData.isShown;
     return useUserIsInYearbook(userData.role) ? true : undefined;
+  }
+
+  static shouldRemoveOldImage(
+    oldUser: UserInterface,
+    newUser: CreateUser
+  ): boolean {
+    if (!oldUser.image) return false;
+
+    if (!useUserIsInYearbook(newUser.role)) return true;
+
+    if (newUser.image && newUser.thumbnail) return true;
+    return false;
   }
 
   static async validateEditUser(newUserData: UserInterface) {
