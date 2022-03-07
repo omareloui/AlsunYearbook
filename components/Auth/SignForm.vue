@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import Cookie from "cookie-universal";
-
-// import { config } from "~~/server/config";
-import type { Authentication, Token } from "~~/@types";
+import type { Authentication } from "~~/@types";
 
 type SignType = "in" | "up";
 
@@ -39,12 +36,11 @@ async function sign() {
   const notify = useNotify();
 
   try {
-    const data = (await useCustomFetch(`/api/auth/sign${type}`, {
+    (await useCustomFetch(`/api/auth/sign${type}`, {
       method: "POST",
       body: { ...formData, fbId: confirmedFbId.value },
     })) as Authentication;
 
-    notify.success("Signed up.");
     useRouter().push("/yearbook");
   } catch (e) {
     setError(e.message);

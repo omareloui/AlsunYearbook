@@ -1,8 +1,17 @@
 <script setup lang="ts">
+import { useAuthStore } from "~~/store/useAuth";
+
 const isOpen = ref(false);
 
 function toggle() {
   isOpen.value = !isOpen.value;
+}
+
+function signout() {
+  const authStore = useAuthStore();
+  authStore.signout();
+
+  toggle();
 }
 </script>
 
@@ -29,7 +38,9 @@ function toggle() {
             <LinkBase to="/dashboard" @click="toggle">Dashboard</LinkBase>
           </li>
           <LineBreak />
-          <li><LinkBase to="#!" @click="toggle">Logout</LinkBase></li>
+          <li>
+            <ButtonBase @click="signout" is-normalized>Logout</ButtonBase>
+          </li>
         </ul>
       </nav>
     </Transition>
@@ -88,9 +99,9 @@ function toggle() {
       li {
         @include pa(5px);
 
-        ::v-deep(a) {
+        ::v-deep(a),
+        ::v-deep(button) {
           @include clr-txt;
-          @include block;
           @include fw-black;
           @include fs-lg;
           @include no-underline;
