@@ -8,7 +8,7 @@ const route = useRoute();
 const userId = route.params.userId as string;
 
 // TODO: get the data from the store first if it exists if not fetch it.
-const { data } = await useFetch(`/api/yearbook/user?id=${userId}`);
+const { data } = await useCustomFetch(`/api/yearbook/user?id=${userId}`);
 const user = data.value as User;
 
 const yearbookStore = useYearbookStore();

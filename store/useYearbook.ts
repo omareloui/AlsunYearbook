@@ -89,14 +89,16 @@ export const useYearbookStore = defineStore("yearbook", {
     async getStudents() {
       if (this.students.length) return;
 
-      const { data } = await useFetch("/api/yearbook?section=students");
-      this.students = data.value;
+      const students = await useCustomFetch("/api/yearbook?section=students");
+      this.students = students;
     },
 
     async getProfessors() {
       if (this.professors.length) return;
-      const { data } = await useFetch("/api/yearbook?section=professors");
-      this.professors = data.value;
+      const professors = await useCustomFetch(
+        "/api/yearbook?section=professors"
+      );
+      this.professors = professors;
     },
 
     async getPrevAndNext(user: User) {

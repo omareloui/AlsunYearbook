@@ -2,8 +2,9 @@ import Cookie from "cookie-universal";
 import { defineStore, acceptHMRUpdate } from "pinia";
 
 import { Theme } from "~~/@types";
+import { useConstants } from "~~/composables/useConstants";
 
-const THEME_COOKIE_NAME = "theme";
+const constants = useConstants();
 
 export const useThemeStore = defineStore("theme", {
   state: () => ({
@@ -40,16 +41,16 @@ export const useThemeStore = defineStore("theme", {
 
     setThemeToCookie(theme: Theme) {
       const cookies = Cookie();
-      cookies.set(THEME_COOKIE_NAME, theme, {
+      cookies.set(constants.THEME_COOKIE_NAME, theme, {
         path: "/",
         sameSite: "lax",
-        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        maxAge: useParseDateInSeconds("30d"),
       });
     },
 
     getThemeFromCookie() {
       const cookies = Cookie();
-      const cookie = cookies.get(THEME_COOKIE_NAME);
+      const cookie = cookies.get(constants.THEME_COOKIE_NAME);
       if (!cookie) this.setThemeToCookie("default");
       return cookie as Theme;
     },

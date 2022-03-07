@@ -11,7 +11,7 @@ function destroy() {
 }
 
 function checkIfIsScrolled() {
-  isScrolled.value = scrollY > 1000;
+  isScrolled.value = scrollY > 500;
 }
 
 onMounted(init);

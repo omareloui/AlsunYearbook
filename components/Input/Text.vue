@@ -11,9 +11,10 @@ const props = withDefaults(
     identifier?: string;
     isLarge?: boolean;
     notRequired?: boolean;
+    type?: string;
     error?: { message: string; field: string; clear: () => void };
   }>(),
-  { isLarge: false, notRequired: false }
+  { isLarge: false, notRequired: false, type: "text" }
 );
 
 const emit = defineEmits(["update:modelValue", "clearError"]);
@@ -35,7 +36,7 @@ function onInput() {
       <InputBase
         :id="identifier || name"
         :name="name"
-        type="text"
+        :type="type"
         v-bind="$attrs"
         v-model="content"
         :required="!notRequired"

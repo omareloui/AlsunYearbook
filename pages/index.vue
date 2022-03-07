@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { useAuthStore } from "~~/store/useAuth";
+
 definePageMeta({ layout: "landing" });
+
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -23,12 +27,32 @@ definePageMeta({ layout: "landing" });
 
     <div class="action-links">
       <LinkButton
+        v-if="authStore.isSigned"
         to="/yearbook"
         is-cta
         is-large
         class="action-links__link action-links__link--cta"
       >
         To The Yearbook
+      </LinkButton>
+
+      <LinkButton
+        v-if="!authStore.isSigned"
+        to="/signup"
+        is-cta
+        is-large
+        class="action-links__link action-links__link--cta"
+      >
+        Signup
+      </LinkButton>
+
+      <LinkButton
+        v-if="!authStore.isSigned"
+        to="/signin"
+        is-large
+        class="action-links__link"
+      >
+        Signin
       </LinkButton>
     </div>
   </div>
@@ -75,5 +99,12 @@ definePageMeta({ layout: "landing" });
   @include fw-medium;
 
   max-width: 80%;
+}
+
+.action-links {
+  @include flex($gap: 10px, $center-v: true);
+
+  &__link {
+  }
 }
 </style>

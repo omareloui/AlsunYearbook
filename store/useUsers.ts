@@ -30,17 +30,14 @@ export const useUsersStore = defineStore("users", {
   actions: {
     async getUsers() {
       if (this.users.length) return;
-
-      const { data } = await useFetch("/api/users");
-      this.users = data.value;
+      this.users = (await useCustomFetch("/api/users")) as User[];
     },
 
-    async getUser(userId: string) {
+    getUser(userId: string) {
       const user: User = this.getById(userId);
       if (user) return user;
 
-      const { data } = await useFetch(`/api/users/user?id=${userId}`);
-      return data.value as User;
+      return useCustomFetch(`/api/users/user?id=${userId}`) as Promise<User>;
     },
 
     getById(userId: string) {
@@ -60,12 +57,11 @@ export const useUsersStore = defineStore("users", {
     async toggleShow(userId: string) {
       const requestOptions = { method: "POST", body: { id: userId } };
 
-      const { data } = await useFetch(
+      const user = (await useCustomFetch(
         `/api/users/edit/toggle-show`,
         requestOptions
-      );
+      )) as User;
 
-      const user = data.value as User;
       useNotify().success(
         `Updated ${useCapitalize(user.name.first)}'s show state.`
       );
