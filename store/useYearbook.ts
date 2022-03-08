@@ -1,5 +1,5 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
-import type { User, YearbookSection } from "~~/@types";
+import type { CloseFriend, User, YearbookSection } from "~~/@types";
 
 import { useYearbookSections } from "~~/composables/useYearbookSections";
 
@@ -13,6 +13,8 @@ export const useYearbookStore = defineStore("yearbook", {
 
     section: "students" as YearbookSection,
     currentUser: null as null | User,
+
+    closeFriends: [] as User[],
   }),
 
   getters: {
@@ -125,6 +127,44 @@ export const useYearbookStore = defineStore("yearbook", {
       );
 
       return { next: this.nextUser as User, prev: this.prevUser as User };
+    },
+
+    async fetchMyCloseFriends() {
+      this.closeFriends = (await useCustomFetch(
+        "/api/close-friend/mine"
+      )) as User[];
+    },
+
+    checkIfCloseFriend(userId: string) {
+      return !!this.closeFriends.find(u => u._id === userId);
+    },
+
+    async makeCloseFriend(userId: string) {
+      if (this.checkIfCloseFriend(userId)) return;
+
+      const closeFriendRecord = (await useCustomFetch(
+        "/api/close-friend/make",
+        {
+          method: "POST",
+          body: { id: userId },
+        }
+      )) as CloseFriend;
+
+      this.closeFriends.push(closeFriendRecord.closeFriend);
+      useNotify().success(
+        `Made ${useUserFullName(closeFriendRecord.closeFriend)} a close friend.`
+      );
+    },
+
+    async removeCloseFriend(userId: string) {
+      if (!this.checkIfCloseFriend(userId)) return;
+
+      await useCustomFetch(`/api/close-friend/remove?id=${userId}`, {
+        method: "DELETE",
+      });
+
+      this.closeFriends = this.closeFriends.filter(u => u._id !== userId);
+      useNotify().success("Removed from close friends.");
     },
   },
 });

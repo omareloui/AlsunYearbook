@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { User } from "~~/@types";
 import { useUserImage } from "~~/composables/useUserImage";
+import { useYearbookStore } from "~~/store/useYearbook";
 
+const yearbookStore = useYearbookStore();
 const isLoading = ref(true);
 
-defineProps<{ user: User }>();
+const { user } = defineProps<{ user: User }>();
+
+const userHelpers = useUserHelpers(user);
 
 function onLoaded() {
   isLoading.value = false;
@@ -27,10 +31,8 @@ function onLoaded() {
     <div class="yearbook-card__patches">
       <div class="yearbook-card__patches-left">
         <YearbookPatch
+          v-if="userHelpers.hasAuthority"
           :is-loading="isLoading"
-          v-if="
-            user.authorityRole.match(/^ADMIN|ASSISTANT(_TO)_ADMIN|MODERATOR$/)
-          "
           class="yearbook-card__patch yearbook-card__patch--admin"
         >
           <IconAdmin color="var(--clr-primary)" />
@@ -39,6 +41,7 @@ function onLoaded() {
 
       <div class="yearbook-card__patches-right">
         <YearbookPatch
+          v-if="yearbookStore.checkIfCloseFriend(user._id)"
           :is-loading="isLoading"
           class="yearbook-card__patch yearbook-card__patch--message"
         >

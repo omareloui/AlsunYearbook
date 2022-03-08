@@ -5,6 +5,7 @@ const yearbookStore = useYearbookStore();
 
 yearbookStore.setSectionOnLoad();
 await yearbookStore.fetchCurrentSection();
+await yearbookStore.fetchMyCloseFriends();
 yearbookStore.setShown();
 </script>
 

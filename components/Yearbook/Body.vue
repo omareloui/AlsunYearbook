@@ -20,7 +20,10 @@ const debouncedSearch = debounce(yearbookStore.search, 300);
         <YearbookCard v-for="user in yearbookStore.shown" :user="user" />
       </div>
       <div v-else class="yearbook__no-result">
-        <span> Can't find {{ yearbookStore.searchQuery }}.</span>
+        <span>
+          Can't find
+          {{ yearbookStore.searchQuery || yearbookStore.section }}.</span
+        >
       </div>
     </Container>
   </div>

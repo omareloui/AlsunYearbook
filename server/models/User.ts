@@ -14,7 +14,7 @@ import {
 
 @Index({ "socialMedia.fb": 1 }, { unique: true })
 @modelOptions({ options: { allowMixed: Severity.ALLOW } })
-class User {
+export class User {
   @prop({ type: String, trim: true })
   public username!: string;
 

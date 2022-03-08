@@ -1,22 +1,46 @@
 <script setup lang="ts">
 import { User } from "~~/@types";
 import { useCapitalize } from "~~/composables/useCapitalize";
+import { useAuthStore } from "~~/store/useAuth";
+import { useYearbookStore } from "~~/store/useYearbook";
 
 defineProps<{ user: User }>();
+
+const yearbookStore = useYearbookStore();
+const authStore = useAuthStore();
+
+const emit = defineEmits(["make-close-friend", "remove-close-friend"]);
 </script>
 
 <template>
   <div class="interactions-buttons">
-    <ButtonBase class="interactions-buttons__button">
-      <IconCloseFriend />
-      Add close friend
-    </ButtonBase>
+    <transition name="fade" mode="out-in">
+      <ButtonBase
+        v-if="!yearbookStore.checkIfCloseFriend(user._id)"
+        class="interactions-buttons__button"
+        @click="emit('make-close-friend')"
+      >
+        <IconCloseFriend />
+        Add close friend
+      </ButtonBase>
+
+      <ButtonBase
+        v-else
+        class="interactions-buttons__button"
+        @click="emit('remove-close-friend')"
+      >
+        <IconRemoveCloseFriend />
+        Remove close friend
+      </ButtonBase>
+    </transition>
+
     <ButtonBase class="interactions-buttons__button">
       <IconWrite />
       Leave a message
     </ButtonBase>
 
     <LinkBase
+      v-if="authStore.hasAuthority"
       class="interactions-buttons__button"
       :to="`/dashboard/users/${user.socialMedia.fb}`"
     >
@@ -25,6 +49,7 @@ defineProps<{ user: User }>();
     </LinkBase>
 
     <LinkBase
+      v-if="authStore.hasAuthority"
       class="interactions-buttons__button"
       :to="`/dashboard/users/${user.socialMedia.fb}/edit`"
     >
@@ -38,12 +63,21 @@ defineProps<{ user: User }>();
 @use "~~/assets/styles/mixins" as *;
 
 .interactions-buttons {
-  @include flex($center-v: true, $gap: 15px, $wrap: true);
+  @include grid($gap: 15px);
+
   @include w(fit-content);
   @include mx(auto);
 
+  @include lt-mobile {
+    @include grid-cols(repeat(2, 1fr));
+  }
+
+  @include lt-desktop {
+    @include grid-cols(repeat(4, auto));
+  }
+
   &__button {
-    @include flex($gap: 10px, $center: true);
+    @include flex($gap: 10px, $center-v: true);
     @include clr-bg(primary);
     @include clr-txt;
     @include no-underline;

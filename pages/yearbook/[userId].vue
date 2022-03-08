@@ -39,7 +39,13 @@ onMounted(scrollTop);
 
     <LineBreak width="60%" margin="25px" />
 
-    <YearbookInteractionsButtons :user="user" />
+    <YearbookInteractionsButtons
+      :user="user"
+      @make-close-friend="yearbookStore.makeCloseFriend(user._id.toString())"
+      @remove-close-friend="
+        yearbookStore.removeCloseFriend(user._id.toString())
+      "
+    />
 
     <LineBreak width="60%" margin="25px" />
 

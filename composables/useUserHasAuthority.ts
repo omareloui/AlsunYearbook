@@ -6,5 +6,5 @@ export function useUserHasAuthority(userOrAuthority: User | string) {
       ? userOrAuthority
       : userOrAuthority.authorityRole;
 
-  return authority.match(/^(MODERATOR|(ASSISTANT_(TO_)?)?ADMIN)$/);
+  return !!authority.match(/^(MODERATOR|(ASSISTANT_(TO_)?)?ADMIN)$/);
 }

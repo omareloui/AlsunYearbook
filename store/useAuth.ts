@@ -15,6 +15,7 @@ export const useAuthStore = defineStore("auth", {
 
   getters: {
     isSigned: state => !!state.user,
+    hasAuthority: state => useUserHasAuthority(state.user),
   },
 
   actions: {
