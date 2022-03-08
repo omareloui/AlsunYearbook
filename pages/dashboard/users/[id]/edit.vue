@@ -6,7 +6,7 @@ const usersStore = useUsersStore();
 const route = useRoute();
 const id = route.params.id as string;
 
-const user = await usersStore.getUser(id);
+const user = await usersStore.fetchUser(id);
 
 const userHelpers = useUserHelpers(user);
 </script>

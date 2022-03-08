@@ -2,16 +2,13 @@
 import { useYearbookStore } from "~~/store/useYearbook";
 import { useUserImage } from "~~/composables/useUserImage";
 
-import type { User } from "~~/@types";
-
 const route = useRoute();
 const userId = route.params.userId as string;
 
-// TODO: get the data from the store first if it exists if not fetch it.
-const { data } = await useCustomFetch(`/api/yearbook/user?id=${userId}`);
-const user = data.value as User;
-
 const yearbookStore = useYearbookStore();
+
+const user = await yearbookStore.fetchUser(userId);
+
 const { next, prev } = await yearbookStore.getPrevAndNext(user);
 
 const scrollTop = useScrollToTop();

@@ -87,6 +87,12 @@ export const useYearbookStore = defineStore("yearbook", {
       await this.setShown();
     },
 
+    async fetchUser(id: string) {
+      const user: User = this.getById(id);
+      if (user) return user;
+      return (await useCustomFetch(`/api/yearbook/user?id=${id}`)) as User;
+    },
+
     async fetchCurrentSection() {
       await this.fetchSection(this.section);
     },
@@ -94,6 +100,11 @@ export const useYearbookStore = defineStore("yearbook", {
     async fetchSection(section: YearbookSection) {
       if (this[section].length) return;
       this[section] = await useCustomFetch(`/api/yearbook?section=${section}`);
+    },
+
+    getById(id: string) {
+      const users = [...this.students, ...this.professors] as User[];
+      return users.find(u => u.socialMedia.fb === id);
     },
 
     search() {
