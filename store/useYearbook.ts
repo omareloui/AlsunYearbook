@@ -96,31 +96,9 @@ export const useYearbookStore = defineStore("yearbook", {
       this[section] = await useCustomFetch(`/api/yearbook?section=${section}`);
     },
 
-    async search() {
-      const query = this.searchQuery.toLowerCase();
-
-      if (!query) await this.setShown();
-
-      const searchResult = this[this.section]
-        .map(u => {
-          u.fullName = useUserFullName(u, true).toLowerCase();
-          u.name.nickname = u.name.nickname?.toLowerCase();
-          return u;
-        })
-        .filter((user: User & { fullName: string }) => {
-          const { nickname } = user.name;
-
-          const fullNameSearch = user.fullName.search(query) > -1;
-          const nicknameSearch = nickname && nickname.search(query) > -1;
-
-          return fullNameSearch || nicknameSearch;
-        })
-        .sort(
-          (a: User & { fullName: string }, b: User & { fullName: string }) =>
-            a.fullName.search(query) - b.fullName.search(query)
-        );
-
-      await this.setShown(searchResult);
+    search() {
+      const result = useSearchUsers(this[this.section], this.searchQuery);
+      this.setShown(result);
     },
 
     async getPrevAndNext(user: User) {

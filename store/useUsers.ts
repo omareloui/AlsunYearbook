@@ -2,7 +2,14 @@ import { defineStore, acceptHMRUpdate } from "pinia";
 import type { User } from "~~/@types";
 
 export const useUsersStore = defineStore("users", {
-  state: () => ({ users: [] as User[], currentUser: null as null | User }),
+  state: () => ({
+    users: [] as User[],
+    shown: [] as User[],
+
+    currentUser: null as null | User,
+
+    searchQuery: "",
+  }),
 
   getters: {
     currentUserIndex() {
@@ -28,15 +35,15 @@ export const useUsersStore = defineStore("users", {
   },
 
   actions: {
-    async getUsers() {
+    async fetchUsers() {
       if (this.users.length) return;
       this.users = (await useCustomFetch("/api/users")) as User[];
+      this.setShown();
     },
 
-    getUser(userId: string) {
+    fetchUser(userId: string) {
       const user: User = this.getById(userId);
       if (user) return user;
-
       return useCustomFetch(`/api/users/user?id=${userId}`) as Promise<User>;
     },
 
@@ -52,6 +59,17 @@ export const useUsersStore = defineStore("users", {
       );
 
       return { next: this.nextUser as User, prev: this.prevUser as User };
+    },
+
+    async setShown(usersToShow?: User[]) {
+      this.shown = [];
+      await nextTick();
+      this.shown = usersToShow || this.users;
+    },
+
+    async search() {
+      const result = useSearchUsers(this.users, this.searchQuery);
+      this.setShown(result);
     },
 
     async toggleShow(userId: string) {

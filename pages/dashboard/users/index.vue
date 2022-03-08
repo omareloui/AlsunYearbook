@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { debounce } from "lodash";
 import { useUsersStore } from "~~/store/useUsers";
 
-const search = ref("");
 const usersStore = useUsersStore();
 
-await usersStore.getUsers();
+await usersStore.fetchUsers();
+
+const debouncedSearch = debounce(usersStore.search, 300);
 </script>
 
 <template>
@@ -22,11 +24,15 @@ await usersStore.getUsers();
 
     <LineBreak margin="20px" />
 
-    <InputSearch v-model="search" class="users-dashboard__yearbook__search" />
+    <InputSearch
+      v-model="usersStore.searchQuery"
+      class="users-dashboard__yearbook__search"
+      @input="debouncedSearch"
+    />
 
     <div class="users-dashboard__cards">
       <DashboardUserCard
-        v-for="user in usersStore.users"
+        v-for="user in usersStore.shown"
         :user="user"
         @toggle-show="usersStore.toggleShow"
       />
