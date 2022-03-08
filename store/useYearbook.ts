@@ -68,8 +68,7 @@ export const useYearbookStore = defineStore("yearbook", {
     setSectionAndRoute(section: YearbookSection) {
       this.setSection(section);
 
-      const router = useRouter();
-      router.push({ query: { section: this.section } });
+      navigateTo({ query: { section: this.section } });
     },
 
     async changeSection(section: YearbookSection) {

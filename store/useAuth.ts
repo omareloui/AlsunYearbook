@@ -2,6 +2,7 @@ import Cookie from "cookie-universal";
 import { defineStore, acceptHMRUpdate } from "pinia";
 
 import { useConstants } from "~~/composables/useConstants";
+import type { SignType } from "~~/@types";
 
 const { JWT_NAME, REFRESH_TOKEN_NAME } = useConstants();
 
@@ -27,9 +28,30 @@ export const useAuthStore = defineStore("auth", {
       this.setCookie(token.body, token.expiration);
     },
 
+    async setFromCookie() {
+      const data = (await useCustomFetch("/api/me")) as Authentication;
+      if (!data.user) return;
+      this.user = data.user;
+    },
+
+    async sign(
+      formData: { fbId?: string; username: string; password: string },
+      type: SignType
+    ) {
+      const data = (await useCustomFetch(`/api/auth/sign${type}`, {
+        method: "POST",
+        body: formData,
+      })) as Authentication;
+
+      this.user = data.user;
+
+      navigateTo("/yearbook");
+    },
+
     signout() {
       this.removeCookies();
-      useRouter().push("/");
+      this.user = null;
+      navigateTo("/");
     },
 
     // async updateMe(

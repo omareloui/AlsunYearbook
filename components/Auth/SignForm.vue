@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { Authentication } from "~~/@types";
-
-type SignType = "in" | "up";
+import { useAuthStore } from "~~/store/useAuth";
+import type { SignType } from "~~/@types";
 
 const { type } = defineProps<{ type: SignType }>();
+
+const authStore = useAuthStore();
 
 const confirmedFbId = ref(null);
 
@@ -33,18 +34,11 @@ async function checkFBId() {
 }
 
 async function sign() {
-  const notify = useNotify();
-
   try {
-    (await useCustomFetch(`/api/auth/sign${type}`, {
-      method: "POST",
-      body: { ...formData, fbId: confirmedFbId.value },
-    })) as Authentication;
-
-    useRouter().push("/yearbook");
+    await authStore.sign({ ...formData, fbId: confirmedFbId.value }, type);
   } catch (e) {
     setError(e.message);
-    notify.error(e.message, { duration: 5000 });
+    useNotify().error(e.message, { duration: 5000 });
   }
 }
 

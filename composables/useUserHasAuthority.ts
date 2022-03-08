@@ -1,5 +1,10 @@
 import { User } from "~~/@types";
 
-export function useUserHasAuthority(user: User) {
-  return user.authorityRole !== "USER";
+export function useUserHasAuthority(userOrAuthority: User | string) {
+  const authority =
+    typeof userOrAuthority === "string"
+      ? userOrAuthority
+      : userOrAuthority.authorityRole;
+
+  return authority !== "USER";
 }

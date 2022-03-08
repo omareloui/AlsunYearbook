@@ -12,22 +12,18 @@ import { config } from "~~/server/config";
 const addUser: APIFunction = async (req, res) => {
   const { JWT_NAME, REFRESH_TOKEN_NAME } = useConstants();
 
-  const token = useCookie(req, JWT_NAME) as string | undefined;
+  const token = useCookie(req, JWT_NAME) || "";
 
-  if (token) {
-    try {
-      const { user } = verifyToken<JWTContent>(
-        token as string,
-        config.tokens.jwt.expiration
-      );
-      req.user = user;
-    } catch (e) {
-      const refreshToken = useCookie(req, REFRESH_TOKEN_NAME) as
-        | string
-        | undefined;
+  try {
+    const { user } = verifyToken<JWTContent>(
+      token,
+      config.tokens.jwt.expiration
+    );
+    req.user = user;
+  } catch (e) {
+    const refreshToken = useCookie(req, REFRESH_TOKEN_NAME) || "";
 
-      if (!refreshToken) return;
-
+    if (refreshToken) {
       const newTokens = await refreshTokens(refreshToken);
 
       if (newTokens?.token && newTokens?.refreshToken) {

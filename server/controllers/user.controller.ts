@@ -8,19 +8,23 @@ import type {
   UserSocialMedia,
 } from "~~/@types";
 
-import { User } from "../models";
+import { User } from "~~/server/models";
+import { hasToHaveAuthority } from "~~/server/policies";
 import {
   extractFBId,
   extractIGId,
   extractTWTId,
   extractYTId,
 } from "~~/server/utils";
+
 import { useUserIsInYearbook } from "~~/composables/useUserIsInYearbook";
 
 import { CloudinaryController } from ".";
 
 export class UserController {
-  static getAll: APIFunction = async () => {
+  static getAll: APIFunction = async req => {
+    hasToHaveAuthority(req);
+
     const users = await User.find()
       .sort([
         ["name.first", 1],
@@ -33,6 +37,8 @@ export class UserController {
   };
 
   static create: APIFunction = async (req, _res) => {
+    hasToHaveAuthority(req);
+
     const body = (await useBody(req)) as CreateUser;
 
     const user = this.populateUser(body);
@@ -58,6 +64,8 @@ export class UserController {
   };
 
   static edit: APIFunction = async req => {
+    hasToHaveAuthority(req);
+
     const body = (await useBody(req)) as CreateUser;
 
     const oldUser = await User.findOne({ "socialMedia.fb": body.fb }).exec();
@@ -97,6 +105,8 @@ export class UserController {
   };
 
   static getUser: APIFunction = async req => {
+    hasToHaveAuthority(req);
+
     const query = useQuery(req);
     const userId = query.id as string | undefined;
     if (!userId) return;
@@ -110,6 +120,8 @@ export class UserController {
   };
 
   static toggleShow: APIFunction = async req => {
+    hasToHaveAuthority(req);
+
     const body = (await useBody(req)) as { id: string };
     const userId = body.id;
 
@@ -135,7 +147,7 @@ export class UserController {
     return user;
   };
 
-  // Utils
+  /* ===================== Utils ===================== */
   static populateUser(
     userData: CreateUser,
     alreadyExistingUser?: UserInterface

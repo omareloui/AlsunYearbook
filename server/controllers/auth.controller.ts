@@ -11,9 +11,6 @@ import { useParseDateInSeconds } from "~~/composables/useParseDate";
 import { config } from "~~/server/config";
 
 const { JWT_NAME, REFRESH_TOKEN_NAME } = useConstants();
-const {
-  tokens: { jwt: jwtConfig, refresh: refreshTokenConfig },
-} = config;
 
 export class AuthController {
   static checkFBID: APIFunction = async req => {
@@ -98,6 +95,16 @@ export class AuthController {
     return { user, token, refreshToken };
   };
 
+  static me: APIFunction<Promise<Authentication | {}>> = async (req, res) => {
+    if (!req.user) return {};
+
+    const user = await User.findOne({ _id: req.user.id });
+    if (!user) throw createError({ message: "Can't find the user" });
+    const [token, refreshToken] = await createTokens(user);
+    this.setCookies(res, token.body, refreshToken.body);
+    return { user, token, refreshToken };
+  };
+
   static setCookies(res: ServerResponse, jwt: string, refreshToken: string) {
     const options = { path: "/", sameSite: "lax" as const };
 
@@ -117,6 +124,7 @@ export class AuthController {
     );
   }
 
+  /* ============== Utils ============== */
   private static validateSignData({
     username,
     password,

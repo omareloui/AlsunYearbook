@@ -1,6 +1,16 @@
+<script setup lang="ts">
+import { useAuthStore } from "~~/store/useAuth";
+
+const setUser = () => useAuthStore().setFromCookie();
+
+onBeforeMount(setUser);
+</script>
+
 <template>
   <Container tag="main">
-    <LogoLandingPage class="logo" />
+    <LinkBase to="/">
+      <LogoLandingPage class="logo" />
+    </LinkBase>
     <slot></slot>
     <Notify />
   </Container>

@@ -61,7 +61,6 @@ const isInYearbook = computed(() => useUserIsInYearbook(userData.role));
 
 async function submitEdit() {
   const notify = useNotify();
-  const router = useRouter();
   const imageUploader = useImageUploader();
 
   try {
@@ -93,7 +92,7 @@ async function submitEdit() {
 
     usersStore.updateUser(user);
 
-    router.push(`/dashboard/users/${user.socialMedia.fb}`);
+    navigateTo(`/dashboard/users/${user.socialMedia.fb}`);
   } catch (e) {
     setError(e.message);
     notify.error(e.message);
@@ -104,7 +103,6 @@ async function submitEdit() {
 
 async function submitCreate() {
   const notify = useNotify();
-  const router = useRouter();
   const imageUploader = useImageUploader();
 
   try {
@@ -137,7 +135,7 @@ async function submitCreate() {
 
     // TODO: Add user to the store if needed.
 
-    router.push(`/dashboard/users/${user.socialMedia.fb}`);
+    navigateTo(`/dashboard/users/${user.socialMedia.fb}`);
   } catch (e) {
     setError(e.message);
     notify.error(e.message);

@@ -1,5 +1,7 @@
 import { User, UserAuthority } from ".";
 
+export type SignType = "in" | "up";
+
 export interface Token {
   body: string;
   expiration: Date | string;
