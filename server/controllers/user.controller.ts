@@ -2,6 +2,7 @@ import { useBody, createError, useQuery } from "h3";
 import type {
   APIFunction,
   CreateUser,
+  JWTUser,
   User as UserInterface,
   UserImage,
   UserName,
@@ -18,6 +19,8 @@ import {
 } from "~~/server/utils";
 
 import { useUserIsInYearbook } from "~~/composables/useUserIsInYearbook";
+import { useUserAuthorityRolePowers } from "~~/composables/useUserAuthorityRolePowers";
+import { useCloneObject } from "~~/composables/useCloneObject";
 
 import { CloudinaryController } from ".";
 
@@ -34,6 +37,21 @@ export class UserController {
       .exec();
 
     return users;
+  };
+
+  static getUser: APIFunction = async req => {
+    hasToHaveAuthority(req);
+
+    const query = useQuery(req);
+    const userId = query.id as string | undefined;
+    if (!userId) return;
+
+    const user = await User.findOne({ "socialMedia.fb": userId });
+
+    if (!user)
+      return createError({ message: "Can't find the user", statusCode: 404 });
+
+    return user;
   };
 
   static create: APIFunction = async (req, _res) => {
@@ -53,12 +71,6 @@ export class UserController {
     //   } id is ${newUser.id}.`
     // })
 
-    // TODO:
-    // Create the professor record if s/he's one
-    // if (userData.role === "PROFESSOR") {
-    //   await ProfessorData.create({ user: newUser.id, yearsAndSubjects: userData.yearsAndSubjects })
-    // }
-
     await user.save();
     return user;
   };
@@ -75,11 +87,14 @@ export class UserController {
         statusCode: 404,
       });
 
+    const clonedOldUser = useCloneObject(oldUser);
+
     const oldImage = oldUser.image ? { ...oldUser.image } : null;
+
     const shouldRemoveImages = this.shouldRemoveOldImage(oldUser, body);
 
-    const user = UserController.populateUser(body, oldUser as UserInterface);
-    await UserController.validateEditUser(user);
+    const user = this.populateUser(body, oldUser as UserInterface);
+    await this.validateEditUser(user, clonedOldUser, req.user);
 
     if (shouldRemoveImages && oldImage)
       await CloudinaryController.removeUserImage(oldImage);
@@ -93,28 +108,7 @@ export class UserController {
     //   } id is ${newUser.id}.`
     // })
 
-    // TODO:
-    // Create the professor record if s/he's one
-    // if (userData.role === "PROFESSOR") {
-    //   await ProfessorData.create({ user: newUser.id, yearsAndSubjects: userData.yearsAndSubjects })
-    // }
-
     await user.save();
-
-    return user;
-  };
-
-  static getUser: APIFunction = async req => {
-    hasToHaveAuthority(req);
-
-    const query = useQuery(req);
-    const userId = query.id as string | undefined;
-    if (!userId) return;
-
-    const user = await User.findOne({ "socialMedia.fb": userId });
-
-    if (!user)
-      return createError({ message: "Can't find the user", statusCode: 404 });
 
     return user;
   };
@@ -148,7 +142,7 @@ export class UserController {
   };
 
   /* ===================== Utils ===================== */
-  static populateUser(
+  private static populateUser(
     userData: CreateUser,
     alreadyExistingUser?: UserInterface
   ) {
@@ -177,7 +171,7 @@ export class UserController {
     return user;
   }
 
-  static populateName(userData: CreateUser) {
+  private static populateName(userData: CreateUser) {
     const userName = {};
     (["first", "second", "third", "nickname"] as const).forEach(
       name =>
@@ -186,7 +180,7 @@ export class UserController {
     return userName as UserName;
   }
 
-  static populateImages(
+  private static populateImages(
     userData: CreateUser,
     alreadyExistingUser?: UserInterface
   ) {
@@ -211,7 +205,7 @@ export class UserController {
     }
   }
 
-  static populateSocialMedia(userData: CreateUser) {
+  private static populateSocialMedia(userData: CreateUser) {
     return {
       fb: extractFBId(userData.fb),
       ig: extractIGId(userData.ig),
@@ -220,7 +214,7 @@ export class UserController {
     } as UserSocialMedia;
   }
 
-  static populateIsShown(userData: CreateUser) {
+  private static populateIsShown(userData: CreateUser) {
     const providedIsShown = !(
       userData.isShown === null || userData.isShown === undefined
     );
@@ -229,7 +223,7 @@ export class UserController {
     return useUserIsInYearbook(userData.role) ? true : undefined;
   }
 
-  static shouldRemoveOldImage(
+  private static shouldRemoveOldImage(
     oldUser: UserInterface,
     newUser: CreateUser
   ): boolean {
@@ -241,15 +235,58 @@ export class UserController {
     return false;
   }
 
-  static async validateEditUser(newUserData: UserInterface) {
-    // const oldUser = await User.find({ _id: newUserData._id });
-
-    await this.validateCreatingUser(newUserData, false);
-
-    // TODO: validate on updating an authRole the level of authority of the doer
+  private static async validateEditUser(
+    newUser: UserInterface,
+    oldUser: UserInterface,
+    currentUser: JWTUser
+  ) {
+    await this.validateCreatingUser(newUser, false);
+    this.couldUpdateAuthority(newUser, oldUser, currentUser);
   }
 
-  static async validateCreatingUser(user: UserInterface, checkForImage = true) {
+  private static couldUpdateAuthority(
+    newUser: UserInterface,
+    oldUser: UserInterface,
+    currentUser: JWTUser
+  ) {
+    const isNewRole = newUser.authorityRole !== oldUser.authorityRole;
+    if (isNewRole) {
+      if (
+        currentUser.id === oldUser._id &&
+        currentUser.authorityRole !== newUser.authorityRole
+      )
+        throw createError({
+          message: "You can't update your authority role.",
+          statusCode: 400,
+        });
+
+      const authoritiesWithPowers = useUserAuthorityRolePowers();
+
+      if (
+        authoritiesWithPowers[newUser.authorityRole] >
+        authoritiesWithPowers[currentUser.authorityRole]
+      )
+        throw createError({
+          message:
+            "You can't update any user to a role above your authority role.",
+          statusCode: 400,
+        });
+      if (
+        authoritiesWithPowers[oldUser.authorityRole] >
+        authoritiesWithPowers[currentUser.authorityRole]
+      )
+        throw createError({
+          message:
+            "You can't change the authority to any admin above your rank",
+          statusCode: 400,
+        });
+    }
+  }
+
+  private static async validateCreatingUser(
+    user: UserInterface,
+    checkForImage = true
+  ) {
     this.checkIfRequiredFieldsAreProvided(user, checkForImage);
 
     await this.checkIfDuplicatedFB(user);
@@ -258,7 +295,7 @@ export class UserController {
     await this.checkIfDuplicatedYT(user);
   }
 
-  static checkIfRequiredFieldsAreProvided(
+  private static checkIfRequiredFieldsAreProvided(
     user: UserInterface,
     checkForImage = true
   ) {

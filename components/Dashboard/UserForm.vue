@@ -1,7 +1,14 @@
 <script setup lang="ts">
-import { User, CreateUser, UserGender, UserRole } from "~~/@types";
 import { useUsersStore } from "~~/store/useUsers";
 import { useUserIsInYearbook } from "~~/composables/useUserIsInYearbook";
+
+import type {
+  User,
+  CreateUser,
+  UserGender,
+  UserRole,
+  UserAuthority,
+} from "~~/@types";
 
 const usersStore = useUsersStore();
 
@@ -22,6 +29,10 @@ const roleOptions = useUserRole().map(
   r => [r, useCapitalize(r)] as [UserRole, string]
 );
 
+const authorityRoleOptions = useUserAuthorityRole().map(
+  r => [r, useCapitalize(r)] as [UserAuthority, string]
+);
+
 const image = ref(null);
 const isUploadingImage = ref(false);
 
@@ -29,7 +40,11 @@ const { userToEdit } = defineProps<{ userToEdit?: User }>();
 
 const isEdit = computed(() => !!userToEdit);
 const isImageRequired = computed(() => {
-  if (isEdit && !useUserIsInYearbook(userToEdit.role) && isInYearbook.value)
+  if (
+    isEdit.value &&
+    !useUserIsInYearbook(userToEdit.role) &&
+    isInYearbook.value
+  )
     return true;
   if (!isInYearbook.value || isEdit.value) return false;
 });
@@ -209,6 +224,13 @@ function setError(message: string) {
       label="Role"
       v-model="userData.role"
       :options="roleOptions"
+    />
+    <InputSelect
+      v-if="isEdit"
+      name="authorityRole"
+      label="Authority Role"
+      v-model="userData.authorityRole"
+      :options="authorityRoleOptions"
     />
 
     <LineBreak margin="var(--line-margin)" />
