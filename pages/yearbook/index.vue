@@ -6,8 +6,6 @@ const yearbookStore = useYearbookStore();
 yearbookStore.setSectionOnLoad();
 await yearbookStore.fetchCurrentSection();
 yearbookStore.setShown();
-
-// TODO: add to the route watchEffect()
 </script>
 
 <template>

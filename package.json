@@ -30,6 +30,7 @@
     "cookie-universal": "^2.1.5",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "mongoose": "^6.2.3",
     "pinia": "^2.0.9",
     "yup": "^0.32.11"

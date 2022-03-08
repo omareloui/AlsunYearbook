@@ -7,7 +7,9 @@ export const useYearbookStore = defineStore("yearbook", {
   state: () => ({
     students: [] as User[],
     professors: [] as User[],
+
     shown: [] as User[],
+    searchQuery: "",
 
     section: "students" as YearbookSection,
     currentUser: null as null | User,
@@ -72,15 +74,17 @@ export const useYearbookStore = defineStore("yearbook", {
       navigateTo({ query: { section: this.section } });
     },
 
-    setShown(usersToShow?: User[]) {
+    async setShown(usersToShow?: User[]) {
+      this.shown = [];
+      await nextTick();
       this.shown = usersToShow || this[this.section];
     },
 
     async changeSection(section: YearbookSection) {
-      this.setShown([]);
+      this.searchQuery = "";
       this.setSectionAndRoute(section);
       await this.fetchCurrentSection();
-      this.setShown();
+      await this.setShown();
     },
 
     async fetchCurrentSection() {
@@ -89,8 +93,34 @@ export const useYearbookStore = defineStore("yearbook", {
 
     async fetchSection(section: YearbookSection) {
       if (this[section].length) return;
-
       this[section] = await useCustomFetch(`/api/yearbook?section=${section}`);
+    },
+
+    async search() {
+      const query = this.searchQuery.toLowerCase();
+
+      if (!query) await this.setShown();
+
+      const searchResult = this[this.section]
+        .map(u => {
+          u.fullName = useUserFullName(u, true).toLowerCase();
+          u.name.nickname = u.name.nickname?.toLowerCase();
+          return u;
+        })
+        .filter((user: User & { fullName: string }) => {
+          const { nickname } = user.name;
+
+          const fullNameSearch = user.fullName.search(query) > -1;
+          const nicknameSearch = nickname && nickname.search(query) > -1;
+
+          return fullNameSearch || nicknameSearch;
+        })
+        .sort(
+          (a: User & { fullName: string }, b: User & { fullName: string }) =>
+            a.fullName.search(query) - b.fullName.search(query)
+        );
+
+      await this.setShown(searchResult);
     },
 
     async getPrevAndNext(user: User) {

@@ -1,17 +1,26 @@
 <script setup lang="ts">
+import { debounce } from "lodash";
+
 import { useYearbookStore } from "~~/store/useYearbook";
 const yearbookStore = useYearbookStore();
 
-const search = ref("");
+const debouncedSearch = debounce(yearbookStore.search, 300);
 </script>
 
 <template>
   <div class="yearbook">
     <Container>
-      <InputSearch v-model="search" class="yearbook__search" />
+      <InputSearch
+        @input="debouncedSearch"
+        v-model="yearbookStore.searchQuery"
+        class="yearbook__search"
+      />
 
-      <div class="yearbook__cards">
+      <div v-if="yearbookStore.shown.length" class="yearbook__cards">
         <YearbookCard v-for="user in yearbookStore.shown" :user="user" />
+      </div>
+      <div v-else class="yearbook__no-result">
+        <span> Can't find {{ yearbookStore.searchQuery }}.</span>
       </div>
     </Container>
   </div>
@@ -42,6 +51,16 @@ const search = ref("");
 
     @include lt-tablet {
       @include grid-cols(repeat(3, 1fr));
+    }
+  }
+
+  &__no-result {
+    @include grid($center: true);
+    @include mt(30px);
+
+    > span {
+      @include fw-semibold;
+      @include fs-3xl;
     }
   }
 }
