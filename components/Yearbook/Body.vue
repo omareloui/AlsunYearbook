@@ -11,10 +11,7 @@ const search = ref("");
       <InputSearch v-model="search" class="yearbook__search" />
 
       <div class="yearbook__cards">
-        <YearbookCard
-          v-for="user in yearbookStore[yearbookStore.section]"
-          :user="user"
-        />
+        <YearbookCard v-for="user in yearbookStore.shown" :user="user" />
       </div>
     </Container>
   </div>

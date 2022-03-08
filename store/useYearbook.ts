@@ -7,6 +7,7 @@ export const useYearbookStore = defineStore("yearbook", {
   state: () => ({
     students: [] as User[],
     professors: [] as User[],
+    shown: [] as User[],
 
     section: "students" as YearbookSection,
     currentUser: null as null | User,
@@ -71,33 +72,25 @@ export const useYearbookStore = defineStore("yearbook", {
       navigateTo({ query: { section: this.section } });
     },
 
+    setShown(usersToShow?: User[]) {
+      this.shown = usersToShow || this[this.section];
+    },
+
     async changeSection(section: YearbookSection) {
+      this.setShown([]);
       this.setSectionAndRoute(section);
-      await this.getCurrentSectionUsers();
+      await this.fetchCurrentSection();
+      this.setShown();
     },
 
-    getCurrentSectionUsers() {
-      return this.getYearbook(this.section);
+    async fetchCurrentSection() {
+      await this.fetchSection(this.section);
     },
 
-    getYearbook(section: YearbookSection) {
-      if (section === "students") return this.getStudents();
-      if (section === "professors") return this.getProfessors();
-    },
+    async fetchSection(section: YearbookSection) {
+      if (this[section].length) return;
 
-    async getStudents() {
-      if (this.students.length) return;
-
-      const students = await useCustomFetch("/api/yearbook?section=students");
-      this.students = students;
-    },
-
-    async getProfessors() {
-      if (this.professors.length) return;
-      const professors = await useCustomFetch(
-        "/api/yearbook?section=professors"
-      );
-      this.professors = professors;
+      this[section] = await useCustomFetch(`/api/yearbook?section=${section}`);
     },
 
     async getPrevAndNext(user: User) {
