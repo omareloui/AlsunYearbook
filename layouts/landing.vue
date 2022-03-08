@@ -7,13 +7,15 @@ onBeforeMount(setUser);
 </script>
 
 <template>
-  <Container tag="main">
-    <LinkBase to="/">
-      <LogoLandingPage class="logo" />
-    </LinkBase>
-    <slot></slot>
-    <Notify />
-  </Container>
+  <LayoutsWrapper>
+    <Container tag="main">
+      <LinkBase to="/">
+        <LogoLandingPage class="logo" />
+      </LinkBase>
+      <slot></slot>
+      <Notify />
+    </Container>
+  </LayoutsWrapper>
 </template>
 
 <style scoped lang="scss">
