@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useUserHasAuthority } from "~~/composables/useUserHasAuthority";
 import { useAuthStore } from "~~/store/useAuth";
+
+const authStore = useAuthStore();
 
 const isOpen = ref(false);
 
@@ -8,7 +11,6 @@ function toggle() {
 }
 
 function signout() {
-  const authStore = useAuthStore();
   authStore.signout();
 
   toggle();
@@ -34,7 +36,7 @@ function signout() {
         <ul>
           <li><LinkBase to="/yearbook" @click="toggle">Yearbook</LinkBase></li>
           <li><LinkBase to="#!" @click="toggle">Edit profile</LinkBase></li>
-          <li>
+          <li v-if="useUserHasAuthority(authStore.user?.authorityRole)">
             <LinkBase to="/dashboard" @click="toggle">Dashboard</LinkBase>
           </li>
           <LineBreak />
