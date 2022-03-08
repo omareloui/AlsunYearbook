@@ -62,7 +62,7 @@ function onLoaded() {
   .text {
     @include tran;
     @include pos-a(top 75% left 4%);
-    @include fw-semibold;
+    @include fw-black;
     @include fs-2xl;
 
     opacity: 0;
