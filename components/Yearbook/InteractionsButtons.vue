@@ -4,35 +4,38 @@ import { useCapitalize } from "~~/composables/useCapitalize";
 import { useAuthStore } from "~~/store/useAuth";
 import { useYearbookStore } from "~~/store/useYearbook";
 
-defineProps<{ user: User }>();
+const { user } = defineProps<{ user: User }>();
 
 const yearbookStore = useYearbookStore();
 const authStore = useAuthStore();
+const isCloseFriend = yearbookStore.checkIfCloseFriend(user._id);
 
 const emit = defineEmits(["make-close-friend", "remove-close-friend"]);
 </script>
 
 <template>
   <div class="interactions-buttons">
-    <transition name="fade" mode="out-in">
-      <ButtonBase
-        v-if="!yearbookStore.checkIfCloseFriend(user._id)"
-        class="interactions-buttons__button"
-        @click="emit('make-close-friend')"
-      >
-        <IconCloseFriend />
-        Add close friend
-      </ButtonBase>
+    <div v-if="user.role === 'STUDENT'">
+      <transition name="fade" mode="out-in">
+        <ButtonBase
+          v-if="!isCloseFriend"
+          class="interactions-buttons__button"
+          @click="emit('make-close-friend')"
+        >
+          <IconCloseFriend />
+          Add close friend
+        </ButtonBase>
 
-      <ButtonBase
-        v-else
-        class="interactions-buttons__button"
-        @click="emit('remove-close-friend')"
-      >
-        <IconRemoveCloseFriend />
-        Remove close friend
-      </ButtonBase>
-    </transition>
+        <ButtonBase
+          v-else
+          class="interactions-buttons__button"
+          @click="emit('remove-close-friend')"
+        >
+          <IconRemoveCloseFriend />
+          Remove close friend
+        </ButtonBase>
+      </transition>
+    </div>
 
     <ButtonBase class="interactions-buttons__button">
       <IconWrite />
