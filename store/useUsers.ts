@@ -52,7 +52,7 @@ export const useUsersStore = defineStore("users", {
     },
 
     async getPrevAndNext(user: User) {
-      if (!this.users.length) await this.getUsers();
+      if (!this.users.length) await this.fetchUsers();
 
       this.currentUser = this.users.find(
         u => u.socialMedia.fb === user.socialMedia.fb
