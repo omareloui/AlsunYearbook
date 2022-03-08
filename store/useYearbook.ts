@@ -1,5 +1,6 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import type { CloseFriend, User, YearbookSection } from "~~/@types";
+import { useSortUsers } from "~~/composables/useSortUsers";
 
 import { useYearbookSections } from "~~/composables/useYearbookSections";
 
@@ -79,7 +80,22 @@ export const useYearbookStore = defineStore("yearbook", {
     async setShown(usersToShow?: User[]) {
       this.shown = [];
       await nextTick();
-      this.shown = usersToShow || this[this.section];
+      this.shown = usersToShow || this.getDefaultShown();
+    },
+
+    getDefaultShown() {
+      return this.section === "professors"
+        ? this.professors
+        : this.getSortedStudentsWithCloseFriends();
+    },
+
+    getSortedStudentsWithCloseFriends() {
+      return [
+        ...useSortUsers(this.closeFriends),
+        ...useSortUsers(this.students).filter(
+          u => this.closeFriends.findIndex(cf => cf._id === u._id) === -1
+        ),
+      ];
     },
 
     async changeSection(section: YearbookSection) {
@@ -110,7 +126,7 @@ export const useYearbookStore = defineStore("yearbook", {
     },
 
     search() {
-      const result = useSearchUsers(this[this.section], this.searchQuery);
+      const result = useSearchUsers(this.getDefaultShown(), this.searchQuery);
       this.setShown(result);
     },
 

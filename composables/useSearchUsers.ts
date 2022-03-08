@@ -22,7 +22,8 @@ export function useSearchUsers(users: User[], query: string) {
     })
     .sort(
       (a: User & { fullName: string }, b: User & { fullName: string }) =>
-        a.fullName.search(query) - b.fullName.search(query)
+        a.fullName.toLocaleLowerCase().search(query) -
+        b.fullName.toLocaleLowerCase().search(query)
     );
 
   return searchResult;
