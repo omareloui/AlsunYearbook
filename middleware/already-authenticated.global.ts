@@ -1,6 +1,6 @@
 import { useAuthStore } from "~~/store/useAuth";
 
-export default defineNuxtRouteMiddleware((_from, to) => {
+export default defineNuxtRouteMiddleware(to => {
   const authStore = useAuthStore();
 
   const routesRegExpToGuard = /^\/sign(in|up)/i;
