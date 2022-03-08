@@ -49,7 +49,7 @@ export class UserController {
     const user = await User.findOne({ "socialMedia.fb": userId });
 
     if (!user)
-      return createError({ message: "Can't find the user", statusCode: 404 });
+      throw createError({ message: "Can't find the user", statusCode: 404 });
 
     return user;
   };
@@ -124,15 +124,44 @@ export class UserController {
     const user = await User.findOne({ "socialMedia.fb": userId });
 
     if (!user)
-      return createError({ message: "Can't find the user", statusCode: 404 });
+      throw createError({ message: "Can't find the user", statusCode: 404 });
 
     if (!useUserIsInYearbook(user))
-      return createError({
+      throw createError({
         message: "Can't toggle show a user who isn't in the yearbook",
         statusCode: 400,
       });
 
     user.isShown = !user.isShown;
+
+    await user.save();
+
+    // TODO: add action
+
+    return user;
+  };
+
+  static resetUser: APIFunction = async req => {
+    hasToHaveAuthority(req);
+
+    const body = (await useBody(req)) as { id: string };
+    const userId = body.id;
+
+    if (!userId) return;
+
+    const user = await User.findOne({ "socialMedia.fb": userId });
+
+    if (!user)
+      throw createError({ message: "Can't find the user", statusCode: 404 });
+
+    if (user.socialMedia.fb === req.user.fbId)
+      throw createError({
+        message: "You can't reset yourself",
+        statusCode: 400,
+      });
+
+    user.username = null;
+    user.password = null;
 
     await user.save();
 

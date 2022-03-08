@@ -75,23 +75,55 @@ export const useUsersStore = defineStore("users", {
     async toggleShow(userId: string) {
       const requestOptions = { method: "POST", body: { id: userId } };
 
-      const user = (await useCustomFetch(
-        `/api/users/edit/toggle-show`,
-        requestOptions
-      )) as User;
+      const notify = useNotify();
+      try {
+        const user = (await useCustomFetch(
+          `/api/users/edit/toggle-show`,
+          requestOptions
+        )) as User;
 
-      useNotify().success(
-        `Updated ${useCapitalize(user.name.first)}'s show state.`
+        this.updateUser(user);
+        notify.success(
+          `Updated ${useUserFullName(user)} show state to ${
+            user.isShown ? "shown" : "hidden"
+          }.`
+        );
+        return user;
+      } catch (e) {
+        notify.error(e.message);
+      }
+    },
+
+    async resetUser(userId: string) {
+      const isConfirmed = await confirm(
+        `Are you sure you want to reset ${userId}?`
       );
-      this.updateUser(user);
-      return user;
+      if (!isConfirmed) return;
+
+      const requestOptions = { method: "POST", body: { id: userId } };
+      const notify = useNotify();
+
+      try {
+        const user = (await useCustomFetch(
+          "/api/users/edit/reset",
+          requestOptions
+        )) as User;
+
+        this.updateUser(user);
+        notify.success(`Reset ${user.name.first}.`);
+        return user;
+      } catch (e) {
+        notify.error(e.message);
+      }
     },
 
     updateUser(newUserData: User) {
-      this.users = this.users.map(u => {
+      const updateUser = (u: User) => {
         if (u.socialMedia.fb !== newUserData.socialMedia.fb) return u;
         return newUserData;
-      });
+      };
+      this.shown = this.shown.map(updateUser);
+      this.users = this.users.map(updateUser);
     },
   },
 });

@@ -5,7 +5,7 @@ const { user } = defineProps<{ user: User }>();
 
 const userHelpers = useUserHelpers(user);
 
-const emit = defineEmits(["toggle-show"]);
+const emit = defineEmits(["toggle-show", "reset"]);
 </script>
 
 <template>
@@ -21,9 +21,15 @@ const emit = defineEmits(["toggle-show"]);
       </transition>
     </ButtonBase>
 
-    <ButtonBase class="action action--reset">
-      <IconReset />
-    </ButtonBase>
+    <transition name="fade">
+      <ButtonBase
+        v-if="user.username && user.password"
+        class="action action--reset"
+        @click="emit('reset')"
+      >
+        <IconReset />
+      </ButtonBase>
+    </transition>
 
     <LinkBase
       class="action action--edit"

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useUsersStore } from "~~/store/useUsers";
 
+const notify = useNotify();
 const usersStore = useUsersStore();
 
 const route = useRoute();
@@ -15,6 +16,12 @@ const { next, prev } = await usersStore.getPrevAndNext(user);
 async function toggleShow() {
   await usersStore.toggleShow(user.socialMedia.fb);
   user.isShown = !user.isShown;
+}
+
+async function reset() {
+  await usersStore.resetUser(user.socialMedia.fb);
+  user.username = null;
+  user.password = null;
 }
 
 const scrollTop = useScrollToTop();
@@ -56,7 +63,7 @@ onMounted(scrollTop);
 
     <LineBreak width="60%" margin="25px" />
 
-    <DashboardActions :user="user" @toggle-show="toggleShow" />
+    <DashboardActions :user="user" @toggle-show="toggleShow" @reset="reset" />
 
     <LineBreak width="60%" margin="25px" />
 

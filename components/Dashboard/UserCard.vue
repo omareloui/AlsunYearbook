@@ -6,7 +6,7 @@ import { useCapitalize } from "~~/composables/useCapitalize";
 const { user } = defineProps<{ user: User }>();
 
 const userHelpers = useUserHelpers(user);
-const emit = defineEmits(["toggle-show"]);
+const emit = defineEmits(["toggle-show", "reset"]);
 </script>
 
 <template>
@@ -49,9 +49,16 @@ const emit = defineEmits(["toggle-show"]);
           <IconHide v-else />
         </transition>
       </ButtonBase>
-      <ButtonBase class="action action--reset">
-        <IconReset />
-      </ButtonBase>
+
+      <transition name="fade">
+        <ButtonBase
+          v-if="user.username && user.password"
+          class="action action--reset"
+          @click="emit('reset', user.socialMedia.fb)"
+        >
+          <IconReset />
+        </ButtonBase>
+      </transition>
     </div>
   </div>
 </template>

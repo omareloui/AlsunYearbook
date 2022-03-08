@@ -35,6 +35,7 @@ const debouncedSearch = debounce(usersStore.search, 300);
         v-for="user in usersStore.shown"
         :user="user"
         @toggle-show="usersStore.toggleShow"
+        @reset="usersStore.resetUser"
       />
     </div>
 
