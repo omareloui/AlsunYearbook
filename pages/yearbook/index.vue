@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { useAuthStore } from "~~/store/useAuth";
 import { useYearbookStore } from "~~/store/useYearbook";
 
+const authStore = useAuthStore();
 const yearbookStore = useYearbookStore();
 
 yearbookStore.setSectionOnLoad();
@@ -12,7 +14,7 @@ yearbookStore.setShown();
 <template>
   <div>
     <Container tag="main">
-      <MeSection />
+      <MeSection v-if="authStore.isInYearbook" />
 
       <YearbookSectionsSelection />
     </Container>
