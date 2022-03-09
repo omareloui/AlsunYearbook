@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { createError } from "h3";
 
 import { User } from "~~/server/models";
 import type {
@@ -67,21 +68,26 @@ export async function refreshTokens(refreshToken: string) {
     } = decodeToken<RefreshTokenContent>(refreshToken);
     userId = id;
   } catch (err) {
-    return;
+    throw createError({ message: "Invalid refresh token.", statusCode: 401 });
   }
 
-  if (!userId) return;
+  if (!userId)
+    throw createError({ message: "Invalid refresh token.", statusCode: 401 });
 
   const user = await User.findOne({ _id: userId });
 
-  if (!user) return;
+  if (!user)
+    throw createError({
+      message: "Can't find the token user.",
+      statusCode: 401,
+    });
 
   const refreshSecret = `${refreshTokenConfig.secret}${user.password}`;
 
   try {
     jwt.verify(refreshToken, refreshSecret);
   } catch (err) {
-    return;
+    throw createError({ message: "Invalid token.", statusCode: 401 });
   }
 
   const [newToken, newRefreshToken] = createTokens(user);

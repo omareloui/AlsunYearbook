@@ -174,6 +174,19 @@ export class AuthController {
     );
   }
 
+  static removeCookies(res: APIResponse) {
+    const options = {
+      path: "/",
+      sameSite: "lax" as const,
+      expires: new Date(0),
+    };
+
+    [
+      { name: JWT_NAME, content: "" },
+      { name: REFRESH_TOKEN_NAME, content: "" },
+    ].forEach(x => setCookie(res, x.name, x.content, options));
+  }
+
   private static validateSignData({
     username,
     password,

@@ -24,17 +24,19 @@ const addUser: APIFunction = async (req, res) => {
     const refreshToken = useCookie(req, REFRESH_TOKEN_NAME) || "";
 
     if (refreshToken) {
-      const newTokens = await refreshTokens(refreshToken);
+      try {
+        const newTokens = await refreshTokens(refreshToken);
 
-      if (newTokens?.token && newTokens?.refreshToken) {
         AuthController.setCookies(
           res,
           newTokens.token.body,
           newTokens.refreshToken.body
         );
-      }
 
-      req.user = newTokens.user;
+        req.user = newTokens.user;
+      } catch (e) {
+        AuthController.removeCookies(res);
+      }
     }
   }
 };
