@@ -1,34 +1,59 @@
 <script setup lang="ts">
-const image = ref(null as null | FileList);
-const isUploading = ref(false);
+import { Action } from "~~/@types";
 
-async function onSubmit() {
-  if (!image.value) return;
+definePageMeta({ middleware: "has-to-be-assistant-to-admin" });
 
-  const imageUploader = useImageUploader();
-  const notify = useNotify();
+const actions = (await useCustomFetch("/api/actions")) as Action[];
 
-  try {
-    notify.info("Uploading...");
-
-    isUploading.value = true;
-    await imageUploader.upload(image.value);
-
-    notify.success("uploaded the image successfully");
-  } catch (e) {
-    notify.error(e.message);
-  } finally {
-    isUploading.value = false;
-  }
-}
+const groupedActions = Object.entries(
+  useGroupByDay(actions, action => new Date(action.createdAt))
+);
 </script>
 
 <template>
   <Container>
-    <FormBase @submit="onSubmit">
-      <InputImage v-model="image" :is-uploading="isUploading" has-drop-area />
+    <h1 class="heading">Actions</h1>
 
-      <template #submit>Upload image</template>
-    </FormBase>
+    <div class="body">
+      <div class="action-day" v-for="actionDay in groupedActions">
+        <div class="action-day__date">{{ actionDay[0] }}</div>
+        <div class="action-day__actions">
+          <DashboardActionCard
+            v-for="action in actionDay[1]"
+            v-bind="{ action }"
+          />
+        </div>
+      </div>
+    </div>
   </Container>
 </template>
+
+<style scoped lang="scss">
+@use "~~/assets/styles/mixins" as *;
+
+.heading {
+  @include center-text;
+  @include mb(20px);
+}
+
+.body {
+  @include grid($gap: 30px);
+  @include pb(30px);
+
+  .action-day {
+    &__date {
+      @include w(fit-content);
+      @include mb(10px);
+      @include mx(auto);
+      @include pa(5px 20px);
+      @include clr-bg(primary);
+      @include br-bl;
+      @include fw-bold;
+    }
+
+    &__actions {
+      @include grid($gap: 15px);
+    }
+  }
+}
+</style>

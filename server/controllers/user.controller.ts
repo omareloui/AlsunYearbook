@@ -22,7 +22,7 @@ import { useUserIsInYearbook } from "~~/composables/useUserIsInYearbook";
 import { useUserAuthorityRolePowers } from "~~/composables/useUserAuthorityRolePowers";
 import { useCloneObject } from "~~/composables/useCloneObject";
 
-import { CloudinaryController } from ".";
+import { CloudinaryController, ActionController } from ".";
 
 export class UserController {
   static getAll: APIFunction = async req => {
@@ -61,17 +61,14 @@ export class UserController {
 
     const user = this.populateUser(body);
     await this.validateCreatingUser(user);
-
-    // TODO:
-    // Create the action and the professor data if he is one
-    // await Action.create({
-    //   signature: req.user.id,
-    //   action: `Add user ${newUser.name.first} ${newUser.name.second} ${newUser.name.third}, ${
-    //     newUser.gender === "FEMALE" ? "her" : "his"
-    //   } id is ${newUser.id}.`
-    // })
-
     await user.save();
+
+    await ActionController.create(
+      req.user.id,
+      `Add ${user.name.first} ${user.name.second} ${user.name.third}.`,
+      user._id.toString()
+    );
+
     return user;
   };
 
@@ -99,16 +96,15 @@ export class UserController {
     if (shouldRemoveImages && oldImage)
       await CloudinaryController.removeUserImage(oldImage);
 
-    // TODO:
-    // Create the action and the professor data if he is one
-    // await Action.create({
-    //   signature: req.user.id,
-    //   action: `Add user ${newUser.name.first} ${newUser.name.second} ${newUser.name.third}, ${
-    //     newUser.gender === "FEMALE" ? "her" : "his"
-    //   } id is ${newUser.id}.`
-    // })
-
     await user.save();
+
+    await ActionController.create(
+      req.user.id,
+      `Edit ${user.name.first} ${user.name.second} ${user.name.third}.${
+        shouldRemoveImages ? " Updated image (the least)." : ""
+      }`,
+      user._id.toString()
+    );
 
     return user;
   };
@@ -136,7 +132,13 @@ export class UserController {
 
     await user.save();
 
-    // TODO: add action
+    await ActionController.create(
+      req.user.id,
+      `${user.isShown ? "Show" : "Hide"} ${user.name.first} ${
+        user.name.second
+      } ${user.name.third}.`,
+      user._id.toString()
+    );
 
     return user;
   };
@@ -165,7 +167,11 @@ export class UserController {
 
     await user.save();
 
-    // TODO: add action
+    await ActionController.create(
+      req.user.id,
+      `Reset ${user.name.first} ${user.name.second} ${user.name.third}.`,
+      user._id.toString()
+    );
 
     return user;
   };

@@ -50,10 +50,11 @@ export const useAuthStore = defineStore("auth", {
       navigateTo("/yearbook");
     },
 
-    signout() {
+    async signout() {
+      navigateTo("/");
+      await nextTick();
       this.removeCookies();
       this.user = null;
-      navigateTo("/");
     },
 
     // async updateMe(

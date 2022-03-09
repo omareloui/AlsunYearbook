@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { useAuthStore } from "~~/store/useAuth";
+
+const authStore = useAuthStore();
+const authorityHelper = useAuthorityHelper();
+</script>
+
 <template>
   <Container tag="main">
     <h1 class="heading">Dashboard</h1>
@@ -9,7 +16,16 @@
         </template>
       </DashboardCard>
 
-      <DashboardCard to="/dashboard/actions" title="actions">
+      <DashboardCard
+        v-if="
+          authorityHelper.hasAccess(
+            'ASSISTANT_TO_ADMIN',
+            authStore.user.authorityRole
+          )
+        "
+        to="/dashboard/actions"
+        title="actions"
+      >
         <template #icon>
           <IconActions />
         </template>
