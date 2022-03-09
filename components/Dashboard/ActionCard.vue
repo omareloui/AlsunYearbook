@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import type { Action } from "~~/@types";
-import moment from "moment";
 import { useUserFullName } from "~~/composables/useUserFullName";
 
-defineProps<{ action: Action }>();
+const formattedDate = ref("");
+
+const { action } = defineProps<{ action: Action }>();
+
+onBeforeMount(async () => {
+  const { default: moment } = await import("moment");
+  formattedDate.value = moment(action.createdAt).format("h:mm a");
+});
 </script>
 
 <template>
@@ -23,8 +29,9 @@ defineProps<{ action: Action }>();
         {{ useUserFullName(action.signature) }}
       </LinkBase>
     </div>
+
     <div class="action__time">
-      {{ moment(action.createdAt).format("h:mm a") }}
+      {{ formattedDate }}
     </div>
   </div>
 </template>

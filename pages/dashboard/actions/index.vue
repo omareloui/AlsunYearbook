@@ -1,30 +1,21 @@
 <script setup lang="ts">
 import { Action } from "~~/@types";
+import DashboardActionCard from "~~/components/Dashboard/ActionCard.vue";
 
 definePageMeta({ middleware: "has-to-be-assistant-to-admin" });
 
 const actions = (await useCustomFetch("/api/actions")) as Action[];
-
-const groupedActions = Object.entries(
-  useGroupByDay(actions, action => new Date(action.createdAt))
-);
 </script>
 
 <template>
   <Container>
     <h1 class="heading">Actions</h1>
 
-    <div class="body">
-      <div class="action-day" v-for="actionDay in groupedActions">
-        <DateChip class="action-day__date">{{ actionDay[0] }}</DateChip>
-        <div class="action-day__actions">
-          <DashboardActionCard
-            v-for="action in actionDay[1]"
-            v-bind="{ action }"
-          />
-        </div>
-      </div>
-    </div>
+    <PreviewWithDayGroups
+      :data="actions"
+      data-key="action"
+      :card-component="DashboardActionCard"
+    />
 
     <YearbookScrollUp />
   </Container>
@@ -36,20 +27,5 @@ const groupedActions = Object.entries(
 .heading {
   @include center-text;
   @include mb(20px);
-}
-
-.body {
-  @include grid($gap: 30px);
-  @include pb(30px);
-
-  .action-day {
-    &__date {
-      @include mb(10px);
-    }
-
-    &__actions {
-      @include grid($gap: 15px);
-    }
-  }
 }
 </style>
