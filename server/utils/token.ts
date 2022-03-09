@@ -25,6 +25,7 @@ export function createTokens(user: UserInterface): [Token, Token] {
       user: {
         id: user._id.toString(),
         fbId: user.socialMedia.fb,
+        role: user.role,
         authorityRole: user.authorityRole,
       },
     } as JWTContent,
@@ -98,6 +99,7 @@ export async function refreshTokens(refreshToken: string) {
     user: {
       id: user._id.toString(),
       fbId: user.socialMedia.fb,
+      role: user.role,
       authorityRole: user.authorityRole,
     },
   } as { token: Token; refreshToken: Token; user: JWTUser };

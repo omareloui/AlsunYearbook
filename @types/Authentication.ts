@@ -1,4 +1,4 @@
-import { User, UserAuthority } from ".";
+import { User, UserAuthority, UserRole } from ".";
 
 export type SignType = "in" | "up";
 
@@ -22,6 +22,7 @@ export interface UpdateMe {
 export interface JWTUser {
   id: string;
   fbId: string;
+  role: UserRole;
   authorityRole: UserAuthority;
 }
 
