@@ -25,6 +25,8 @@ const groupedActions = Object.entries(
         </div>
       </div>
     </div>
+
+    <YearbookScrollUp />
   </Container>
 </template>
 
