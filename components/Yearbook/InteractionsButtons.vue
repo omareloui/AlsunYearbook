@@ -8,17 +8,17 @@ const { user } = defineProps<{ user: User }>();
 
 const yearbookStore = useYearbookStore();
 const authStore = useAuthStore();
-const isCloseFriend = yearbookStore.checkIfCloseFriend(user._id);
+const isMe = authStore.user._id === user._id;
 
 const emit = defineEmits(["make-close-friend", "remove-close-friend"]);
 </script>
 
 <template>
   <div class="interactions-buttons">
-    <div v-if="user.role === 'STUDENT'">
+    <div v-if="user.role === 'STUDENT' && !isMe">
       <transition name="fade" mode="out-in">
         <ButtonBase
-          v-if="!isCloseFriend"
+          v-if="!yearbookStore.checkIfCloseFriend(user._id)"
           class="interactions-buttons__button"
           @click="emit('make-close-friend')"
         >
@@ -37,10 +37,15 @@ const emit = defineEmits(["make-close-friend", "remove-close-friend"]);
       </transition>
     </div>
 
-    <ButtonBase class="interactions-buttons__button">
+    <ButtonBase class="interactions-buttons__button" v-if="!isMe">
       <IconWrite />
       Leave a message
     </ButtonBase>
+
+    <LinkBase v-if="isMe" class="interactions-buttons__button" to="#">
+      <IconSettings />
+      Edit profile
+    </LinkBase>
 
     <LinkBase
       v-if="authStore.hasAuthority"
@@ -88,6 +93,7 @@ const emit = defineEmits(["make-close-friend", "remove-close-friend"]);
     @include br-lg;
     @include pa(8px 10px);
     @include fw-bold;
+    @include w(100%);
 
     ::v-deep(svg) {
       @include size(25px);

@@ -1,7 +1,11 @@
+<script setup lang="ts">
+defineProps<{ to: string }>();
+</script>
+
 <template>
-  <div class="card">
+  <LinkBase :to="to" class="card">
     <slot></slot>
-  </div>
+  </LinkBase>
 </template>
 
 <style scoped lang="scss">

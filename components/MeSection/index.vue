@@ -1,10 +1,16 @@
+<script setup lang="ts">
+import { useAuthStore } from "~~/store/useAuth";
+
+const authStore = useAuthStore();
+</script>
+
 <template>
   <section class="me">
-    <MeSectionCard>
+    <MeSectionCard :to="`/yearbook/${authStore.user.socialMedia.fb}`">
       <IconProfile />
     </MeSectionCard>
 
-    <MeSectionCard>
+    <MeSectionCard to="#">
       <IconInbox has-notifications />
     </MeSectionCard>
   </section>
