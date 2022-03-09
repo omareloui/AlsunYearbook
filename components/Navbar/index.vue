@@ -34,7 +34,9 @@ function signout() {
       <nav class="body" v-if="isOpen">
         <ul>
           <li><LinkBase to="/yearbook" @click="toggle">Yearbook</LinkBase></li>
-          <li><LinkBase to="#!" @click="toggle">Edit profile</LinkBase></li>
+          <li>
+            <LinkBase to="/profile/edit" @click="toggle">Edit profile</LinkBase>
+          </li>
           <li v-if="authStore.hasAuthority">
             <LinkBase to="/dashboard" @click="toggle">Dashboard</LinkBase>
           </li>

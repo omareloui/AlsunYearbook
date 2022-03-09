@@ -13,7 +13,7 @@ export function hash(password: string) {
 
 export function compareHash(plainPassword: string, hashedPassword: string) {
   return new Promise<boolean>((res, rej) => {
-    bcrypt.hash(plainPassword, hashedPassword, (error, result: boolean) => {
+    bcrypt.compare(plainPassword, hashedPassword, (error, result: boolean) => {
       if (error) rej(error.message);
       else res(result);
     });

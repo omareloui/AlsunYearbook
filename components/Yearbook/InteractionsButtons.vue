@@ -42,7 +42,11 @@ const emit = defineEmits(["make-close-friend", "remove-close-friend"]);
       Leave a message
     </ButtonBase>
 
-    <LinkBase v-if="isMe" class="interactions-buttons__button" to="#">
+    <LinkBase
+      v-if="isMe"
+      class="interactions-buttons__button"
+      to="/profile/edit"
+    >
       <IconSettings />
       Edit profile
     </LinkBase>

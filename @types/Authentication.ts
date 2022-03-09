@@ -13,6 +13,12 @@ export interface Authentication {
   refreshToken: Token;
 }
 
+export interface UpdateMe {
+  username: string;
+  oldPassword?: string;
+  newPassword?: string;
+}
+
 export interface JWTUser {
   id: string;
   fbId: string;
