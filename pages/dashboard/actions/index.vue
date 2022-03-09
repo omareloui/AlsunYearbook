@@ -16,7 +16,7 @@ const groupedActions = Object.entries(
 
     <div class="body">
       <div class="action-day" v-for="actionDay in groupedActions">
-        <div class="action-day__date">{{ actionDay[0] }}</div>
+        <DateChip class="action-day__date">{{ actionDay[0] }}</DateChip>
         <div class="action-day__actions">
           <DashboardActionCard
             v-for="action in actionDay[1]"
@@ -44,13 +44,7 @@ const groupedActions = Object.entries(
 
   .action-day {
     &__date {
-      @include w(fit-content);
       @include mb(10px);
-      @include mx(auto);
-      @include pa(5px 20px);
-      @include clr-bg(primary);
-      @include br-bl;
-      @include fw-bold;
     }
 
     &__actions {
