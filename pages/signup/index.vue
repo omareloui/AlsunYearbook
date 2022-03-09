@@ -27,7 +27,7 @@ h1,
 }
 
 h1 {
-  @include mb(20px);
+  @include mb(30px);
 }
 
 .description {

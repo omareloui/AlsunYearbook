@@ -14,6 +14,6 @@ definePageMeta({ layout: "landing" });
 
 h1 {
   @include center-text;
-  @include mb(20px);
+  @include mb(30px);
 }
 </style>

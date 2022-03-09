@@ -20,6 +20,16 @@ form {
   @include w(max 600px);
   @include mx(auto);
 
+  @include clr-bg(secondary);
+  @include float(3);
+
+  @include br-lg;
+  @include pa(20px 15px);
+
+  @include lt-mobile {
+    @include px(30px);
+  }
+
   .submit {
     @include mt(20px);
   }
