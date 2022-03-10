@@ -455,7 +455,12 @@ export class UserController {
       const from = useGetObjectValue(oldDocument, prop);
       const to = useGetObjectValue(newDocument, prop);
       const field = prop;
-      if (from !== to && from && to) affectedFields.push({ field, from, to });
+      const bothAreEmpty =
+        (from === null || from === undefined || from === "") &&
+        (to === null || to === undefined || to === "");
+
+      if (from !== to && !bothAreEmpty)
+        affectedFields.push({ field, from, to });
     };
 
     [
