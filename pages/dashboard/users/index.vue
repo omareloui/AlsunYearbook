@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { debounce } from "lodash";
+import _ from "lodash";
 import { useUsersStore } from "~~/store/useUsers";
+
+const { debounce } = _;
 
 useMeta({ title: "Users | Dashboard" });
 

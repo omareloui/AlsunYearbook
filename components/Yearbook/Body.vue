@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { debounce } from "lodash";
+import _ from "lodash";
 
 import { useYearbookStore } from "~~/store/useYearbook";
 const yearbookStore = useYearbookStore();
+const { debounce } = _;
 
 const debouncedSearch = debounce(yearbookStore.search, 300);
 </script>

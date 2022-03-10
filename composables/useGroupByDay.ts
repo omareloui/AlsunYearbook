@@ -1,4 +1,5 @@
-import { groupBy } from "lodash";
+import _ from "lodash";
+const { groupBy } = _;
 
 export function useGroupByDay<T = unknown>(
   arr: T[],
