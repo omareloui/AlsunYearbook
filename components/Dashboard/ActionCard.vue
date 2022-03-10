@@ -77,6 +77,7 @@ onBeforeMount(async () => {
 
   &__body {
     grid-area: body;
+    @include break-word;
     @include mb(10px);
 
     ul {

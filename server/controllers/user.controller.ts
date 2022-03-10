@@ -106,9 +106,7 @@ export class UserController {
 
     await ActionController.create(
       req.user.id,
-      `Edit ${user.name.first} ${user.name.second} ${user.name.third}.${
-        shouldRemoveImages ? " Updated image (the least)." : ""
-      }`,
+      `Edit ${user.name.first} ${user.name.second} ${user.name.third}.`,
       user._id.toString(),
       affectedFields
     );

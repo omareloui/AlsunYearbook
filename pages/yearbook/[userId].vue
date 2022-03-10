@@ -32,7 +32,7 @@ onMounted(scrollTop);
     <Container class="user">
       <ImageBase
         class="user__image"
-        :src="useUserImage(user)"
+        :src="useUserImage(user, 'original')"
         :alt="`${user.name.first}'s image.`"
         is-square
         border-radius="lg"

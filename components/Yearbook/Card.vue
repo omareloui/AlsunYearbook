@@ -25,7 +25,7 @@ function onLoaded() {
   <LinkBase class="yearbook-card" :to="`/yearbook/${user.socialMedia.fb}`">
     <ImageWithOverlay
       class="yearbook-card__image"
-      :src="useUserImage(user)"
+      :src="userHelpers.image"
       :alt="`${user.name.first}'s image`"
       :line-one="user.name.first"
       :line-two="user.name.second"

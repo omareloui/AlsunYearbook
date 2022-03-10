@@ -8,7 +8,10 @@ const id = route.params.id as string;
 
 const user = await usersStore.fetchUser(id);
 
-const userHelpers = useUserHelpers(user, { includeThirdName: true });
+const userHelpers = useUserHelpers(user, {
+  includeThirdName: true,
+  imageRes: "original",
+});
 
 useMeta({ title: `${userHelpers.fullName} | Dashboard` });
 

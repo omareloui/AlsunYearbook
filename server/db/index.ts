@@ -7,7 +7,7 @@ export const connect = () =>
 
     mongoose.connect(config.dbLink as string, err => {
       if (err) return rej(err);
-      console.log(`Connected to database on ${config.dbLink}`);
+      // console.log(`Connected to database on ${config.dbLink}`);
       return res(true);
     });
   });
