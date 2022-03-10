@@ -5,6 +5,7 @@ import MessageInboxCard from "~~/components/Message/InboxCard.vue";
 
 const messagesStore = useMessagesStore();
 await messagesStore.fetchInbox();
+messagesStore.readAll();
 </script>
 
 <template>

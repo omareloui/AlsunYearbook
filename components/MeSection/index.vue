@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useAuthStore } from "~~/store/useAuth";
+import { useMessagesStore } from "~~/store/useMessages";
 
 const authStore = useAuthStore();
+const messagesStore = useMessagesStore();
 </script>
 
 <template>
@@ -11,7 +13,7 @@ const authStore = useAuthStore();
     </MeSectionCard>
 
     <MeSectionCard to="/inbox">
-      <IconInbox has-notifications />
+      <IconInbox :has-notifications="messagesStore.unread.length > 0" />
     </MeSectionCard>
 
     <MeSectionCard to="/sent-messages">

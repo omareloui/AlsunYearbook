@@ -23,12 +23,25 @@ export class MessageController {
     return this.removeAnonymous(messages as unknown as MessageInterface[]);
   };
 
-  static getSent: APIFunction = async req => {
+  static getSent: APIFunction = req => {
     hasToBeInYearbook(req);
 
-    return await Message.find({ author: req.user.id })
+    return Message.find({ author: req.user.id })
       .sort("-createdAt")
       .populate("receiver");
+  };
+
+  static getUnread: APIFunction = async req => {
+    hasToBeInYearbook(req);
+
+    const messages = await Message.find({
+      receiver: req.user.id,
+      isRead: false,
+    })
+      .sort("-createdAt")
+      .populate("author");
+
+    return this.removeAnonymous(messages as unknown as MessageInterface[]);
   };
 
   static send: APIFunction = async req => {

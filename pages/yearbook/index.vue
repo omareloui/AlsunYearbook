@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { useAuthStore } from "~~/store/useAuth";
 import { useYearbookStore } from "~~/store/useYearbook";
+import { useMessagesStore } from "~~/store/useMessages";
 
 const authStore = useAuthStore();
 const yearbookStore = useYearbookStore();
+const messagesStore = useMessagesStore();
+
+if (authStore.isInYearbook) await messagesStore.fetchUnread();
 
 yearbookStore.setSectionOnLoad();
 await yearbookStore.fetchCurrentSection();

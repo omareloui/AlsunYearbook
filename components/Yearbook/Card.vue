@@ -2,13 +2,19 @@
 import { User } from "~~/@types";
 import { useUserImage } from "~~/composables/useUserImage";
 import { useYearbookStore } from "~~/store/useYearbook";
+import { useMessagesStore } from "~~/store/useMessages";
 
 const yearbookStore = useYearbookStore();
+const messagesStore = useMessagesStore();
+
 const isLoading = ref(true);
 
 const { user } = defineProps<{ user: User }>();
 
 const userHelpers = useUserHelpers(user);
+const hasMessage = !!messagesStore.unread.find(
+  m => m.author?._id.toString() === user._id.toString()
+);
 
 function onLoaded() {
   isLoading.value = false;
@@ -49,6 +55,7 @@ function onLoaded() {
         </YearbookPatch>
 
         <YearbookPatch
+          v-if="hasMessage"
           :is-loading="isLoading"
           class="yearbook-card__patch yearbook-card__patch--message"
         >

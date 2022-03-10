@@ -6,9 +6,15 @@ export const useMessagesStore = defineStore("messages", {
   state: () => ({
     inbox: [] as Message[],
     sent: [] as Message[],
+    unread: [] as Message[],
   }),
 
   actions: {
+    async fetchUnread() {
+      const messages = await useCustomFetch("/api/messages/unread");
+      this.unread = messages;
+    },
+
     async fetchInbox() {
       const messages = await useCustomFetch("/api/messages/inbox");
       this.inbox = messages;
@@ -25,6 +31,10 @@ export const useMessagesStore = defineStore("messages", {
         body: data,
       });
       this.sent.unshift(message);
+    },
+
+    readAll() {
+      this.unread = [];
     },
   },
 });
