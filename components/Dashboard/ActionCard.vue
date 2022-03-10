@@ -13,15 +13,33 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="action" :class="{ 'action--has-affected': !!action.affected }">
-    <div v-if="action.affected" class="action__affected">
-      <LinkBase :to="`/dashboard/users/${action.affected.socialMedia.fb}`">
-        {{ useUserFullName(action.affected) }}
+  <div
+    class="action"
+    :class="{
+      'action--has-affected': !!action.affected && !!action.affected.user,
+    }"
+  >
+    <div
+      v-if="action.affected && action.affected.user"
+      class="action__affected"
+    >
+      <LinkBase :to="`/dashboard/users/${action.affected.user.socialMedia.fb}`">
+        {{ useUserFullName(action.affected.user) }}
       </LinkBase>
     </div>
 
     <div class="action__body">
       {{ action.action }}
+      <ul
+        class="affected-fields"
+        v-if="action.affected && action.affected.fields"
+      >
+        <li v-for="affectedField in action.affected.fields">
+          Changed field "{{ affectedField.field }}" from "{{
+            affectedField.from
+          }}" to "{{ affectedField.to }}".
+        </li>
+      </ul>
     </div>
 
     <div class="action__signature">
@@ -60,6 +78,11 @@ onBeforeMount(async () => {
   &__body {
     grid-area: body;
     @include mb(10px);
+
+    ul {
+      @include mt(5px);
+      @include ml(30px);
+    }
   }
 
   &__affected {

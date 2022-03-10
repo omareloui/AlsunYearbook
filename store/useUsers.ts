@@ -119,7 +119,7 @@ export const useUsersStore = defineStore("users", {
 
     updateUser(newUserData: User) {
       const updateUser = (u: User) => {
-        if (u.socialMedia.fb !== newUserData.socialMedia.fb) return u;
+        if (u._id.toString() !== newUserData._id.toString()) return u;
         return newUserData;
       };
       this.shown = this.shown.map(updateUser);

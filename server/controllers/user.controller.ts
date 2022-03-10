@@ -1,5 +1,6 @@
 import { useBody, createError, useQuery } from "h3";
 import type {
+  ActionAffectedField,
   APIFunction,
   CreateUser,
   JWTUser,
@@ -23,6 +24,7 @@ import { useUserAuthorityRolePowers } from "~~/composables/useUserAuthorityRoleP
 import { useCloneObject } from "~~/composables/useCloneObject";
 
 import { CloudinaryController, ActionController } from ".";
+import useGetObjectValue from "~~/composables/useGetObjectValue";
 
 export class UserController {
   static getAll: APIFunction = async req => {
@@ -77,7 +79,7 @@ export class UserController {
 
     const body = (await useBody(req)) as CreateUser;
 
-    const oldUser = await User.findOne({ "socialMedia.fb": body.fb }).exec();
+    const oldUser = await User.findOne({ _id: body._id }).exec();
     if (!oldUser)
       throw createError({
         message: "Can't find the user to update",
@@ -96,6 +98,10 @@ export class UserController {
     if (shouldRemoveImages && oldImage)
       await CloudinaryController.removeUserImage(oldImage);
 
+    const affectedFields = this.compareDocuments(clonedOldUser, user);
+
+    if (affectedFields.length === 0) return user;
+
     await user.save();
 
     await ActionController.create(
@@ -103,7 +109,8 @@ export class UserController {
       `Edit ${user.name.first} ${user.name.second} ${user.name.third}.${
         shouldRemoveImages ? " Updated image (the least)." : ""
       }`,
-      user._id.toString()
+      user._id.toString(),
+      affectedFields
     );
 
     return user;
@@ -177,7 +184,7 @@ export class UserController {
   };
 
   /* ===================== Utils ===================== */
-  private static populateUser(
+  static populateUser(
     userData: CreateUser,
     alreadyExistingUser?: UserInterface
   ) {
@@ -270,7 +277,7 @@ export class UserController {
     return false;
   }
 
-  private static async validateEditUser(
+  static async validateEditUser(
     newUser: UserInterface,
     oldUser: UserInterface,
     currentUser: JWTUser
@@ -436,5 +443,42 @@ export class UserController {
         message: "This YouTube link is already in use.",
         statusCode: 400,
       });
+  }
+
+  private static compareDocuments(
+    oldDocument: UserInterface,
+    newDocument: UserInterface
+  ) {
+    const affectedFields = [] as ActionAffectedField[];
+
+    const compare = (prop: string) => {
+      const from = useGetObjectValue(oldDocument, prop);
+      const to = useGetObjectValue(newDocument, prop);
+      const field = prop;
+      if (from !== to && from && to) affectedFields.push({ field, from, to });
+    };
+
+    [
+      "name.first",
+      "name.second",
+      "name.third",
+      "name.nickname",
+
+      "image.original",
+      "image.thumbnail",
+
+      "socialMedia.fb",
+      "socialMedia.ig",
+      "socialMedia.twt",
+      "socialMedia.yt",
+
+      "authorityRole",
+      "role",
+      "gender",
+      "currentJob",
+      "quote",
+    ].forEach(compare);
+
+    return affectedFields;
   }
 }

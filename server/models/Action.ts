@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
 
 import typegoose from "@typegoose/typegoose";
-const { prop, getModelForClass } = typegoose;
+const { prop, getModelForClass, modelOptions, Severity } = typegoose;
 
 import { UserClass } from ".";
+import { ActionAffectedField } from "~~/@types";
 
+@modelOptions({ options: { allowMixed: Severity.ALLOW } })
 export class Action {
   @prop({ type: String, required: true })
   public action!: string;
@@ -12,8 +14,11 @@ export class Action {
   @prop({ ref: () => UserClass, type: mongoose.Types.ObjectId, required: true })
   public signature!: typeof mongoose.Types.ObjectId;
 
-  @prop({ ref: () => UserClass, type: mongoose.Types.ObjectId })
-  public affected: typeof mongoose.Types.ObjectId;
+  @prop({ ref: () => UserClass, type: mongoose.Schema.Types.Mixed })
+  public affected: {
+    user: typeof mongoose.Types.ObjectId;
+    fields?: ActionAffectedField[];
+  };
 }
 
 export default getModelForClass(Action, {
