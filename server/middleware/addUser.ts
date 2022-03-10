@@ -7,9 +7,13 @@ import { AuthController } from "~~/server/controllers";
 import { verifyToken, refreshTokens } from "~~/server/utils";
 import { useConstants } from "~~/composables/useConstants";
 
+import { connect as connectDB } from "~~/server/db";
+
 import { config } from "~~/server/config";
 
 const addUser: APIFunction = async (req, res) => {
+  await connectDB();
+
   const { JWT_NAME, REFRESH_TOKEN_NAME } = useConstants();
 
   const token = useCookie(req, JWT_NAME) || "";

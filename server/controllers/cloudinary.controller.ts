@@ -1,6 +1,11 @@
 import { useQuery, createError } from "h3";
 import c from "cloudinary";
 import { useCloudinaryIdParser } from "~~/composables/useCloudinaryIdParser";
+import { config } from "~~/server/config";
+
+const {
+  cloudinary: { name, key, secret },
+} = config;
 
 import type {
   APIFunction,
@@ -9,10 +14,6 @@ import type {
 } from "~~/@types";
 
 const cloudinary = c.v2;
-
-const name = process.env.CLOUDINARY_NAME;
-const secret = process.env.CLOUDINARY_SECRET;
-const key = process.env.CLOUDINARY_KEY;
 
 cloudinary.config({
   cloud_name: name,
@@ -34,8 +35,8 @@ export class CloudinaryController {
       return {
         signature,
         timestamp,
-        cloudName: name,
-        apiKey: key,
+        cloudName: config.cloudinary.name,
+        apiKey: config.cloudinary.key,
         options,
       };
     };
