@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt dev",
+    "postinstall": "run build",
     "build": "nuxt build",
     "start": "node .output/server/index.mjs",
     "lint": "eslint src",
