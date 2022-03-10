@@ -32,15 +32,5 @@ await messagesStore.fetchSent();
 .body {
   @include grid($gap: 30px);
   @include pb(30px);
-
-  .sent-messages-day {
-    &__date {
-      @include mb(10px);
-    }
-
-    &__messages {
-      @include grid($gap: 15px);
-    }
-  }
 }
 </style>

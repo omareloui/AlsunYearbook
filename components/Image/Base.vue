@@ -1,12 +1,13 @@
 <script setup lang="ts">
-const { src, borderRadius, isSquare } = withDefaults(
+const { src, borderRadius, isSquare, isAnonymous } = withDefaults(
   defineProps<{
     src: string;
     alt: string;
     borderRadius?: "none" | "sm" | "md" | "lg" | "xl" | "cr" | "bl";
     isSquare?: boolean;
+    isAnonymous?: boolean;
   }>(),
-  { borderRadius: "md", isSquare: false }
+  { borderRadius: "md", isSquare: false, isAnonymous: false }
 );
 
 const emit = defineEmits(["loaded"]);
@@ -40,6 +41,7 @@ function addClassToContainer(containerClass: string) {
 function setContainerClasses() {
   if (borderRadius !== "none") addClassToContainer(`br-${borderRadius}`);
   if (isSquare) addClassToContainer("square");
+  if (isAnonymous) addClassToContainer("anonymous");
 }
 
 setContainerClasses();
@@ -68,8 +70,10 @@ onUnmounted(removeObserver);
     <div v-if="isLoading" class="skeleton-overlay"></div>
 
     <transition name="fade">
-      <IconNotFound v-if="notFound" class="not-found-icon"></IconNotFound>
+      <IconNotFound v-if="notFound && !isAnonymous" class="not-found-icon" />
     </transition>
+
+    <IconAnonymous v-if="isAnonymous" class="anonymous" />
 
     <img
       :alt="alt"
@@ -133,6 +137,11 @@ onUnmounted(removeObserver);
     opacity: 0.9;
   }
 
+  .anonymous {
+    @include center;
+    @include size(60%);
+  }
+
   .image {
     object-fit: cover;
 
@@ -148,6 +157,10 @@ onUnmounted(removeObserver);
 
   &--not-found {
     @include clr-bg(error, 0.8);
+  }
+
+  &--anonymous {
+    @include clr-bg(light-800, 0.8);
   }
 }
 </style>

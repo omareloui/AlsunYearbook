@@ -9,7 +9,10 @@ export const useMessagesStore = defineStore("messages", {
   }),
 
   actions: {
-    // async fetchInbox() {},
+    async fetchInbox() {
+      const messages = await useCustomFetch("/api/messages/inbox");
+      this.inbox = messages;
+    },
 
     async fetchSent() {
       const messages = await useCustomFetch("/api/messages/sent");

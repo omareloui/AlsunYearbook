@@ -1,6 +1,23 @@
+<script setup lang="ts">
+import { useMessagesStore } from "~~/store/useMessages";
+
+import MessageInboxCard from "~~/components/Message/InboxCard.vue";
+
+const messagesStore = useMessagesStore();
+await messagesStore.fetchInbox();
+</script>
+
 <template>
   <Container>
     <h1 class="heading">Inbox</h1>
+
+    <PreviewWithDayGroups
+      :data="messagesStore.inbox"
+      data-key="message"
+      :card-component="MessageInboxCard"
+    />
+
+    <YearbookScrollUp />
   </Container>
 </template>
 
