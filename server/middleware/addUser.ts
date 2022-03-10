@@ -12,6 +12,8 @@ import { connect as connectDB } from "~~/server/db";
 import { config } from "~~/server/config";
 
 const addUser: APIFunction = async (req, res) => {
+  console.log("First thing on the middleware...");
+
   await connectDB();
 
   const { JWT_NAME, REFRESH_TOKEN_NAME } = useConstants();
