@@ -80,7 +80,9 @@ export class AuthController {
 
   static signin: APIFunction<Promise<Authentication>> = async (req, res) => {
     const { username, password } = await useBody(req);
-    const user = await User.findOne({ username });
+    const user = await User.findOne({
+      username: new RegExp(`^${username}$`, "i"),
+    });
     if (!user)
       throw createError({
         message: "Can't find any account with this username.",
