@@ -3,6 +3,8 @@ import { useAuthStore } from "~~/store/useAuth";
 import { useYearbookStore } from "~~/store/useYearbook";
 import { useMessagesStore } from "~~/store/useMessages";
 
+useMeta({ title: "Alsun Yearbook" });
+
 const authStore = useAuthStore();
 const yearbookStore = useYearbookStore();
 const messagesStore = useMessagesStore();

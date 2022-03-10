@@ -2,6 +2,7 @@
 import { Action } from "~~/@types";
 import DashboardActionCard from "~~/components/Dashboard/ActionCard.vue";
 
+useMeta({ title: "Actions | Dashboard" });
 definePageMeta({ middleware: "has-to-be-assistant-to-admin" });
 
 const actions = (await useCustomFetch("/api/actions")) as Action[];

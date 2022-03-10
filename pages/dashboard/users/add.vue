@@ -1,3 +1,7 @@
+<script setup lang="ts">
+useMeta({ title: "Add User | Dashboard" });
+</script>
+
 <template>
   <Container>
     <h1 class="heading">Add User</h1>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useUsersStore } from "~~/store/useUsers";
 
-const notify = useNotify();
 const usersStore = useUsersStore();
 
 const route = useRoute();
@@ -10,6 +9,8 @@ const id = route.params.id as string;
 const user = await usersStore.fetchUser(id);
 
 const userHelpers = useUserHelpers(user, { includeThirdName: true });
+
+useMeta({ title: `${userHelpers.fullName} | Dashboard` });
 
 const { next, prev } = await usersStore.getPrevAndNext(user);
 

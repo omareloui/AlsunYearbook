@@ -64,6 +64,7 @@ function onLoaded() {
     @include pos-a(top 75% left 4%);
     @include fw-black;
     @include fs-2xl;
+    @include fix-numbers;
 
     opacity: 0;
 

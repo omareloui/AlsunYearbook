@@ -3,6 +3,8 @@ import { useAuthStore } from "~~/store/useAuth";
 
 definePageMeta({ layout: "landing" });
 
+useMeta({ title: "Alsun Yearbook | Class of 2017/2021" });
+
 const authStore = useAuthStore();
 </script>
 
@@ -92,19 +94,21 @@ const authStore = useAuthStore();
   :first-child {
     @include mb(5px);
   }
+
+  &__class {
+    @include fix-numbers;
+  }
 }
 
 .about-us {
   @include mx(auto);
   @include fw-medium;
+  @include fix-numbers;
 
   max-width: 80%;
 }
 
 .action-links {
   @include flex($gap: 10px, $center-v: true);
-
-  &__link {
-  }
 }
 </style>

@@ -9,6 +9,8 @@ const yearbookStore = useYearbookStore();
 
 const user = await yearbookStore.fetchUser(userId);
 
+useMeta({ title: `${useUserFullName(user)} Yearbook's Page` });
+
 const { next, prev } = await yearbookStore.getPrevAndNext(user);
 
 const isLeaveMessageOpen = ref(false);

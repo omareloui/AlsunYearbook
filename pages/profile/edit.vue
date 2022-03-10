@@ -2,6 +2,8 @@
 import { useAuthStore } from "~~/store/useAuth";
 import type { UpdateMe } from "~~/@types";
 
+useMeta({ title: "Edit Profile" });
+
 const authStore = useAuthStore();
 
 const error = reactive({

@@ -2,6 +2,8 @@
 import { debounce } from "lodash";
 import { useUsersStore } from "~~/store/useUsers";
 
+useMeta({ title: "Users | Dashboard" });
+
 const usersStore = useUsersStore();
 
 await usersStore.fetchUsers();
