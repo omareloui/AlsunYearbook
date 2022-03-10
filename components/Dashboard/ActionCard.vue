@@ -82,6 +82,7 @@ onBeforeMount(async () => {
   &__time {
     grid-area: time;
     justify-self: end;
+    @include fix-numbers;
   }
 }
 </style>

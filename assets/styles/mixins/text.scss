@@ -33,3 +33,7 @@
 @mixin break-word {
   word-break: break-word;
 }
+
+@mixin fix-numbers {
+  font-variant-numeric: lining-nums;
+}

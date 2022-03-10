@@ -18,7 +18,7 @@ const groupedData = Object.entries(
         {{ day[0] }}
       </DateChip>
 
-      <div class="day__element">
+      <div class="day__elements">
         <Component
           :is="cardComponent"
           v-for="data in day[1]"
@@ -42,7 +42,7 @@ const groupedData = Object.entries(
       @include mb(10px);
     }
 
-    &__element {
+    &__elements {
       @include grid($gap: 15px);
     }
   }

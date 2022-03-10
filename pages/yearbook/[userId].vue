@@ -11,52 +11,73 @@ const user = await yearbookStore.fetchUser(userId);
 
 const { next, prev } = await yearbookStore.getPrevAndNext(user);
 
+const isLeaveMessageOpen = ref(false);
+
+function closeLeaveMessage() {
+  isLeaveMessageOpen.value = false;
+}
+
+function openLeaveMessage() {
+  isLeaveMessageOpen.value = true;
+}
+
 const scrollTop = useScrollToTop();
 onMounted(scrollTop);
 </script>
 
 <template>
-  <Container class="user">
-    <ImageBase
-      class="user__image"
-      :src="useUserImage(user)"
-      :alt="`${user.name.first}'s image.`"
-      is-square
-      border-radius="lg"
-    />
+  <div>
+    <Container class="user">
+      <ImageBase
+        class="user__image"
+        :src="useUserImage(user)"
+        :alt="`${user.name.first}'s image.`"
+        is-square
+        border-radius="lg"
+      />
 
-    <h1 class="user__name">{{ user.name.first }} {{ user.name.second }}</h1>
+      <h1 class="user__name">{{ user.name.first }} {{ user.name.second }}</h1>
 
-    <div v-if="user.name.nickname" class="user__nickname">
-      {{ user.name.nickname }}
-    </div>
+      <div v-if="user.name.nickname" class="user__nickname">
+        {{ user.name.nickname }}
+      </div>
 
-    <YearbookQuoteBlock :quote="user.quote" />
+      <YearbookQuoteBlock :quote="user.quote" />
 
-    <YearbookJobBlock v-if="user.currentJob" :job="user.currentJob" />
+      <YearbookJobBlock v-if="user.currentJob" :job="user.currentJob" />
 
-    <YearbookSocialMedia class="user__social-media" :sm="user.socialMedia" />
+      <YearbookSocialMedia class="user__social-media" :sm="user.socialMedia" />
 
-    <LineBreak width="60%" margin="25px" />
+      <LineBreak width="60%" margin="25px" />
 
-    <YearbookInteractionsButtons
-      :user="user"
-      @make-close-friend="yearbookStore.makeCloseFriend(user._id.toString())"
-      @remove-close-friend="
-        yearbookStore.removeCloseFriend(user._id.toString())
-      "
-    />
+      <YearbookInteractionsButtons
+        :user="user"
+        @open-leave-message="openLeaveMessage"
+        @make-close-friend="yearbookStore.makeCloseFriend(user._id.toString())"
+        @remove-close-friend="
+          yearbookStore.removeCloseFriend(user._id.toString())
+        "
+      />
 
-    <LineBreak width="60%" margin="25px" />
+      <LineBreak width="60%" margin="25px" />
 
-    <YearbookNavigationButtons
-      class="user__nav"
-      :next="`/yearbook/${next.socialMedia.fb}`"
-      :prev="`/yearbook/${prev.socialMedia.fb}`"
-      :home="`/yearbook?section=${yearbookStore.section}`"
-      :home-icon="yearbookStore.section"
-    />
-  </Container>
+      <YearbookNavigationButtons
+        class="user__nav"
+        :next="`/yearbook/${next.socialMedia.fb}`"
+        :prev="`/yearbook/${prev.socialMedia.fb}`"
+        :home="`/yearbook?section=${yearbookStore.section}`"
+        :home-icon="yearbookStore.section"
+      />
+    </Container>
+
+    <transition name="fade">
+      <YearbookLeaveMessage
+        v-if="isLeaveMessageOpen"
+        :user="user"
+        @close="closeLeaveMessage"
+      />
+    </transition>
+  </div>
 </template>
 
 <style scoped lang="scss">

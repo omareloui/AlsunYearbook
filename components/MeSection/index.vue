@@ -10,8 +10,12 @@ const authStore = useAuthStore();
       <IconProfile />
     </MeSectionCard>
 
-    <MeSectionCard to="#">
+    <MeSectionCard to="/inbox">
       <IconInbox has-notifications />
+    </MeSectionCard>
+
+    <MeSectionCard to="/sent-messages">
+      <IconSentMessages />
     </MeSectionCard>
   </section>
 </template>
@@ -20,8 +24,12 @@ const authStore = useAuthStore();
 @use "~~/assets/styles/mixins" as *;
 
 .me {
-  @include grid($center: true, $columns: repeat(2, 1fr), $gap: 40px);
-  @include w(max 250px);
+  @include grid($center: true, $columns: repeat(3, 1fr), $gap: 20px);
+  @include w(max 400px);
   @include mx(auto);
+
+  @include lt-tablet {
+    gap: 40px;
+  }
 }
 </style>

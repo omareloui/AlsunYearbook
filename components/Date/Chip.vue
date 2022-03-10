@@ -12,5 +12,7 @@
   @include clr-bg(primary);
   @include br-bl;
   @include fw-bold;
+  @include fs-sm;
+  @include fix-numbers;
 }
 </style>

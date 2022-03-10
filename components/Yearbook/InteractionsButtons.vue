@@ -10,7 +10,11 @@ const yearbookStore = useYearbookStore();
 const authStore = useAuthStore();
 const isMe = authStore.user._id === user._id;
 
-const emit = defineEmits(["make-close-friend", "remove-close-friend"]);
+const emit = defineEmits([
+  "make-close-friend",
+  "remove-close-friend",
+  "open-leave-message",
+]);
 </script>
 
 <template>
@@ -37,7 +41,11 @@ const emit = defineEmits(["make-close-friend", "remove-close-friend"]);
       </transition>
     </div>
 
-    <ButtonBase class="interactions-buttons__button" v-if="!isMe">
+    <ButtonBase
+      class="interactions-buttons__button"
+      v-if="!isMe"
+      @click="emit('open-leave-message')"
+    >
       <IconWrite />
       Leave a message
     </ButtonBase>
