@@ -64,6 +64,14 @@ export class CloseFriendController {
   };
 
   /* ==== Utils ==== */
+  static async getUserCloseFriendsCount(userId: string) {
+    const incomingCount = await CloseFriend.countDocuments({
+      closeFriend: userId,
+    });
+    const outgoingCount = await CloseFriend.countDocuments({ user: userId });
+    return { incomingCount, outgoingCount };
+  }
+
   private static populate(doc) {
     return CloseFriend.populate(
       doc,

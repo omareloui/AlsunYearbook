@@ -5,6 +5,7 @@ import type {
   CreateUser,
   JWTUser,
   User as UserInterface,
+  UserActivities,
   UserImage,
   UserName,
   UserSocialMedia,
@@ -22,9 +23,14 @@ import {
 import { useUserIsInYearbook } from "~~/composables/useUserIsInYearbook";
 import { useUserAuthorityRolePowers } from "~~/composables/useUserAuthorityRolePowers";
 import { useCloneObject } from "~~/composables/useCloneObject";
-
-import { CloudinaryController, ActionController } from ".";
 import useGetObjectValue from "~~/composables/useGetObjectValue";
+
+import {
+  CloudinaryController,
+  ActionController,
+  MessageController,
+  CloseFriendController,
+} from ".";
 
 export class UserController {
   static getAll: APIFunction = async req => {
@@ -179,6 +185,26 @@ export class UserController {
     );
 
     return user;
+  };
+
+  static getActivities: APIFunction = async req => {
+    const { id } = useQuery(req) as { id: string };
+
+    const {
+      incomingCount: incomingMessagesCount,
+      outgoingCount: outgoingMessagesCount,
+    } = await MessageController.getUserMessagesCount(id);
+    const {
+      incomingCount: incomingCloseFriendsCount,
+      outgoingCount: outgoingCloseFriendsCount,
+    } = await CloseFriendController.getUserCloseFriendsCount(id);
+
+    return {
+      incomingCloseFriendsCount,
+      incomingMessagesCount,
+      outgoingCloseFriendsCount,
+      outgoingMessagesCount,
+    } as UserActivities;
   };
 
   /* ===================== Utils ===================== */

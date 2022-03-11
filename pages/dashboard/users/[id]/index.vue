@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useUsersStore } from "~~/store/useUsers";
+import type { UserActivities } from "~~/@types";
 
 const usersStore = useUsersStore();
 
@@ -27,6 +28,10 @@ async function reset() {
   user.username = null;
   user.password = null;
 }
+
+const activities = (await useCustomFetch(
+  `/api/users/activities?id=${user._id.toString()}`
+)) as UserActivities;
 
 const scrollTop = useScrollToTop();
 onMounted(scrollTop);
@@ -64,6 +69,10 @@ onMounted(scrollTop);
     <YearbookQuoteBlock v-if="user.quote" :quote="user.quote" />
 
     <YearbookJobBlock v-if="user.currentJob" :job="user.currentJob" />
+
+    <LineBreak width="60%" margin="25px" />
+
+    <DashboardUserActivities :activities="activities" />
 
     <LineBreak width="60%" margin="25px" />
 

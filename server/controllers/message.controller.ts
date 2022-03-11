@@ -97,6 +97,12 @@ export class MessageController {
   // },
 
   /* ==== Utils ==== */
+  static async getUserMessagesCount(userId: string) {
+    const incomingCount = await Message.countDocuments({ receiver: userId });
+    const outgoingCount = await Message.countDocuments({ author: userId });
+    return { incomingCount, outgoingCount };
+  }
+
   private static readMessages(messages) {
     return Promise.all(
       messages.map(async m => {

@@ -72,3 +72,10 @@ export interface CreateUser {
 
   isShown?: boolean;
 }
+
+export interface UserActivities {
+  outgoingMessagesCount: number;
+  incomingMessagesCount: number;
+  incomingCloseFriendsCount: number;
+  outgoingCloseFriendsCount: number;
+}
