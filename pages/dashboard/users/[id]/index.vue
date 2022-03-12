@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useUsersStore } from "~~/store/useUsers";
-import type { UserActivities } from "~~/@types";
 
 const usersStore = useUsersStore();
 
@@ -8,6 +7,7 @@ const route = useRoute();
 const id = route.params.id as string;
 
 const user = await usersStore.fetchUser(id);
+const activities = await usersStore.fetchActivities(user._id.toString());
 
 const userHelpers = useUserHelpers(user, {
   includeThirdName: true,
@@ -35,10 +35,6 @@ async function reset() {
   user.username = null;
   user.password = null;
 }
-
-const activities = (await useCustomFetch(
-  `/api/users/activities?id=${user._id.toString()}`
-)) as UserActivities;
 
 function init() {
   scrollTop();

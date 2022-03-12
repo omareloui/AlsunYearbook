@@ -1,10 +1,11 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
-import type { User } from "~~/@types";
+import type { User, UserActivities } from "~~/@types";
 
 export const useUsersStore = defineStore("users", {
   state: () => ({
     users: [] as User[],
     shown: [] as User[],
+    activities: [] as { userId: string; activities: UserActivities }[],
 
     currentUser: null as null | User,
 
@@ -115,6 +116,21 @@ export const useUsersStore = defineStore("users", {
       } catch (e) {
         notify.error(e.message);
       }
+    },
+
+    async fetchActivities(userId: string): Promise<UserActivities> {
+      const activitiesFromCache = this.activities.find(
+        a => a.userId === userId
+      );
+      if (activitiesFromCache) return activitiesFromCache.activities;
+
+      const activities = await useCustomFetch(
+        `/api/users/activities?id=${userId}`
+      );
+
+      this.activities.push({ userId, activities });
+
+      return activities;
     },
 
     updateUser(newUserData: User) {
