@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export function useArrowNavigation({
   next,
   prev,
@@ -5,6 +7,8 @@ export function useArrowNavigation({
   next: string;
   prev: string;
 }) {
+  const debouncedNavigation = _.debounce(navigateTo, 500);
+
   function addListeners() {
     addEventListener("keyup", onKeyUp);
   }
@@ -19,11 +23,11 @@ export function useArrowNavigation({
   }
 
   function goToNext() {
-    navigateTo(next);
+    debouncedNavigation(next);
   }
 
   function goToPrev() {
-    navigateTo(prev);
+    debouncedNavigation(prev);
   }
 
   return {
