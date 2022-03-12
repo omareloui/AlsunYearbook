@@ -15,6 +15,13 @@ const { next, prev } = await yearbookStore.getPrevAndNext(user);
 
 const isLeaveMessageOpen = ref(false);
 
+const { addListeners, removeListeners } = useArrowNavigation({
+  next: `/yearbook/${next.socialMedia.fb}`,
+  prev: `/yearbook/${prev.socialMedia.fb}`,
+});
+
+const scrollTop = useScrollToTop();
+
 function closeLeaveMessage() {
   isLeaveMessageOpen.value = false;
 }
@@ -23,8 +30,17 @@ function openLeaveMessage() {
   isLeaveMessageOpen.value = true;
 }
 
-const scrollTop = useScrollToTop();
-onMounted(scrollTop);
+function init() {
+  scrollTop();
+  addListeners();
+}
+
+function destroy() {
+  removeListeners();
+}
+
+onMounted(init);
+onUnmounted(destroy);
 </script>
 
 <template>

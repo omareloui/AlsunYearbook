@@ -16,7 +16,14 @@ const userHelpers = useUserHelpers(user, {
 
 useMeta({ title: `${userHelpers.fullName} | Dashboard` });
 
+const scrollTop = useScrollToTop();
+
 const { next, prev } = await usersStore.getPrevAndNext(user);
+
+const { addListeners, removeListeners } = useArrowNavigation({
+  next: `/dashboard/users/${next.socialMedia.fb}`,
+  prev: `/dashboard/users/${prev.socialMedia.fb}`,
+});
 
 async function toggleShow() {
   await usersStore.toggleShow(user.socialMedia.fb);
@@ -33,8 +40,13 @@ const activities = (await useCustomFetch(
   `/api/users/activities?id=${user._id.toString()}`
 )) as UserActivities;
 
-const scrollTop = useScrollToTop();
-onMounted(scrollTop);
+function init() {
+  scrollTop();
+  addListeners();
+}
+
+onMounted(init);
+onUnmounted(removeListeners);
 </script>
 
 <template>
