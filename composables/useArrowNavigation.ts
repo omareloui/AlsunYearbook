@@ -18,20 +18,9 @@ export function useArrowNavigation({
   }
 
   function onKeyUp(e: KeyboardEvent) {
-    if (e.code === "ArrowRight") return goToNext();
-    if (e.code === "ArrowLeft") return goToPrev();
+    if (e.code === "ArrowRight") return debouncedNavigation(next);
+    if (e.code === "ArrowLeft") return debouncedNavigation(prev);
   }
 
-  function goToNext() {
-    debouncedNavigation(next);
-  }
-
-  function goToPrev() {
-    debouncedNavigation(prev);
-  }
-
-  return {
-    addListeners,
-    removeListeners,
-  };
+  return { addListeners, removeListeners };
 }
