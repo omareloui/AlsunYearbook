@@ -95,7 +95,7 @@ export function useImageUploader() {
 
   async function createThumbnail(image: ArrayBuffer) {
     return dataURLToFile(
-      await resizeImage(image, 400, 400),
+      await resizeImage(image, { maxWidth: 500, maxHeight: 500, quality: 1 }),
       Number(new Date()).toString()
     );
   }
@@ -109,8 +109,11 @@ export function useImageUploader() {
 
   async function resizeImage(
     image: ArrayBuffer,
-    maxWidth?: number,
-    maxHeight?: number
+    {
+      maxWidth,
+      maxHeight,
+      quality = 0.7,
+    }: { maxWidth?: number; maxHeight?: number; quality?: number } = {}
   ) {
     return new Promise<string>(resolve => {
       let img = new Image();
@@ -142,7 +145,6 @@ export function useImageUploader() {
         ctx.drawImage(img, 0, 0, width, height);
 
         const imageType = "image/jpeg";
-        const quality = 0.7;
         resolve(canvas.toDataURL(imageType, quality));
       };
     });
