@@ -4,9 +4,15 @@ import { useAuthStore } from "~~/store/useAuth";
 const authStore = useAuthStore();
 
 const isOpen = ref(false);
+const isTablet = ref(false);
 
 function toggle() {
   isOpen.value = !isOpen.value;
+}
+
+function setIsTablet() {
+  if (window.innerWidth >= 768) isTablet.value = true;
+  else isTablet.value = false;
 }
 
 function signout() {
@@ -14,6 +20,13 @@ function signout() {
 
   toggle();
 }
+
+onMounted(() => {
+  setIsTablet();
+  addEventListener("resize", setIsTablet);
+});
+
+onUnmounted(() => removeEventListener("resize", setIsTablet));
 </script>
 
 <template>
@@ -31,26 +44,36 @@ function signout() {
     </div>
 
     <Transition name="nav">
-      <nav class="body" v-if="isOpen">
+      <nav class="body" v-if="isOpen || isTablet">
         <ul>
-          <li><LinkBase to="/yearbook" @click="toggle">Yearbook</LinkBase></li>
-          <li>
-            <LinkBase to="/profile/edit" @click="toggle">Edit profile</LinkBase>
-          </li>
-          <li v-if="authStore.hasAuthority">
-            <LinkBase to="/dashboard" @click="toggle">Dashboard</LinkBase>
-          </li>
-          <LineBreak />
-          <li>
-            <ButtonBase @click="signout" is-normalized>Logout</ButtonBase>
-          </li>
+          <div class="links-block links-block--nav">
+            <li>
+              <LinkBase to="/yearbook" @click="toggle">Yearbook</LinkBase>
+            </li>
+            <li>
+              <LinkBase to="/profile/edit" @click="toggle"
+                >Edit profile</LinkBase
+              >
+            </li>
+            <li v-if="authStore.hasAuthority">
+              <LinkBase to="/dashboard" @click="toggle">Dashboard</LinkBase>
+            </li>
+          </div>
+
+          <LineBreak v-if="!isTablet" />
+
+          <div class="links-block links-block--auth">
+            <li>
+              <ButtonBase @click="signout" is-normalized>Logout</ButtonBase>
+            </li>
+          </div>
         </ul>
       </nav>
     </Transition>
   </Container>
 
   <transition name="fade">
-    <div class="nav-overlay" v-if="isOpen" @click="toggle"></div>
+    <div class="nav-overlay" v-if="isOpen && !isTablet" @click="toggle"></div>
   </transition>
 </template>
 
@@ -81,6 +104,15 @@ function signout() {
       @include center-v;
       right: 20px;
     }
+
+    @include lt-tablet {
+      justify-content: flex-start;
+      @include px(35px);
+
+      .burger-button {
+        @include remove;
+      }
+    }
   }
 
   .body {
@@ -108,6 +140,39 @@ function signout() {
           @include fw-black;
           @include fs-lg;
           @include no-underline;
+        }
+      }
+    }
+
+    @include lt-tablet {
+      @include center-v;
+      right: 35px;
+
+      @include w(fit-content);
+      @include mt(0);
+      @include pa(0);
+
+      @include clr-bg(none);
+      backdrop-filter: unset;
+
+      ul {
+        display: flex;
+
+        .links-block {
+          display: flex;
+          gap: 10px;
+
+          &:last-child {
+            @include ml(25px);
+          }
+
+          li {
+            ::v-deep(a),
+            ::v-deep(button) {
+              @include fs-sm;
+              @include fw-extrabold;
+            }
+          }
         }
       }
     }

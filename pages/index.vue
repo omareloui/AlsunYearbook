@@ -102,7 +102,7 @@ const authStore = useAuthStore();
 
 .about-us {
   @include mx(auto);
-  @include fw-medium;
+  @include fw-bold;
   @include fix-numbers;
 
   max-width: 80%;

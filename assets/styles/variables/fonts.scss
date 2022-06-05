@@ -3,10 +3,11 @@
 
 $fonts-names: (
   raleway: '"Raleway", sans-serif',
+  cairo: '"Cairo", sans-serif',
 );
 
 $fonts-families: (
-  main: map.get($fonts-names, raleway),
+  main: '"Raleway", "Cairo", sans-serif',
 );
 
 $fonts-weights: (
