@@ -31,9 +31,9 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async setFromCookie() {
-      const data = (await useCustomFetch("/api/me")) as Authentication;
-      if (!data?.user) return;
-      this.user = data.user;
+      // const data = (await useCustomFetch("/api/me")) as Authentication;
+      // if (!data?.user) return;
+      // this.user = data.user;
     },
 
     async sign(

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useAuthStore } from "~~/store/useAuth";
+// import { useAuthStore } from "~~/store/useAuth";
 
-const setUser = () => useAuthStore().setFromCookie();
+// const setUser = () => useAuthStore().setFromCookie();
 
-onBeforeMount(setUser);
+// onBeforeMount(setUser);
 </script>
 
 <template>

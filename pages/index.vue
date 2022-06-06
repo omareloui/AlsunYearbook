@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useAuthStore } from "~~/store/useAuth";
+// import { useAuthStore } from "~~/store/useAuth";
 
 definePageMeta({ layout: "landing" });
 
-useMeta({ title: "Alsun Yearbook | Class of 2017/2021" });
+useHead({ title: "Alsun Yearbook | Class of 2017/2021" });
 
-const authStore = useAuthStore();
+// const authStore = useAuthStore();
 </script>
 
 <template>
@@ -27,7 +27,7 @@ const authStore = useAuthStore();
       us.
     </div>
 
-    <div class="action-links">
+    <!-- <div class="action-links">
       <LinkButton
         v-if="authStore.isSigned"
         to="/yearbook"
@@ -56,7 +56,7 @@ const authStore = useAuthStore();
       >
         Signin
       </LinkButton>
-    </div>
+    </div> -->
   </div>
 </template>
 
