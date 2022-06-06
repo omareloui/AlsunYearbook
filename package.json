@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "dev": "nuxt dev",
-    "build": "nuxt build",
+    "dev": "nuxi dev",
+    "build": "nuxi build",
     "start": "node .output/server/index.mjs",
     "start:global": "cross-env HOST=0.0.0.0 node .output/server/index.mjs",
     "lint": "eslint src",
@@ -17,8 +17,13 @@
     "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "7.21.5",
+    "eslint-plugin-react-hooks": "4",
     "eslint-plugin-vue": "^7.19.1",
+    "nuxi": "latest",
     "nuxt": "npm:nuxt3@latest",
     "prettier": "^2.4.1",
     "sass": "^1.43.2",
@@ -36,6 +41,7 @@
     "moment": "^2.29.1",
     "mongoose": "^6.2.3",
     "pinia": "^2.0.9",
+    "reflect-metadata": "^0.1.13",
     "yup": "^0.32.11"
   }
 }

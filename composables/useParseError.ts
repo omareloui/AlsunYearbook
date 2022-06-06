@@ -4,5 +4,10 @@ export function useParseError(e: Record<string, any>) {
     return matchResult ? matchResult[1] : message;
   }
 
-  return getInsideH1(e.value.data?.message || e.value.data).trim();
+  const message =
+    typeof e.value.data === "string"
+      ? e.value.data
+      : e.value.data.message || e.value.data.description;
+
+  return getInsideH1(message).trim();
 }
