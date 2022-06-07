@@ -1,3 +1,3 @@
-import { AuthController } from "~~/server/controllers";
+import { AuthController } from "controllers";
 
 export default AuthController.signin;

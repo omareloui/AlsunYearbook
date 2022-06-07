@@ -1,4 +1,4 @@
-import { createError, CompatibilityEvent } from "h3";
+import { CompatibilityEvent } from "h3";
 import type { UserAuthority } from "~~/@types";
 import { useAuthorityHelper } from "~~/composables/useAuthorityHelper";
 

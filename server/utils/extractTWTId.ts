@@ -1,6 +1,6 @@
 import { removeDomain } from ".";
 
-export function extractTWTId(twtLink: string) {
+export function extractTWTId(twtLink: string | undefined) {
   if (!twtLink || !twtLink.match(/(https?:\/\/)?((www|mobile)\.)?twitter\.com/))
     return twtLink;
 

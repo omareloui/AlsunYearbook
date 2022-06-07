@@ -1,5 +1,5 @@
 import { User } from "server/models";
-// import { UpdateMe } from "types";
+import { UpdateMe } from "types";
 import { extractFBId, hash, compareHash, createTokens } from "server/utils";
 
 import { CompatibilityEvent } from "h3";
@@ -7,7 +7,7 @@ import { useConstants } from "~~/composables/useConstants";
 import { useParseDateInSeconds } from "~~/composables/useParseDate";
 
 import { config } from "server/config";
-// import { hasToBeAuthenticated } from "server/policies";
+import { hasToBeAuthenticated } from "server/policies";
 
 const { JWT_NAME, REFRESH_TOKEN_NAME } = useConstants();
 
@@ -106,53 +106,57 @@ export class AuthController {
     return { user, token, refreshToken };
   });
 
-  // static updateMe: APIFunction = async (req, res) => {
-  //   hasToBeAuthenticated(req);
-  //   const { username, newPassword, oldPassword } = (await useBody(
-  //     req
-  //   )) as UpdateMe;
-  //   const user = await User.findOne({ _id: req.user.id });
+  static updateMe = defineEventHandler(async event => {
+    const { req, context } = event;
+    hasToBeAuthenticated(event);
+    const { username, newPassword, oldPassword } = (await useBody(
+      req
+    )) as UpdateMe;
+    const user = await User.findOne({ _id: context.user.id });
 
-  //   if (!user)
-  //     throw createError({ message: "Can't find you.", statusCode: 404 });
+    if (!user)
+      throw createError({ message: "Can't find you.", statusCode: 404 });
 
-  //   const changeUsername = username && username !== user.username;
-  //   const changePassword = newPassword && oldPassword;
+    const changeUsername = username && username !== user.username;
+    const changePassword = newPassword && oldPassword;
 
-  //   if (changeUsername) {
-  //     const duplicatedUsername = await User.findOne({ username });
-  //     if (duplicatedUsername)
-  //       throw createError({
-  //         message: "The username already in use. Try another one.",
-  //         statusCode: 400,
-  //       });
-  //     user.username = username;
-  //   }
+    if (changeUsername) {
+      const duplicatedUsername = await User.findOne({ username });
+      if (duplicatedUsername)
+        throw createError({
+          message: "The username already in use. Try another one.",
+          statusCode: 400,
+        });
+      user.username = username;
+    }
 
-  //   if (changePassword) {
-  //     const isValidOldPassword = await compareHash(oldPassword, user.password);
-  //     if (!isValidOldPassword)
-  //       throw createError({
-  //         message: "The old password is not correct.",
-  //         statusCode: 400,
-  //       });
-  //     if (newPassword.length < 8)
-  //       throw createError({
-  //         message: "The password has to be at least 8 characters long.",
-  //         statusCode: 400,
-  //       });
-  //     user.password = await hash(newPassword);
-  //   }
+    if (changePassword) {
+      const isValidOldPassword = await compareHash(
+        oldPassword,
+        user.password || ""
+      );
+      if (!isValidOldPassword)
+        throw createError({
+          message: "The old password is not correct.",
+          statusCode: 400,
+        });
+      if (newPassword.length < 8)
+        throw createError({
+          message: "The password has to be at least 8 characters long.",
+          statusCode: 400,
+        });
+      user.password = await hash(newPassword);
+    }
 
-  //   if (changeUsername || changePassword) {
-  //     await user.save();
+    if (changeUsername || changePassword) {
+      await user.save();
 
-  //     const [token, refreshToken] = createTokens(user);
-  //     this.setCookies(res, token.body, refreshToken.body);
-  //   }
+      const [token, refreshToken] = createTokens(user);
+      this.setCookies(event, token.body, refreshToken.body);
+    }
 
-  //   return user;
-  // };
+    return user;
+  });
 
   /* ============== Utils ============== */
   static setCookies(

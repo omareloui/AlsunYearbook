@@ -1,4 +1,4 @@
-import { createError, CompatibilityEvent } from "h3";
+import { CompatibilityEvent } from "h3";
 
 export function hasToBeAuthenticated(event: CompatibilityEvent) {
   if (!event.context.user)

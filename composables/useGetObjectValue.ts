@@ -1,6 +1,6 @@
-export default function useGetObjectValue(
+export default function useGetObjectValue<T>(
   object: Record<string, any>,
   string: string
-) {
-  return string.split(".").reduce((acc, curr) => acc && acc[curr], object);
+): T {
+  return string.split(".").reduce((acc, curr) => acc && acc[curr], object) as T;
 }

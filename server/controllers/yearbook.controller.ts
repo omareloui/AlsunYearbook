@@ -1,7 +1,6 @@
-import { useQuery, createError } from "h3";
-import type { YearbookSection } from "~~/@types";
+import type { YearbookSection } from "types";
 
-import { User } from "~~/server/models";
+import { User } from "server/models";
 import { hasToBeAuthenticated } from "server/policies";
 
 export class YearbookController {

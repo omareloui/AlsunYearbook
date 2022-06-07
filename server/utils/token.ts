@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import { createError } from "h3";
 
 import { User } from "server/models";
 

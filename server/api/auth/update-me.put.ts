@@ -1,3 +1,3 @@
 import { AuthController } from "controllers";
 
-export default AuthController.checkFBID;
+export default AuthController.updateMe;
