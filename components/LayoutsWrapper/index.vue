@@ -3,10 +3,7 @@ import { useAuthStore } from "~~/store/useAuth";
 
 const authStore = useAuthStore();
 
-onBeforeMount(async () => {
-  await nextTick();
-  await authStore.setFromCookie();
-});
+authStore.setFromCookie();
 </script>
 
 <template>

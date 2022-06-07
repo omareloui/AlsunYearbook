@@ -1,12 +1,9 @@
-import Cookie from "cookie-universal";
-
 export function useAuthHeaders() {
   return () => {
     const { JWT_NAME, REFRESH_TOKEN_NAME } = useConstants();
 
-    const cookies = Cookie();
-    const jwt = cookies.get(JWT_NAME) as string;
-    const refreshToken = cookies.get(REFRESH_TOKEN_NAME) as string;
+    const jwt = useCookie(JWT_NAME).value;
+    const refreshToken = useCookie(REFRESH_TOKEN_NAME).value;
 
     return {
       ...(jwt && refreshToken

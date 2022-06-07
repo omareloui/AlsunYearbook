@@ -19,15 +19,20 @@ export const useAuthStore = defineStore("auth", {
   },
 
   actions: {
+    setUser(user?: User | null) {
+      this.user = user ? user : null;
+    },
+
     removeCookies() {
       const cookies = Cookie();
       [JWT_NAME, REFRESH_TOKEN_NAME].forEach(x => cookies.remove(x));
     },
 
     async setFromCookie() {
-      const data = await useCustomFetch<Authentication>("/api/me");
-      if (!data.user) return;
-      this.user = data.user;
+      await useAsyncData("users", async () => {
+        const { data } = await useTokenedFetch("/api/me");
+        this.setUser(data.value.user);
+      });
     },
 
     async sign(
@@ -51,7 +56,7 @@ export const useAuthStore = defineStore("auth", {
       navigateTo("/");
       await nextTick();
       this.removeCookies();
-      this.user = null;
+      this.setUser(null);
     },
 
     // async updateMe(
