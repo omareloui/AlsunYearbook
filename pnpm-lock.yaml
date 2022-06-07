@@ -2,7 +2,6 @@ lockfileVersion: 5.4
 
 specifiers:
   '@pinia/nuxt': ^0.1.8
-  '@typegoose/typegoose': ^9.7.0
   '@types/jsonwebtoken': ^8.5.8
   '@typescript-eslint/eslint-plugin': ^5.0.0
   '@typescript-eslint/parser': ^5.0.0
@@ -34,7 +33,6 @@ specifiers:
 
 dependencies:
   '@pinia/nuxt': 0.1.8_pinia@2.0.11
-  '@typegoose/typegoose': 9.7.0_mongoose@6.2.4
   bcrypt: 5.0.1
   cloudinary: 1.28.1
   cookie-universal: 2.1.5
@@ -864,20 +862,6 @@ packages:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
     dev: true
-
-  /@typegoose/typegoose/9.7.0_mongoose@6.2.4:
-    resolution: {integrity: sha512-x5z0WDkyt4AF5EZJH5LpI/IJcCkD7c2AmP0V15400BVqBY2FSGWls8C8pn8FIF+YaqED3LItHcHkDHGc3WklJg==}
-    engines: {node: '>=12.22.0'}
-    peerDependencies:
-      mongoose: ~6.2.3
-    dependencies:
-      lodash: 4.17.21
-      loglevel: 1.8.0
-      mongoose: 6.2.4
-      reflect-metadata: 0.1.13
-      semver: 7.3.5
-      tslib: 2.3.1
-    dev: false
 
   /@types/cookie/0.3.3:
     resolution: {integrity: sha512-LKVP3cgXBT9RYj+t+9FDKwS5tdI+rPBXaNSkma7hvqy35lc7mAokC2zsqWJH0LaqIt3B962nuYI77hsJoT1gow==}
@@ -4073,11 +4057,6 @@ packages:
       is-unicode-supported: 0.1.0
     dev: true
 
-  /loglevel/1.8.0:
-    resolution: {integrity: sha512-G6A/nJLRgWOuuwdNuA6koovfEV1YpqqAG4pRUlFaz3jj2QNZ8M4vBqnVA+HBTmU/AMNUtlOsMmSpF6NyOjztbA==}
-    engines: {node: '>= 0.6.0'}
-    dev: false
-
   /loose-envify/1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
@@ -5766,6 +5745,7 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
+    dev: true
 
   /semver/7.3.7:
     resolution: {integrity: sha512-QlYTucUYOews+WeEujDoEGziz4K6c47V/Bd+LjSSYcA94p+DmINdf7ncaUinThfvZyu13lN9OY1XDxt8C0Tw0g==}

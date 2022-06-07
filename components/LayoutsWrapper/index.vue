@@ -3,7 +3,10 @@ import { useAuthStore } from "~~/store/useAuth";
 
 const authStore = useAuthStore();
 
-onServerPrefetch(authStore.setFromCookie);
+onBeforeMount(async () => {
+  await nextTick();
+  await authStore.setFromCookie();
+});
 </script>
 
 <template>

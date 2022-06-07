@@ -6,7 +6,7 @@ const { type } = defineProps<{ type: SignType }>();
 
 const authStore = useAuthStore();
 
-const confirmedFbId = ref(null);
+const confirmedFbId = ref(undefined as string | undefined);
 
 const formData = reactive({
   fbId: "",
@@ -26,17 +26,21 @@ const error = reactive({
 async function checkFBId() {
   const notify = useNotify();
   try {
-    const data = await useCustomFetch(`/api/auth/check-fb?id=${formData.fbId}`);
+    const data = await useCustomFetch("/api/auth/check-fb", {
+      method: "POST",
+      body: { id: formData.fbId },
+    });
     confirmedFbId.value = data;
   } catch (e) {
-    notify.error(e.message, { duration: 5000 });
+    notify.error((e as Error).message, { duration: 5000 });
   }
 }
 
 async function sign() {
   try {
     await authStore.sign({ ...formData, fbId: confirmedFbId.value }, type);
-  } catch (e) {
+  } catch (err) {
+    const e = err as Error;
     setError(e.message);
     useNotify().error(e.message, { duration: 5000 });
   }

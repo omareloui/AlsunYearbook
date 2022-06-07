@@ -1,6 +1,8 @@
 import { User, UserRole } from "~~/@types";
 
-export function useUserIsInYearbook(userOrUserRole: User | UserRole) {
+export function useUserIsInYearbook<T extends User | UserRole>(
+  userOrUserRole: T
+) {
   let role: UserRole;
 
   if (typeof userOrUserRole === "string") role = userOrUserRole;

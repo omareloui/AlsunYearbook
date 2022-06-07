@@ -1,3 +1,5 @@
+import { Document } from "mongoose";
+
 export type UserRole = "STUDENT" | "PROFESSOR" | "SPECIAL_MENTION" | "VISITOR";
 
 export type UserAuthority =
@@ -25,9 +27,7 @@ export interface UserName {
   nickname?: string;
 }
 
-export interface User {
-  _id: string;
-
+export interface DehydratedUser {
   username?: string;
   password?: string;
 
@@ -46,6 +46,8 @@ export interface User {
 
   isShown?: boolean;
 }
+
+export interface User extends DehydratedUser, Document {}
 
 export interface CreateUser {
   _id?: string;

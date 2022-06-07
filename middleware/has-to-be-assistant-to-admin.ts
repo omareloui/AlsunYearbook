@@ -6,6 +6,7 @@ export default defineNuxtRouteMiddleware(() => {
   const authorityHelper = useAuthorityHelper();
 
   if (
+    !authStore.user ||
     !authorityHelper.hasAccess(
       "ASSISTANT_TO_ADMIN",
       authStore.user.authorityRole

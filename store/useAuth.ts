@@ -2,11 +2,10 @@ import Cookie from "cookie-universal";
 import { defineStore, acceptHMRUpdate } from "pinia";
 
 import { useConstants } from "~~/composables/useConstants";
-import type { SignType } from "~~/@types";
+
+import type { SignType, Authentication, User } from "types";
 
 const { JWT_NAME, REFRESH_TOKEN_NAME } = useConstants();
-
-import type { Authentication, User } from "~~/@types";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -15,8 +14,8 @@ export const useAuthStore = defineStore("auth", {
 
   getters: {
     isSigned: state => !!state.user,
-    isInYearbook: state => useUserIsInYearbook(state.user),
-    hasAuthority: state => useUserHasAuthority(state.user),
+    isInYearbook: state => state.user && useUserIsInYearbook(state.user),
+    hasAuthority: state => state.user && useUserHasAuthority(state.user),
   },
 
   actions: {
@@ -25,15 +24,10 @@ export const useAuthStore = defineStore("auth", {
       [JWT_NAME, REFRESH_TOKEN_NAME].forEach(x => cookies.remove(x));
     },
 
-    setSignData({ user, token }: Authentication) {
-      this.user = user;
-      this.setCookie(token.body, token.expiration);
-    },
-
     async setFromCookie() {
-      // const data = (await useCustomFetch("/api/me")) as Authentication;
-      // if (!data?.user) return;
-      // this.user = data.user;
+      const data = (await useCustomFetch("/api/me")) as Authentication;
+      if (!data?.user) return;
+      this.user = data.user;
     },
 
     async sign(
@@ -73,21 +67,6 @@ export const useAuthStore = defineStore("auth", {
     //   dispatch("setSignData", result)
     //   this.$notify.success("Update profile")
     //   this.$router.push("/")
-    // },
-
-    // async setMe({ commit, dispatch }) {
-    //   if (!(await dispatch("getToken"))) return
-    //   try {
-    //     const { data: me } = await this.$axios.get("/me")
-    //     commit("setUser", me)
-    //     commit("updateIsSigned", true)
-    //   } catch (e) {
-    //     // @ts-ignore
-    //     if (!e.response || e.response.data.status === 401) {
-    //       dispatch("signOut")
-    //       this.$router.push("/")
-    //     }
-    //   }
     // },
   },
 });
