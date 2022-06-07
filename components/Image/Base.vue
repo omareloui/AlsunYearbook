@@ -53,7 +53,7 @@ function addIntersectionObserver() {
       loadImage();
     });
   });
-  observer.observe(imageEl.value);
+  observer.observe(imageEl.value!);
 }
 
 function removeObserver() {

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { User } from "~~/@types";
-import { useUserImage } from "~~/composables/useUserImage";
 import { useYearbookStore } from "~~/store/useYearbook";
 import { useMessagesStore } from "~~/store/useMessages";
 
@@ -93,12 +92,16 @@ function onLoaded() {
     }
   }
 
-  &:hover {
-    transform: scale(1.03);
-    @include float(2);
+  @include lt-mobile {
+    @media (hover: hover) {
+      &:hover {
+        transform: scale(1.03);
+        @include float(2);
 
-    .yearbook-card__patch {
-      opacity: 0;
+        .yearbook-card__patch {
+          opacity: 0;
+        }
+      }
     }
   }
 

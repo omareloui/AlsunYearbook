@@ -100,14 +100,18 @@ function onLoaded() {
     }
   }
 
-  &:hover {
-    .text {
-      bottom: -40%;
-      opacity: 0;
-    }
+  @include lt-mobile {
+    @media (hover: hover) {
+      &:hover {
+        .text {
+          bottom: -40%;
+          opacity: 0;
+        }
 
-    .fade-overlay {
-      background-size: 100% 0%;
+        .fade-overlay {
+          background-size: 100% 0%;
+        }
+      }
     }
   }
 }
