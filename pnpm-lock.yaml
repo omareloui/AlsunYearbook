@@ -26,7 +26,6 @@ specifiers:
   nuxt: npm:nuxt3@latest
   pinia: ^2.0.9
   prettier: ^2.4.1
-  reflect-metadata: ^0.1.13
   sass: ^1.43.2
   sass-loader: ^12.2.0
   yup: ^0.32.11
@@ -42,7 +41,6 @@ dependencies:
   moment: 2.29.1
   mongoose: 6.2.4
   pinia: 2.0.11
-  reflect-metadata: 0.1.13
   yup: 0.32.11
 
 devDependencies:
@@ -3746,7 +3744,7 @@ packages:
     dev: true
 
   /isexe/2.0.0:
-    resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
+    resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: true
 
   /jest-worker/26.6.2:
@@ -5449,7 +5447,7 @@ packages:
     dev: true
 
   /read-cache/1.0.0:
-    resolution: {integrity: sha1-5mTvMRYRZsl1HNvo28+GtftY93Q=}
+    resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}
     dependencies:
       pify: 2.3.0
     dev: true
@@ -5472,7 +5470,7 @@ packages:
     dev: true
 
   /readable-stream/1.1.14:
-    resolution: {integrity: sha1-fPTFTvZI44EwhMY23SB54WbAgdk=}
+    resolution: {integrity: sha512-+MeVjFf4L44XUkhM1eYbD8fyEsxcV81pqMSR5gblfcLCHfZvbrqy4/qYHE+/R5HoBUT11WV5O08Cr1n3YXkWVQ==}
     dependencies:
       core-util-is: 1.0.3
       inherits: 2.0.4
@@ -5515,20 +5513,16 @@ packages:
     dev: true
 
   /redis-errors/1.2.0:
-    resolution: {integrity: sha1-62LSrbFeTq9GEMBK/hUpOEJQq60=}
+    resolution: {integrity: sha512-1qny3OExCf0UvUV/5wpYKf2YwPcOqXzkwKKSmKHiE6ZMQs5heeE/c8eXK+PNllPvmjgAbfnsbpkGZWy8cBpn9w==}
     engines: {node: '>=4'}
     dev: true
 
   /redis-parser/3.0.0:
-    resolution: {integrity: sha1-tm2CjNyv5rS4pCin3vTGvKwxyLQ=}
+    resolution: {integrity: sha512-DJnGAeenTdpMEH6uAJRK/uiyEIH9WVsUmoLwzudwGJUwZPp80PDBWPHXSAGNPwNvIXAbe7MSUB1zQFugFml66A==}
     engines: {node: '>=4'}
     dependencies:
       redis-errors: 1.2.0
     dev: true
-
-  /reflect-metadata/0.1.13:
-    resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
-    dev: false
 
   /regenerator-runtime/0.13.9:
     resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}

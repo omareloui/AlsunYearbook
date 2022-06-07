@@ -40,7 +40,6 @@
     "moment": "^2.29.1",
     "mongoose": "^6.2.3",
     "pinia": "^2.0.9",
-    "reflect-metadata": "^0.1.13",
     "yup": "^0.32.11"
   }
 }
