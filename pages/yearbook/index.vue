@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { useAuthStore } from "~~/store/useAuth";
 import { useYearbookStore } from "~~/store/useYearbook";
-// import { useMessagesStore } from "~~/store/useMessages";
+import { useMessagesStore } from "~~/store/useMessages";
 
 useHead({ title: "Alsun Yearbook" });
 
 const authStore = useAuthStore();
 const yearbookStore = useYearbookStore();
-// const messagesStore = useMessagesStore();
+const messagesStore = useMessagesStore();
 
-// if (authStore.isInYearbook) await messagesStore.fetchUnread();
+if (authStore.isInYearbook) await messagesStore.fetchUnread();
 
 yearbookStore.setSectionOnLoad();
 await yearbookStore.fetchCurrentSection();
-// await yearbookStore.fetchMyCloseFriends();
+await yearbookStore.fetchMyCloseFriends();
 yearbookStore.setShown();
 </script>
 
