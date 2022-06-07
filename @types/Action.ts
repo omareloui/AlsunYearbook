@@ -1,3 +1,4 @@
+import { Document, Types } from "mongoose";
 import { User } from ".";
 
 export interface ActionAffectedField {
@@ -6,14 +7,26 @@ export interface ActionAffectedField {
   to: string;
 }
 
-export interface ActionAffected {
+export interface PopulatedActionAffected {
   user?: User;
   fields?: ActionAffectedField[];
 }
 
-export interface Action {
-  signature: User;
+export interface ActionAffected {
+  user?: Types.ObjectId;
+  fields?: ActionAffectedField[];
+}
+
+export interface DehydratedAction {
+  signature: Types.ObjectId;
   action: string;
   affected?: ActionAffected;
+}
+
+export interface Action extends Document {
+  signature: User;
+  action: string;
+  affected?: PopulatedActionAffected;
   createdAt: Date;
+  updatedAt: Date;
 }
