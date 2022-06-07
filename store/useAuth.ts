@@ -25,8 +25,8 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async setFromCookie() {
-      const data = (await useCustomFetch("/api/me")) as Authentication;
-      if (!data?.user) return;
+      const data = await useCustomFetch<Authentication>("/api/me");
+      if (!data.user) return;
       this.user = data.user;
     },
 
@@ -34,10 +34,13 @@ export const useAuthStore = defineStore("auth", {
       formData: { fbId?: string; username: string; password: string },
       type: SignType
     ) {
-      const data = (await useCustomFetch(`/api/auth/sign${type}`, {
-        method: "POST",
-        body: formData,
-      })) as Authentication;
+      const data = await useCustomFetch<Authentication>(
+        `/api/auth/sign${type}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       this.user = data.user;
 
