@@ -14,9 +14,32 @@ export default defineNuxtConfig({
     ),
   },
 
+  head: {
+    title: "Alsun Yearbook | Class of 2017/2021",
+  },
+
   meta: {
+    meta: [{ name: "theme-color", content: "#ffee57" }],
     link: [
+      { charset: "utf-8" },
+
+      {
+        hid: "description",
+        name: "description",
+        content:
+          "A yearbook for University of Ain Shams' Alsun's class of 2017/2021.",
+      },
+
+      {
+        hid: "apple-touch-icon",
+        rel: "apple-touch-icon",
+        href: "/icons/logo_x180.png",
+      },
+      { rel: "apple-mobile-web-app-status-bar", content: "#ffee57" },
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+
+      { rel: "manifest", href: "/site.webmanifest" },
+
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       {
         rel: "preconnect",

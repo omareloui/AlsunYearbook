@@ -3,8 +3,6 @@ import { useAuthStore } from "~~/store/useAuth";
 
 definePageMeta({ layout: "landing" });
 
-useHead({ title: "Alsun Yearbook | Class of 2017/2021" });
-
 const authStore = useAuthStore();
 </script>
 

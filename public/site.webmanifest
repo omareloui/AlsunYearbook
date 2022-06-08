@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+
+  "name": "Alsun Yearbook",
+  "short_name": "Alsun Yearbook",
+
+  "start_url": "/?source=pwa",
+  "display": "standalone",
+  "background_color": "#ededed",
+  "theme_color": "#ffee57",
+
+  "icons": [
+    {
+      "src": "/icons/logo.svg",
+      "sizes": "any"
+    },
+    {
+      "src": "/icons/logo_x512.png",
+      "sizes": "512x512"
+    },
+
+    {
+      "src": "/icons/logo_x384.png",
+      "sizes": "384x384"
+    },
+
+    {
+      "src": "/icons/logo_x192.png",
+      "sizes": "192x192"
+    },
+
+    {
+      "src": "/icons/logo_x180.png",
+      "sizes": "180x180"
+    },
+
+    {
+      "src": "/icons/logo_x128.png",
+      "sizes": "128x128"
+    },
+
+    {
+      "src": "/icons/logo_x120.png",
+      "sizes": "120x120"
+    },
+
+    {
+      "src": "/icons/logo_x96.png",
+      "sizes": "96x96"
+    },
+
+    {
+      "src": "/icons/logo_x72.png",
+      "sizes": "72x72"
+    },
+
+    {
+      "src": "/icons/logo_x48.png",
+      "sizes": "48x48"
+    },
+
+    {
+      "src": "/icons/logo_x32.png",
+      "sizes": "32x32"
+    }
+  ]
+}
