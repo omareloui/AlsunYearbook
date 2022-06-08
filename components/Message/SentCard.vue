@@ -109,6 +109,7 @@ onBeforeMount(async () => {
 
   .content {
     grid-area: content;
+    white-space: pre-wrap;
     @include clr-txt(main, 0.85);
     @include fw-semibold;
     @include break-word;
