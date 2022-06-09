@@ -28,13 +28,6 @@ export const useAuthStore = defineStore("auth", {
       [JWT_NAME, REFRESH_TOKEN_NAME].forEach(x => cookies.remove(x));
     },
 
-    async setFromCookie() {
-      await useAsyncData("users", async () => {
-        const { data } = await useTokenedFetch("/api/me");
-        this.setUser(data.value.user);
-      });
-    },
-
     async sign(
       formData: { fbId?: string; username: string; password: string },
       type: SignType
