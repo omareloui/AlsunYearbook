@@ -8,19 +8,18 @@ self.addEventListener("activate", () => {
   self.clients.claim();
 });
 
-// Navigation route are handled by network first strategy
+// Navigation
 workbox.routing.registerRoute(
   ({ request }) => request.mode === "navigate",
   new workbox.strategies.NetworkFirst({ cacheName: "navigation" })
 );
 
-// CSS are handled by a Stale While Revalidate strategy
+// Styles
 workbox.routing.registerRoute(
   ({ request }) => request.destination === "style",
   new workbox.strategies.StaleWhileRevalidate({
     cacheName: "styles",
     plugins: [
-      // Ensure that only requests that result in a 200 status are cached
       new workbox.cacheableResponse.CacheableResponse({
         statuses: [200],
       }),
@@ -28,24 +27,18 @@ workbox.routing.registerRoute(
   })
 );
 
+// Fonts
 workbox.routing.registerRoute(
   ({ request }) => request.destination === "font",
-  new workbox.strategies.StaleWhileRevalidate({
-    cacheName: "fonts",
-    plugins: [
-      new workbox.cacheableResponse.CacheableResponse({
-        statuses: [200],
-      }),
-    ],
-  })
+  new workbox.strategies.CacheFirst({ cacheName: "fonts" })
 );
 
+// Scripts
 workbox.routing.registerRoute(
   ({ request }) => request.destination === "script",
   new workbox.strategies.StaleWhileRevalidate({
     cacheName: "scripts",
     plugins: [
-      // Ensure that only requests that result in a 200 status are cached
       new workbox.cacheableResponse.CacheableResponse({
         statuses: [200],
       }),
@@ -53,17 +46,15 @@ workbox.routing.registerRoute(
   })
 );
 
-// Images are handled with a Cache First strategy
+// Images
 workbox.routing.registerRoute(
   ({ request }) => request.destination === "image",
   new workbox.strategies.CacheFirst({
     cacheName: "images",
     plugins: [
-      // Ensure that only requests that result in a 200 status are cached
       new workbox.cacheableResponse.CacheableResponse({
         statuses: [200, 404],
       }),
-      // Don't cache more than 50 items, and expire them after 30 days
       new workbox.expiration.CacheExpiration("images", {
         maxAgeSeconds: 60 * 60 * 24 * 30, // 30 Days
       }),
