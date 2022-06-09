@@ -14,6 +14,7 @@
       "src": "/icons/logo.svg",
       "sizes": "any"
     },
+
     {
       "src": "/icons/logo_x512.png",
       "sizes": "512x512"
@@ -62,6 +63,72 @@
     {
       "src": "/icons/logo_x32.png",
       "sizes": "32x32"
+    },
+
+    {
+      "src": "/icons/logo_mask.svg",
+      "sizes": "any",
+      "purpose": "maskable"
+    },
+
+    {
+      "src": "/icons/logo_mask_x512.png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    },
+
+    {
+      "src": "/icons/logo_mask_x384.png",
+      "sizes": "384x384",
+      "purpose": "maskable"
+    },
+
+    {
+      "src": "/icons/logo_mask_x192.png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+
+    {
+      "src": "/icons/logo_mask_x180.png",
+      "sizes": "180x180",
+      "purpose": "maskable"
+    },
+
+    {
+      "src": "/icons/logo_mask_x128.png",
+      "sizes": "128x128",
+      "purpose": "maskable"
+    },
+
+    {
+      "src": "/icons/logo_mask_x120.png",
+      "sizes": "120x120",
+      "purpose": "maskable"
+    },
+
+    {
+      "src": "/icons/logo_mask_x96.png",
+      "sizes": "96x96",
+      "purpose": "maskable"
+    },
+
+    {
+      "src": "/icons/logo_mask_x72.png",
+      "sizes": "72x72",
+      "purpose": "maskable"
+    },
+
+    {
+      "src": "/icons/logo_mask_x48.png",
+      "sizes": "48x48",
+      "purpose": "maskable"
+    },
+
+    {
+      "src": "/icons/logo_mask_x32.png",
+      "sizes": "32x32",
+      "purpose": "maskable"
     }
   ]
 }
