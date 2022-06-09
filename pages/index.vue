@@ -27,7 +27,7 @@ const authStore = useAuthStore();
 
     <div class="action-links">
       <LinkButton
-        v-if="authStore.isSigned"
+        v-if="authStore.hasRefreshToken"
         to="/yearbook"
         is-cta
         is-large
@@ -36,8 +36,9 @@ const authStore = useAuthStore();
         To The Yearbook
       </LinkButton>
 
+      <!-- v-if="!authStore.isSigned" -->
       <LinkButton
-        v-if="!authStore.isSigned"
+        v-if="!authStore.hasRefreshToken"
         to="/signup"
         is-cta
         is-large
@@ -47,7 +48,7 @@ const authStore = useAuthStore();
       </LinkButton>
 
       <LinkButton
-        v-if="!authStore.isSigned"
+        v-if="!authStore.hasRefreshToken"
         to="/signin"
         is-large
         class="action-links__link"
