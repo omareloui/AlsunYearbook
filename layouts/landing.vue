@@ -1,13 +1,11 @@
 <template>
-  <LayoutsWrapper>
-    <Container tag="main">
-      <LinkBase to="/">
-        <LogoLandingPage class="logo" />
-      </LinkBase>
-      <slot></slot>
-      <Notify />
-    </Container>
-  </LayoutsWrapper>
+  <Container tag="main">
+    <LinkBase to="/">
+      <LogoLandingPage class="logo" />
+    </LinkBase>
+    <slot></slot>
+    <Notify />
+  </Container>
 </template>
 
 <style scoped lang="scss">

@@ -3,7 +3,7 @@ import { useMessagesStore } from "~~/store/useMessages";
 
 import MessageSentCard from "~~/components/Message/SentCard.vue";
 
-useMeta({ title: "Sent Messages" });
+useHead({ title: "Sent Messages" });
 
 const messagesStore = useMessagesStore();
 await messagesStore.fetchSent();

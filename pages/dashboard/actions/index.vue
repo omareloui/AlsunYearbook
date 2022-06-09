@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { Action } from "~~/@types";
+import { useDashboardStore } from "~~/store/useDashboard";
 import DashboardActionCard from "~~/components/Dashboard/ActionCard.vue";
 
-useMeta({ title: "Actions | Dashboard" });
+useHead({ title: "Actions | Dashboard" });
 definePageMeta({ middleware: "has-to-be-assistant-to-admin" });
 
-const actions = (await useCustomFetch("/api/actions")) as Action[];
+const dashboardStore = useDashboardStore();
+
+await dashboardStore.fetchActions();
 </script>
 
 <template>
@@ -13,7 +15,7 @@ const actions = (await useCustomFetch("/api/actions")) as Action[];
     <h1 class="heading">Actions</h1>
 
     <PreviewWithDayGroups
-      :data="actions"
+      :data="dashboardStore.actions"
       data-key="action"
       :card-component="DashboardActionCard"
     />

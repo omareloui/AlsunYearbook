@@ -1,4 +1,4 @@
-import type { YearbookSection } from "types";
+import type { YearbookSection, User as UserInterface } from "types";
 
 import { User } from "server/models";
 import { hasToBeAuthenticated } from "server/policies";
@@ -45,6 +45,6 @@ export class YearbookController {
     if (!user)
       return createError({ message: "Can't find the user.", statusCode: 404 });
 
-    return user;
+    return user as UserInterface;
   });
 }

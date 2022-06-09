@@ -1,7 +1,5 @@
 <template>
-  <LayoutsWrapper>
-    <Navbar />
-    <slot></slot>
-    <Notify />
-  </LayoutsWrapper>
+  <Navbar />
+  <slot></slot>
+  <Notify />
 </template>
