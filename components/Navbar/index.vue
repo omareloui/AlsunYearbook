@@ -4,15 +4,15 @@ import { useAuthStore } from "~~/store/useAuth";
 const authStore = useAuthStore();
 
 const isOpen = ref(false);
-const isTablet = ref(false);
+const isLargerThanTablet = ref(false);
 
 function toggle() {
   isOpen.value = !isOpen.value;
 }
 
 function setIsTablet() {
-  if (window.innerWidth >= 768) isTablet.value = true;
-  else isTablet.value = false;
+  if (window.innerWidth >= 768) isLargerThanTablet.value = true;
+  else isLargerThanTablet.value = false;
 }
 
 function signout() {
@@ -32,10 +32,7 @@ onUnmounted(() => removeEventListener("resize", setIsTablet));
 <template>
   <Container class="navbar">
     <div class="head">
-      <LinkBase v-if="isTablet" to="/yearbook" class="logo-link">
-        <Logo class="logo" />
-      </LinkBase>
-      <LinkBase v-else to="/" class="logo-link">
+      <LinkBase :to="isLargerThanTablet ? '/' : '/yearbook'" class="logo-link">
         <Logo class="logo" />
       </LinkBase>
 
@@ -47,7 +44,7 @@ onUnmounted(() => removeEventListener("resize", setIsTablet));
     </div>
 
     <Transition name="nav">
-      <nav class="body" v-if="isOpen || isTablet">
+      <nav class="body" v-if="isOpen || isLargerThanTablet">
         <ul>
           <div class="links-block links-block--nav">
             <li>
@@ -63,7 +60,7 @@ onUnmounted(() => removeEventListener("resize", setIsTablet));
             </li>
           </div>
 
-          <LineBreak v-if="!isTablet" />
+          <LineBreak v-if="!isLargerThanTablet" />
 
           <div class="links-block links-block--auth">
             <li>
@@ -76,7 +73,11 @@ onUnmounted(() => removeEventListener("resize", setIsTablet));
   </Container>
 
   <transition name="fade">
-    <div class="nav-overlay" v-if="isOpen && !isTablet" @click="toggle"></div>
+    <div
+      class="nav-overlay"
+      v-if="isOpen && !isLargerThanTablet"
+      @click="toggle"
+    ></div>
   </transition>
 </template>
 
