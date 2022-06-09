@@ -10,24 +10,26 @@ export const useUsersStore = defineStore("users", {
     currentUser: null as null | User,
 
     searchQuery: "",
+
+    fetchedUsers: false,
   }),
 
   getters: {
-    currentUserIndex() {
-      if (!this.currentUser) return null;
+    currentUserIndex(): number {
+      if (!this.currentUser) return -1;
       return this.users.findIndex(
-        u => u.socialMedia.fb === this.currentUser.socialMedia.fb
+        u => u.socialMedia.fb === this.currentUser!.socialMedia.fb
       );
     },
 
-    nextUser() {
+    nextUser(): User {
       const index = this.currentUserIndex;
       return index === this.users.length - 1
         ? this.users[0]
         : this.users[index + 1];
     },
 
-    prevUser() {
+    prevUser(): User {
       const index = this.currentUserIndex;
       return index === 0
         ? this.users[this.users.length - 1]
@@ -37,13 +39,14 @@ export const useUsersStore = defineStore("users", {
 
   actions: {
     async fetchUsers() {
-      if (this.users.length) return;
-      this.users = (await useCustomFetch("/api/users")) as User[];
+      if (this.fetchedUsers) return;
+      this.users = await $fetch("/api/users", { headers: useAuthHeaders()() });
       this.setShown();
+      this.fetchedUsers = true;
     },
 
     fetchUser(userId: string) {
-      const user: User = this.getById(userId);
+      const user = this.getById(userId);
       if (user) return user;
       return useCustomFetch(`/api/users/user?id=${userId}`) as Promise<User>;
     },
@@ -55,9 +58,8 @@ export const useUsersStore = defineStore("users", {
     async getPrevAndNext(user: User) {
       if (!this.users.length) await this.fetchUsers();
 
-      this.currentUser = this.users.find(
-        u => u.socialMedia.fb === user.socialMedia.fb
-      );
+      this.currentUser =
+        this.users.find(u => u.socialMedia.fb === user.socialMedia.fb) || null;
 
       return { next: this.nextUser as User, prev: this.prevUser as User };
     },
@@ -91,7 +93,7 @@ export const useUsersStore = defineStore("users", {
         );
         return user;
       } catch (e) {
-        notify.error(e.message);
+        notify.error((e as Error).message);
       }
     },
 
@@ -114,7 +116,7 @@ export const useUsersStore = defineStore("users", {
         notify.success(`Reset ${user.name.first}.`);
         return user;
       } catch (e) {
-        notify.error(e.message);
+        notify.error((e as Error).message);
       }
     },
 
@@ -124,7 +126,7 @@ export const useUsersStore = defineStore("users", {
       );
       if (activitiesFromCache) return activitiesFromCache.activities;
 
-      const activities = await useCustomFetch(
+      const activities: UserActivities = await $fetch(
         `/api/users/activities?id=${userId}`
       );
 

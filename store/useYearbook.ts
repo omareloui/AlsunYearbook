@@ -1,5 +1,5 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
-import type { CloseFriend, User, YearbookSection } from "~~/@types";
+import type { CloseFriend, User, YearbookSection } from "types";
 import { useSortUsers } from "~~/composables/useSortUsers";
 
 import { useYearbookSections } from "~~/composables/useYearbookSections";
@@ -16,18 +16,22 @@ export const useYearbookStore = defineStore("yearbook", {
     currentUser: null as null | User,
 
     closeFriends: [] as User[],
+
+    fetchedMyCloseFriends: false,
+    fetchedStudents: false,
+    fetchedProfessors: false,
   }),
 
   getters: {
-    currentUserIndex() {
-      if (!this.currentUser) return null;
+    currentUserIndex(): number {
+      if (!this.currentUser) return -1;
       const currentUsers = this[this.section] as User[];
       return currentUsers.findIndex(
-        u => u.socialMedia.fb === this.currentUser.socialMedia.fb
+        u => u.socialMedia.fb === this.currentUser!.socialMedia.fb
       );
     },
 
-    nextUser() {
+    nextUser(): User {
       const index = this.currentUserIndex;
       const currentUsers = this[this.section] as User[];
       return index === currentUsers.length - 1
@@ -35,7 +39,7 @@ export const useYearbookStore = defineStore("yearbook", {
         : currentUsers[index + 1];
     },
 
-    prevUser() {
+    prevUser(): User {
       const index = this.currentUserIndex;
       const currentUsers = this[this.section] as User[];
       return index === 0
@@ -105,10 +109,12 @@ export const useYearbookStore = defineStore("yearbook", {
       await this.setShown();
     },
 
-    async fetchUser(id: string) {
-      const user: User = this.getById(id);
+    fetchUser(id: string) {
+      const user = this.getById(id);
       if (user) return user;
-      return (await useCustomFetch(`/api/yearbook/user?id=${id}`)) as User;
+      return $fetch(`/api/yearbook/user?id=${id}`, {
+        headers: useAuthHeaders()(),
+      }) as Promise<User>;
     },
 
     async fetchCurrentSection() {
@@ -116,8 +122,11 @@ export const useYearbookStore = defineStore("yearbook", {
     },
 
     async fetchSection(section: YearbookSection) {
-      if (this[section].length) return;
-      this[section] = await useCustomFetch(`/api/yearbook?section=${section}`);
+      if (this[`fetched${useCapitalize(section) as "Students" | "Professors"}`])
+        return;
+      this[section] = await $fetch(`/api/yearbook?section=${section}`, {
+        headers: useAuthHeaders()(),
+      });
     },
 
     getById(id: string) {
@@ -132,23 +141,23 @@ export const useYearbookStore = defineStore("yearbook", {
 
     async getPrevAndNext(user: User) {
       this.setSection(`${user.role.toLowerCase()}s` as YearbookSection);
-      let currentUsers = this[this.section] as User[];
-
-      if (!currentUsers.length) await this.getCurrentSectionUsers();
+      let currentUsers = this[this.section];
 
       currentUsers = this[this.section];
 
-      this.currentUser = currentUsers.find(
-        u => u.socialMedia.fb === user.socialMedia.fb
-      );
+      this.currentUser =
+        currentUsers.find(u => u.socialMedia.fb === user.socialMedia.fb) ||
+        null;
 
-      return { next: this.nextUser as User, prev: this.prevUser as User };
+      return { next: this.nextUser, prev: this.prevUser };
     },
 
     async fetchMyCloseFriends() {
-      this.closeFriends = (await useCustomFetch(
-        "/api/close-friend/mine"
-      )) as User[];
+      if (this.fetchedMyCloseFriends) return;
+      this.closeFriends = await $fetch("/api/close-friend/mine", {
+        headers: useAuthHeaders()(),
+      });
+      this.fetchedMyCloseFriends = true;
     },
 
     checkIfCloseFriend(userId: string) {

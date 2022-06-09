@@ -32,7 +32,10 @@ onUnmounted(() => removeEventListener("resize", setIsTablet));
 <template>
   <Container class="navbar">
     <div class="head">
-      <LinkBase to="/" class="logo-link">
+      <LinkBase v-if="isTablet" to="/yearbook" class="logo-link">
+        <Logo class="logo" />
+      </LinkBase>
+      <LinkBase v-else to="/" class="logo-link">
         <Logo class="logo" />
       </LinkBase>
 

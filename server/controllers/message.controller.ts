@@ -25,7 +25,7 @@ export class MessageController {
 
     return Message.find({ author: context.user.id })
       .sort("-createdAt")
-      .populate("receiver");
+      .populate("receiver") as unknown as MessageInterface[];
   });
 
   static getUnread = defineEventHandler(async event => {
@@ -61,12 +61,18 @@ export class MessageController {
         statusCode: 400,
       });
 
-    return new Message({
+    const newMessage = new Message({
       message: message,
       author: new mongoose.Types.ObjectId(context.user.id),
       receiver: new mongoose.Types.ObjectId(receiver),
       isAnonymous,
-    }).save();
+    });
+    await newMessage.save();
+
+    return Message.populate(
+      newMessage,
+      "author receiver"
+    ) as unknown as MessageInterface;
   });
 
   // TODO:

@@ -7,28 +7,45 @@ export const useMessagesStore = defineStore("messages", {
     inbox: [] as Message[],
     sent: [] as Message[],
     unread: [] as Message[],
+
+    fetchedInbox: false,
+    fetchedSent: false,
+    fetchedUnread: false,
   }),
 
   actions: {
     async fetchUnread() {
-      const messages = await useCustomFetch("/api/messages/unread");
+      if (this.fetchedUnread) return;
+      const messages = await $fetch("/api/messages/unread", {
+        headers: useAuthHeaders()(),
+      });
       this.unread = messages;
+      this.fetchedUnread = true;
     },
 
     async fetchInbox() {
-      const messages = await useCustomFetch("/api/messages/inbox");
+      if (this.fetchedInbox) return;
+      const messages = await $fetch("/api/messages/inbox", {
+        headers: useAuthHeaders()(),
+      });
       this.inbox = messages;
+      this.fetchedInbox = true;
     },
 
     async fetchSent() {
-      const messages = await useCustomFetch("/api/messages/sent");
+      if (this.fetchedSent) return;
+      const messages = await $fetch("/api/messages/sent", {
+        headers: useAuthHeaders()(),
+      });
       this.sent = messages;
+      this.fetchedSent = true;
     },
 
     async send(data: SendMessage) {
-      const message = await useCustomFetch("/api/messages/send", {
+      const message = await $fetch("/api/messages/send", {
         method: "POST",
         body: data,
+        headers: useAuthHeaders()(),
       });
       this.sent.unshift(message);
     },
