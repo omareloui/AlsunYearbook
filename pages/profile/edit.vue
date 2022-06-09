@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useAuthStore } from "~~/store/useAuth";
-import type { UpdateMe } from "~~/@types";
+import type { UpdateMe, User } from "types";
 
-useMeta({ title: "Edit Profile" });
+useHead({ title: "Edit Profile" });
 
 const authStore = useAuthStore();
 
@@ -16,7 +16,7 @@ const error = reactive({
 });
 
 const formData = reactive({
-  username: authStore.user.username,
+  username: authStore.user!.username,
   oldPassword: "",
   newPassword: "",
 } as UpdateMe);
@@ -25,10 +25,10 @@ async function update() {
   const notify = useNotify();
 
   try {
-    const user = await useCustomFetch("/api/auth/update-me", {
-      method: "POST",
+    const user = (await useCustomFetch("/api/auth/update-me", {
+      method: "PUT",
       body: formData,
-    });
+    })) as User;
     authStore.user = user;
     notify.success("Updated profile.");
     navigateTo("/yearbook");
