@@ -51,24 +51,6 @@ export const useAuthStore = defineStore("auth", {
       this.removeCookies();
       this.setUser(null);
     },
-
-    // async updateMe(
-    //   { dispatch },
-    //   { oldPassword, email, firstName, lastName, password }: UpdateMeOptions
-    // ) {
-    //   const options: UpdateMeOptions = {}
-    //   if (firstName) options.firstName = firstName
-    //   if (lastName) options.lastName = lastName
-    //   if (email) options.email = email
-    //   if (password && oldPassword) {
-    //     options.password = password
-    //     options.oldPassword = oldPassword
-    //   }
-    //   const { data: result } = await this.$axios.put("/me", options)
-    //   dispatch("setSignData", result)
-    //   this.$notify.success("Update profile")
-    //   this.$router.push("/")
-    // },
   },
 });
 
