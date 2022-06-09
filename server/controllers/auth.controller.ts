@@ -183,16 +183,10 @@ export class AuthController {
   }
 
   static removeCookies(event: CompatibilityEvent) {
-    const options = {
-      path: "/",
-      sameSite: "lax" as const,
-      expires: new Date(0),
-    };
-
     [
       { name: JWT_NAME, content: "" },
       { name: REFRESH_TOKEN_NAME, content: "" },
-    ].forEach(x => setCookie(event, x.name, x.content, options));
+    ].forEach(x => deleteCookie(event, x.name));
   }
 
   private static validateSignData({
