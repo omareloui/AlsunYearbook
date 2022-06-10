@@ -38,10 +38,10 @@ export default defineNuxtPlugin(async () => {
   }
 
   const isInboxRoute = fullPath === "/inbox";
-  if (isInboxRoute) await messagesStore.fetchInbox();
+  if (isInboxRoute && authStore.isInYearbook) await messagesStore.fetchInbox();
 
   const isSentRoute = fullPath === "/sent";
-  if (isSentRoute) await messagesStore.fetchSent();
+  if (isSentRoute && authStore.isInYearbook) await messagesStore.fetchSent();
 
   const isDashboardActionsRoute = fullPath === "/dashboard/actions";
   if (
