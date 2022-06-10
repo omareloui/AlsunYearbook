@@ -10,7 +10,7 @@ const UserSchema = new Schema<DehydratedUser>({
   name: {
     first: { type: String, minlength: 3, trim: true, required: true },
     second: { type: String, minlength: 3, trim: true, required: true },
-    third: { type: String, minlength: 3, trim: true },
+    third: { type: String, trim: true },
     nickname: { type: String, trim: true },
   },
   gender: {
