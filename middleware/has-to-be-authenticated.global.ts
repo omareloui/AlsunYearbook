@@ -6,5 +6,5 @@ export default defineNuxtRouteMiddleware(to => {
   const routesRegExpToGuard = /^\/(yearbook|dashboard|profile)/i;
   const isRouteToGuard = !!to.fullPath.match(routesRegExpToGuard);
 
-  if (isRouteToGuard && !authStore.hasRefreshToken) return navigateTo("/");
+  if (isRouteToGuard && !authStore.isSigned) return navigateTo("/");
 });

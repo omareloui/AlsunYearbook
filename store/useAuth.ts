@@ -13,8 +13,6 @@ export const useAuthStore = defineStore("auth", {
   }),
 
   getters: {
-    hasRefreshToken: () =>
-      !!useCookie(REFRESH_TOKEN_NAME).value || Cookie().get(REFRESH_TOKEN_NAME),
     isSigned: state => !!state.user,
     isInYearbook: state => state.user && useUserIsInYearbook(state.user),
     hasAuthority: state => state.user && useUserHasAuthority(state.user),
