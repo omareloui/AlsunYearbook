@@ -4,11 +4,6 @@ import { useAuthStore } from "~~/store/useAuth";
 definePageMeta({ layout: "landing" });
 
 const authStore = useAuthStore();
-
-onMounted(() => {
-  const { $gtag } = useNuxtApp();
-  $gtag("event", "visit", { value: 1, debug_mode: true });
-});
 </script>
 
 <template>
