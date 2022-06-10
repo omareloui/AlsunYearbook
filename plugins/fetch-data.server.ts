@@ -43,15 +43,16 @@ export default defineNuxtPlugin(async () => {
   const isSentRoute = fullPath === "/sent";
   if (isSentRoute && authStore.isInYearbook) await messagesStore.fetchSent();
 
-  const isDashboardActionsRoute = fullPath === "/dashboard/actions";
-  if (
-    isDashboardActionsRoute &&
-    authorityHelper.hasAccess(
-      "ASSISTANT_TO_ADMIN",
-      authStore.user!.authorityRole
-    )
-  )
-    await dashboardStore.fetchActions();
+  // const isDashboardActionsRoute = fullPath === "/dashboard/actions";
+  // if (
+  //   isDashboardActionsRoute &&
+  //   authorityHelper.hasAccess(
+  //     "ASSISTANT_TO_ADMIN",
+  //     authStore.user!.authorityRole
+  //   )
+  // ) {
+  //   await dashboardStore.fetchActions();
+  // }
 
   const isDashboardUsersRoute = fullPath.match(/^\/dashboard\/users/);
   if (
