@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from "~~/store/useAuth";
 
-useMeta({ title: "Dashboard" });
+useHead({ title: "Dashboard" });
 
 const authStore = useAuthStore();
 const authorityHelper = useAuthorityHelper();

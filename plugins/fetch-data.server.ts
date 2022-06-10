@@ -3,6 +3,7 @@ import { useYearbookStore } from "~~/store/useYearbook";
 import { useMessagesStore } from "~~/store/useMessages";
 import { useDashboardStore } from "~~/store/useDashboard";
 import { useUsersStore } from "~~/store/useUsers";
+import { useAuthorityHelper } from "~~/composables/useAuthorityHelper";
 
 export default defineNuxtPlugin(async () => {
   const authStore = useAuthStore();
@@ -17,6 +18,7 @@ export default defineNuxtPlugin(async () => {
 
   authStore.setUser(user);
 
+  const authorityHelper = useAuthorityHelper();
   const { fullPath, params } = useRoute();
 
   const isYearbookRoute = fullPath.match(/^\/yearbook($|[^/])/);
@@ -42,8 +44,19 @@ export default defineNuxtPlugin(async () => {
   if (isSentRoute) await messagesStore.fetchSent();
 
   const isDashboardActionsRoute = fullPath === "/dashboard/actions";
-  if (isDashboardActionsRoute) await dashboardStore.fetchActions();
+  if (
+    isDashboardActionsRoute &&
+    authorityHelper.hasAccess(
+      "ASSISTANT_TO_ADMIN",
+      authStore.user!.authorityRole
+    )
+  )
+    await dashboardStore.fetchActions();
 
   const isDashboardUsersRoute = fullPath.match(/^\/dashboard\/users/);
-  if (isDashboardUsersRoute) await usersStore.fetchUsers();
+  if (
+    isDashboardUsersRoute &&
+    authorityHelper.hasAccess("MODERATOR", authStore.user!.authorityRole)
+  )
+    await usersStore.fetchUsers();
 });
