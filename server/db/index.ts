@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 import { config } from "server/config";
 
-export const connect = () =>
-  new Promise((res, rej) => {
+export const connect = async () => {
+  await new Promise((res, rej) => {
     if (mongoose.connection.readyState === 1) return res(true);
 
     mongoose.connect(config.dbLink as string, err => {
@@ -12,3 +12,4 @@ export const connect = () =>
       return res(true);
     });
   });
+};

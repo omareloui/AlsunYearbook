@@ -5,7 +5,6 @@ import { AuthController } from "controllers";
 
 import { useConstants } from "~~/composables/useConstants";
 
-import { connect as connectDB } from "server/db";
 import { verifyToken, refreshTokens } from "server/utils";
 import { config } from "server/config";
 
@@ -26,49 +25,45 @@ function getToken(
 
 function verify(token: string) {
   try {
-    return verifyToken<JWTContent>(token, config.tokens.jwt.expiration);
+    return verifyToken<JWTContent>(token, config.tokens.jwt.secret);
   } catch (e) {
     return false;
   }
 }
 
-async function getFromRefreshToken(
-  cookies: Record<string, string>,
-  req: IncomingMessage
-) {
-  const refreshToken = getToken(cookies, req, true);
+// async function getFromRefreshToken(
+//   cookies: Record<string, string>,
+//   req: IncomingMessage
+// ) {
+//   const refreshToken = getToken(cookies, req, true);
 
-  if (!refreshToken) return false;
-  try {
-    const newTokens = await refreshTokens(refreshToken);
-    return newTokens;
-  } catch (e) {
-    return false;
-  }
-}
+//   if (!refreshToken) return false;
+//   try {
+//     const newTokens = await refreshTokens(refreshToken);
+//     return newTokens;
+//   } catch (e) {
+//     return false;
+//   }
+// }
 
 export default defineEventHandler(async event => {
   const { req, context } = event;
-
-  await connectDB();
-
   const cookies = useCookies(event);
   const token = getToken(cookies, req);
-
   const jwtVerificationResult = verify(token);
 
   if (jwtVerificationResult) context.user = jwtVerificationResult.user;
-  else {
-    const newTokens = await getFromRefreshToken(cookies, req);
 
-    if (!newTokens) AuthController.removeCookies(event);
-    else {
-      AuthController.setCookies(
-        event,
-        newTokens.token.body,
-        newTokens.refreshToken.body
-      );
-      context.user = newTokens.user;
-    }
-  }
+  // else {
+  //   const newTokens = await getFromRefreshToken(cookies, req);
+  //   if (!newTokens) AuthController.removeCookies(event);
+  //   else {
+  //     AuthController.setCookies(
+  //       event,
+  //       newTokens.token.body,
+  //       newTokens.refreshToken.body
+  //     );
+  //     context.user = newTokens.user;
+  //   }
+  // }
 });

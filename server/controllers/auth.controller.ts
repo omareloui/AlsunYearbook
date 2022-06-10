@@ -92,7 +92,7 @@ export class AuthController {
     const isValidPassword = await compareHash(password, user.password!);
     if (!isValidPassword) throw createError({ message: "Incorrect password." });
     const [token, refreshToken] = await createTokens(user);
-    this.setCookies(event, token.body, refreshToken.body);
+    // this.setCookies(event, token.body, refreshToken.body);
     return { user, token, refreshToken };
   });
 
