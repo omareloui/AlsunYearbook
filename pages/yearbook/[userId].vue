@@ -60,7 +60,7 @@ onUnmounted(destroy);
         {{ user.name.nickname }}
       </div>
 
-      <YearbookQuoteBlock :quote="user.quote" />
+      <YearbookQuoteBlock :quote="user.quote!" />
 
       <YearbookJobBlock v-if="user.currentJob" :job="user.currentJob" />
 

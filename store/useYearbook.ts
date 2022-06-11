@@ -112,9 +112,7 @@ export const useYearbookStore = defineStore("yearbook", {
     fetchUser(id: string) {
       const user = this.getById(id);
       if (user) return user;
-      return $fetch(`/api/yearbook/user?id=${id}`, {
-        headers: useAuthHeaders()(),
-      }) as Promise<User>;
+      return useTokenedFetch(`/api/yearbook/user?id=${id}`);
     },
 
     async fetchCurrentSection() {
@@ -124,9 +122,7 @@ export const useYearbookStore = defineStore("yearbook", {
     async fetchSection(section: YearbookSection) {
       if (this[`fetched${useCapitalize(section) as "Students" | "Professors"}`])
         return;
-      this[section] = await $fetch(`/api/yearbook?section=${section}`, {
-        headers: useAuthHeaders()(),
-      });
+      this[section] = await useTokenedFetch(`/api/yearbook?section=${section}`);
     },
 
     getById(id: string) {
@@ -141,6 +137,7 @@ export const useYearbookStore = defineStore("yearbook", {
 
     async getPrevAndNext(user: User) {
       this.setSection(`${user.role.toLowerCase()}s` as YearbookSection);
+      await this.fetchCurrentSection();
       let currentUsers = this[this.section];
 
       currentUsers = this[this.section];
@@ -154,9 +151,7 @@ export const useYearbookStore = defineStore("yearbook", {
 
     async fetchMyCloseFriends() {
       if (this.fetchedMyCloseFriends) return;
-      this.closeFriends = await $fetch("/api/close-friend/mine", {
-        headers: useAuthHeaders()(),
-      });
+      this.closeFriends = await useTokenedFetch("/api/close-friend/mine");
       this.fetchedMyCloseFriends = true;
     },
 
@@ -167,7 +162,7 @@ export const useYearbookStore = defineStore("yearbook", {
     async makeCloseFriend(userId: string) {
       if (this.checkIfCloseFriend(userId)) return;
 
-      const closeFriendRecord = (await useCustomFetch(
+      const closeFriendRecord = (await useTokenedFetch(
         "/api/close-friend/make",
         {
           method: "POST",
@@ -184,7 +179,7 @@ export const useYearbookStore = defineStore("yearbook", {
     async removeCloseFriend(userId: string) {
       if (!this.checkIfCloseFriend(userId)) return;
 
-      await useCustomFetch(`/api/close-friend/remove?id=${userId}`, {
+      await useTokenedFetch(`/api/close-friend/remove?id=${userId}`, {
         method: "DELETE",
       });
 

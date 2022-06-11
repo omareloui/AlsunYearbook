@@ -1,15 +1,16 @@
-export async function useCustomFetch<T>(
-  ...params: Parameters<typeof useFetch>
+export function useCustomFetch<T>(
+  ...params: Parameters<typeof $fetch>
 ): Promise<T> {
-  const { data, error } = await useTokenedFetch(...params);
+  // const { data, error } = await useTokenedFetch(...params);
 
-  if (error.value) {
-    throw new Error(
-      error.value === true
-        ? "You have to make at least one change and try again."
-        : useParseError(error)
-    );
-  }
+  // if (error.value) {
+  //   throw new Error(
+  //     error.value === true
+  //       ? "You have to make at least one change and try again."
+  //       : useParseError(error)
+  //   );
+  // }
 
-  return data.value;
+  // return data.value;
+  return useTokenedFetch(...params);
 }
