@@ -70,7 +70,7 @@ const userData = reactive({
 
   quote: userToEdit?.quote || "",
   currentJob: userToEdit?.currentJob || "",
-} as CreateUser);
+} as unknown as CreateUser);
 
 const isInYearbook = computed(() => useUserIsInYearbook(userData.role));
 

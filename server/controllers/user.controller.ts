@@ -80,8 +80,9 @@ export class UserController {
   });
 
   static edit = defineEventHandler(async event => {
-    const { req, context } = event;
     hasToHaveAuthority(event);
+
+    const { req, context } = event;
 
     const body = (await useBody(req)) as CreateUser;
 
@@ -108,6 +109,7 @@ export class UserController {
 
     if (affectedFields.length === 0) return user;
 
+    user.isShown = clonedOldUser.isShown;
     await user.save();
 
     await ActionController.create(
@@ -290,10 +292,8 @@ export class UserController {
   }
 
   private static populateIsShown(userData: CreateUser) {
-    const providedIsShown = !(
-      userData.isShown === null || userData.isShown === undefined
-    );
-
+    const providedIsShown =
+      userData.isShown === true || userData.isShown === false;
     if (providedIsShown) return userData.isShown;
     return useUserIsInYearbook(userData.role) ? true : undefined;
   }

@@ -32,8 +32,8 @@ async function toggleShow() {
 
 async function reset() {
   await usersStore.resetUser(user.socialMedia.fb);
-  user.username = null;
-  user.password = null;
+  user.username = undefined;
+  user.password = undefined;
 }
 
 function init() {

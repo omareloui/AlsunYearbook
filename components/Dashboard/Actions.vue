@@ -14,6 +14,7 @@ const emit = defineEmits(["toggle-show", "reset"]);
       v-if="userHelpers.isInYearbook"
       class="action action--show"
       @click="emit('toggle-show')"
+      :title="user.isShown ? 'Hide user' : 'Show user'"
     >
       <transition name="fade" mode="out-in">
         <IconShow v-if="!user.isShown" />
