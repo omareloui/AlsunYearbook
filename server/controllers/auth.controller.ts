@@ -150,10 +150,10 @@ export class AuthController {
       await user.save();
 
       const [token, refreshToken] = createTokens(user);
-      // TODO: update the cookies
+      return { user, token, refreshToken };
     }
 
-    return user;
+    return { user };
   });
 
   /* ============== Utils ============== */

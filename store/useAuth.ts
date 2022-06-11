@@ -5,7 +5,7 @@ import { useConstants } from "~~/composables/useConstants";
 import { useGetSecondsFromString } from "~~/composables/useGetSecondsFromString";
 import { useTokenedFetch } from "~~/composables/useTokenedFetch";
 
-import type { SignType, Authentication, User, Token } from "types";
+import type { SignType, User, Token } from "types";
 
 const { JWT_NAME, REFRESH_TOKEN_NAME } = useConstants();
 const getSecondsFromString = useGetSecondsFromString();

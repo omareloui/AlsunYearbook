@@ -25,15 +25,19 @@ async function update() {
   const notify = useNotify();
 
   try {
-    const user = (await useTokenedFetch("/api/auth/update-me", {
-      method: "PUT",
-      body: formData,
-    })) as User;
+    const { user, token, refreshToken } = await useTokenedFetch(
+      "/api/auth/update-me",
+      {
+        method: "PUT",
+        body: formData,
+      }
+    );
     authStore.user = user;
+    if (token && refreshToken) authStore.setTokens(token, refreshToken);
     notify.success("Updated profile.");
     navigateTo("/yearbook");
   } catch (e) {
-    notify.error(e.message);
+    notify.error((e as Error).message);
   }
 }
 </script>
