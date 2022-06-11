@@ -1,5 +1,5 @@
 <script setup lang="ts">
-useMeta({ title: "Add User | Dashboard" });
+useHead({ title: "Add User | Dashboard" });
 </script>
 
 <template>

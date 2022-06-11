@@ -3,7 +3,7 @@ import { useMessagesStore } from "~~/store/useMessages";
 
 import MessageInboxCard from "~~/components/Message/InboxCard.vue";
 
-useMeta({ title: "Inbox" });
+useHead({ title: "Inbox" });
 
 const messagesStore = useMessagesStore();
 await messagesStore.fetchInbox();

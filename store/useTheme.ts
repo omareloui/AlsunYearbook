@@ -32,7 +32,7 @@ export const useThemeStore = defineStore("theme", {
     },
 
     updateHtmlAttrs() {
-      useMeta({
+      useHead({
         htmlAttrs: {
           theme: this.htmlAttr,
         },

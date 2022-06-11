@@ -10,7 +10,7 @@ const user = await usersStore.fetchUser(id);
 
 const userHelpers = useUserHelpers(user);
 
-useMeta({ title: `Edit ${userHelpers.fullName} | Dashboard` });
+useHead({ title: `Edit ${userHelpers.fullName} | Dashboard` });
 </script>
 
 <template>

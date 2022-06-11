@@ -4,7 +4,7 @@ import { useUsersStore } from "~~/store/useUsers";
 
 const { debounce } = _;
 
-useMeta({ title: "Users | Dashboard" });
+useHead({ title: "Users | Dashboard" });
 
 const usersStore = useUsersStore();
 

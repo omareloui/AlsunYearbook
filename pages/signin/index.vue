@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ layout: "landing" });
 
-useMeta({ title: "Signup" });
+useHead({ title: "Signup" });
 </script>
 
 <template>
