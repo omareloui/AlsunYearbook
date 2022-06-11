@@ -14,6 +14,10 @@ export default defineNuxtConfig({
     ),
   },
 
+  runtimeConfig: {
+    public: { isProd: process.env.NODE_ENV === "production" },
+  },
+
   head: {
     title: "Alsun Yearbook | Class of 2017/2021",
   },

@@ -1,4 +1,5 @@
 export default defineNuxtPlugin(() => {
   if (!("serviceWorker" in navigator)) return;
-  navigator.serviceWorker.register("/sw.js");
+  if (useRuntimeConfig().public.isProd)
+    navigator.serviceWorker.register("/sw.js");
 });
