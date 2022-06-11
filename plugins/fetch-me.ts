@@ -8,6 +8,10 @@ export default defineNuxtPlugin(async () => {
     const { user } = await useTokenedFetch("/api/me");
     if (!user) return;
     authStore.setUser(user);
+    if (useRoute().fullPath === "/") {
+      await nextTick();
+      navigateTo("/yearbook");
+    }
   } catch (e) {
     shouldRemoveTokens = true;
   }
