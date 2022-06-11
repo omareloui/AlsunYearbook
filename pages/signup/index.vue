@@ -9,14 +9,18 @@ useHead({ title: "Signup" });
     <h1>Signup</h1>
     <AuthSignForm type="up" />
 
-    <p class="description">
-      You have to be part of this yearbook to be able to browse it. If yo're one
-      of Alsun's Spanish department, class 2017/2021 and you can't reach the
-      yearbook feel free to email
-      <LinkBase to="mailto:alsun.yearbook@gmail.com"
-        >alsun.yearbook@gmail.com</LinkBase
-      >.
-    </p>
+    <article class="description">
+      <p>
+        You should be part of the yearbook to be able to browse it. If yo're one
+        of Alsun's Spanish department, class 2017/2021 and you can't reach the
+        yearbook feel free to contact
+        <LinkBase to="https://t.me/omareloui">Omar Eloui</LinkBase>.
+      </p>
+      <p>
+        If you're interested in having a visitor account you can contact him
+        too.
+      </p>
+    </article>
   </Container>
 </template>
 
