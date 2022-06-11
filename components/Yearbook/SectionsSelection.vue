@@ -53,6 +53,8 @@ async function select(section: YearbookSection) {
 
     @include tran;
 
+    @include remove-android-highlight;
+
     &--current {
       @include clr-bg(primary);
     }

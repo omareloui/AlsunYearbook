@@ -104,6 +104,7 @@ onUnmounted(() => removeEventListener("resize", setIsTablet));
     .logo-link {
       @include h(30px);
       @include flex;
+      @include remove-android-highlight;
     }
 
     .burger-button {

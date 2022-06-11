@@ -51,6 +51,7 @@ const { next, prev, homeIcon, home } = defineProps<{
     @include no-underline;
     @include tran;
     @include clr-bg(light-800);
+    @include remove-android-highlight;
 
     &--next,
     &--prev {

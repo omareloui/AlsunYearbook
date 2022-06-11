@@ -32,6 +32,7 @@ function toggle() {
   @include brdr(none);
   @include clickable;
   @include size(var(--width) calc(var(--line-height) * 4 + var(--gap) * 2));
+  @include remove-android-highlight;
 
   .line {
     @include pos-a(left 0);

@@ -14,3 +14,7 @@
 @mixin not-allowed {
   cursor: not-allowed;
 }
+
+@mixin remove-android-highlight {
+  -webkit-tap-highlight-color: transparent;
+}

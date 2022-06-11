@@ -39,6 +39,7 @@ onUnmounted(destroy);
   @include br-cr;
 
   @include clr-bg(primary, 0.3);
+  @include remove-android-highlight;
   backdrop-filter: blur(4px);
 
   @include lt-mobile {
