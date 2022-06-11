@@ -35,36 +35,35 @@ onMounted(() => {
 .content {
   @include break-word;
 
-  ::v-deep {
-    :is(h1, h2, h3, h4, h5, h6, p, pre, blockquote, q):not(:last-child) {
-      @include mb(5px);
-    }
+  :deep(:is(h1, h2, h3, h4, h5, h6, p, pre, blockquote, q):not(:last-child)) {
+    @include mb(5px);
+  }
 
-    ul,
-    ol {
-      @include pl(20px);
-    }
+  :deep(ul, ol) {
+    @include pl(20px);
+  }
 
-    hr {
-      @include my(10px);
-    }
+  :deep(hr) {
+    @include my(10px);
+  }
 
-    img {
-      @include w(max 100%);
-      object-fit: cover;
-    }
+  :deep(img) {
+    @include w(max 100%);
+    object-fit: cover;
+    @include br-md;
+  }
 
-    p code {
-      @include clr-bg;
-      @include pa(2px 3px);
-      @include ma(-2px -3px);
-      @include br-sm;
-    }
-    pre {
-      @include clr-bg;
-      @include pa(10px 20px);
-      @include br-sm;
-    }
+  :deep(p code) {
+    @include clr-bg;
+    @include pa(2px 3px);
+    @include ma(-2px -3px);
+    @include br-sm;
+  }
+
+  :deep(pre) {
+    @include clr-bg;
+    @include pa(10px 20px);
+    @include br-sm;
   }
 }
 </style>
