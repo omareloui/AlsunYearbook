@@ -11,7 +11,7 @@ await dashboardStore.fetchActions();
 </script>
 
 <template>
-  <Container>
+  <Container has-scroll-button>
     <h1 class="heading">Actions</h1>
 
     <PreviewWithDayGroups

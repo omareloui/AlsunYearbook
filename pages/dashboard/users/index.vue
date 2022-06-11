@@ -14,7 +14,7 @@ const debouncedSearch = debounce(usersStore.search, 300);
 </script>
 
 <template>
-  <Container tag="main" class="users-dashboard">
+  <Container tag="main" class="users-dashboard" has-scroll-button>
     <h1 class="users-dashboard__heading">Users</h1>
 
     <LinkButtonWithIcon

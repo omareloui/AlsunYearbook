@@ -10,7 +10,7 @@ await messagesStore.fetchSent();
 </script>
 
 <template>
-  <Container>
+  <Container has-scroll-button>
     <h1 class="heading">Sent Messages</h1>
 
     <PreviewWithDayGroups

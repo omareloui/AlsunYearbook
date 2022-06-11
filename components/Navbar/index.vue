@@ -17,8 +17,7 @@ function setIsTablet() {
 
 function signout() {
   authStore.signout();
-
-  toggle();
+  isOpen.value = false;
 }
 
 onMounted(() => {

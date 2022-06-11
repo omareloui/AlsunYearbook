@@ -10,7 +10,7 @@ const debouncedSearch = debounce(yearbookStore.search, 300);
 
 <template>
   <div class="yearbook">
-    <Container>
+    <Container has-scroll-button>
       <InputSearch
         @input="debouncedSearch"
         v-model="yearbookStore.searchQuery"

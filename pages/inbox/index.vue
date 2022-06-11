@@ -11,7 +11,7 @@ messagesStore.readAll();
 </script>
 
 <template>
-  <Container>
+  <Container has-scroll-button>
     <h1 class="heading">Inbox</h1>
 
     <PreviewWithDayGroups
