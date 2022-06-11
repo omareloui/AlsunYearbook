@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from "~~/store/useAuth";
-import type { SignType } from "~~/@types";
+import type { SignType, FetchError } from "types";
 
 const { type } = defineProps<{ type: SignType }>();
 
@@ -40,9 +40,9 @@ async function sign() {
   try {
     await authStore.sign({ ...formData, fbId: confirmedFbId.value }, type);
   } catch (err) {
-    const e = err as Error;
-    setError(e.message);
-    useNotify().error(e.message, { duration: 5000 });
+    const e = err as FetchError;
+    setError(e.data.message);
+    useNotify().error(e.data.message, { duration: 5000 });
   }
 }
 
