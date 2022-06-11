@@ -44,7 +44,7 @@ const UserSchema = new Schema<DehydratedUser>({
     yt: { type: String, unique: true, trim: true },
   },
   currentJob: { type: String, trim: true },
-  quote: { type: String, required: true, trim: true },
+  quote: { type: String, trim: true },
   authorityRole: {
     type: String,
     enum: {
@@ -60,7 +60,7 @@ const UserSchema = new Schema<DehydratedUser>({
     required: true,
     default: "USER",
   },
-  isShown: { type: Boolean, default: true, required: true },
+  isShown: { type: Boolean, default: true },
 });
 
 export const User = model<DehydratedUser>("User", UserSchema);

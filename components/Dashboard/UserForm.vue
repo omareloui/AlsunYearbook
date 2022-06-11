@@ -8,7 +8,8 @@ import type {
   UserGender,
   UserRole,
   UserAuthority,
-} from "~~/@types";
+  FetchError,
+} from "types";
 
 const usersStore = useUsersStore();
 
@@ -111,9 +112,9 @@ async function submitEdit() {
 
     navigateTo(`/dashboard/users/${user.socialMedia.fb}`);
   } catch (err) {
-    const e = err as Error;
-    setError(e.message);
-    notify.error(e.message);
+    const { message } = (err as FetchError).data;
+    setError(message);
+    notify.error(message, { duration: 5000 });
   } finally {
     isUploadingImage.value = false;
   }
@@ -152,14 +153,12 @@ async function submitCreate() {
     )) as User;
 
     notify.success(`Added ${user.name.first} successfully.`);
-
-    // TODO: Add user to the store if needed.
-
+    await nextTick();
     navigateTo(`/dashboard/users/${user.socialMedia.fb}`);
   } catch (err) {
-    const e = err as Error;
-    setError(e.message);
-    notify.error(e.message);
+    const { message } = (err as FetchError).data;
+    setError(message);
+    notify.error(message, { duration: 5000 });
   } finally {
     isUploadingImage.value = false;
   }

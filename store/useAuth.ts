@@ -53,7 +53,7 @@ export const useAuthStore = defineStore("auth", {
       const cookies = Cookie();
       cookies.set(JWT_NAME, accessToken.body, {
         path: "/",
-        maxAge: getSecondsFromString(accessToken.expiration as string),
+        maxAge: getSecondsFromString(accessToken.expiration as string) - 2,
       });
       cookies.set(REFRESH_TOKEN_NAME, refreshToken.body, {
         path: "/",

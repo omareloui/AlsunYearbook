@@ -2,5 +2,8 @@ export function useCloudinaryIdParser(
   url: string,
   cloudinaryName = "yearbook"
 ) {
-  return url.match(new RegExp(`(${cloudinaryName}/.+)\.(jpe?g|png)$`))[1];
+  const matchResult = url?.match(
+    new RegExp(`(${cloudinaryName}/.+)\.(jpe?g|png)$`)
+  );
+  return matchResult && matchResult[1];
 }

@@ -10,3 +10,4 @@ export * from "./Authentication";
 export * from "./CloseFriend";
 export * from "./Action";
 export * from "./Message";
+export * from "./FetchError";

@@ -61,12 +61,15 @@ export class UserController {
   });
 
   static create = defineEventHandler(async event => {
-    const { req, context } = event;
     hasToHaveAuthority(event);
 
+    const { req, context } = event;
+
     const body = (await useBody(req)) as CreateUser;
+    delete body._id;
 
     const user = this.populateUser(body);
+
     await this.validateCreatingUser(user);
     await user.save();
 
@@ -95,7 +98,10 @@ export class UserController {
 
     const clonedOldUser = useCloneObject(oldUser);
 
-    const oldImage = oldUser.image ? { ...oldUser.image } : null;
+    const oldImage =
+      oldUser.image?.original && oldUser.image.thumbnail
+        ? { ...oldUser.image }
+        : null;
 
     const shouldRemoveImages = this.shouldRemoveOldImage(oldUser, body);
 
@@ -414,7 +420,7 @@ export class UserController {
     if (sameFBUser)
       throw createError({
         message: "This Facebook link is already in use.",
-        statusCode: 400,
+        statusCode: 409,
       });
   }
 
@@ -432,7 +438,7 @@ export class UserController {
     if (sameIGUser)
       throw createError({
         message: "This Instagram link is already in use.",
-        statusCode: 400,
+        statusCode: 409,
       });
   }
 
@@ -453,7 +459,7 @@ export class UserController {
     if (sameTWTUser)
       throw createError({
         message: "This Twitter link is already in use.",
-        statusCode: 400,
+        statusCode: 409,
       });
   }
 
@@ -471,7 +477,7 @@ export class UserController {
     if (sameYTUser)
       throw createError({
         message: "This YouTube link is already in use.",
-        statusCode: 400,
+        statusCode: 409,
       });
   }
 
