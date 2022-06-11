@@ -1,4 +1,4 @@
 export default defineNuxtPlugin(() => {
   if (!("serviceWorker" in navigator)) return;
-  // navigator.serviceWorker.register("/sw.js");
+  navigator.serviceWorker.register("/sw.js");
 });
