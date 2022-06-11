@@ -27,7 +27,7 @@
     "eslint-plugin-react-hooks": "4",
     "eslint-plugin-vue": "^7.19.1",
     "nuxi": "latest",
-    "nuxt": "npm:nuxt3@latest",
+    "nuxt": "npm:nuxt3@3.0.0-rc.3-27579668.27a0084",
     "prettier": "^2.4.1",
     "sass": "^1.43.2",
     "sass-loader": "^12.2.0"
