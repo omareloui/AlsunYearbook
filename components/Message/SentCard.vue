@@ -32,9 +32,10 @@ onBeforeMount(async () => {
       <span class="sent-to__name">{{ receiverHelpers.fullName }}</span>
     </div>
 
-    <div class="content">
-      {{ message.message }}
-    </div>
+    <PreviewMarkDown
+      :content="message.message"
+      class="content"
+    ></PreviewMarkDown>
 
     <div class="read-status">
       <IconRead v-if="message.isRead" color="var(--clr-text-fade)" />
@@ -109,10 +110,7 @@ onBeforeMount(async () => {
 
   .content {
     grid-area: content;
-    white-space: pre-wrap;
     @include clr-txt(main, 0.85);
-    @include fw-semibold;
-    @include break-word;
   }
 
   .time {

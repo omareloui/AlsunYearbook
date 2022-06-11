@@ -9,10 +9,12 @@ $neutrals: (
   light-1000: hsl(0, 0%, 100%),
   light-900: hsl(0, 0%, 93%),
   light-800: hsl(0, 0%, 88%),
+  light-700: hsl(0, 0%, 72%),
   light-100: hsl(0, 0%, 67%),
   dark-1000: hsl(0, 0%, 0%),
   dark-900: hsl(0, 0%, 2%),
   dark-800: hsl(0, 0%, 7%),
+  dark-700: hsl(0, 0%, 12%),
   dark-100: hsl(0, 0%, 25%),
 );
 
@@ -39,6 +41,7 @@ $light: (
   text-fade: map.get($neutrals, dark-100),
   background-main: map.get($shared, light-900),
   background-secondary: map.get($shared, light-1000),
+  background-tertiary: map.get($shared, light-700),
   background-invert: map.get($shared, dark-900),
   box-shadow: hsl(220, 11%, 11%),
   input-bg: map.get($shared, light-800),
@@ -63,6 +66,7 @@ $dark: (
   text-invert: map.get($shared, text-dark),
   background-main: map.get($shared, dark-800),
   background-secondary: map.get($shared, dark-900),
+  background-tertiary: map.get($shared, dark-700),
   background-invert: map.get($shared, light-900),
   box-shadow: hsl(0, 0%, 98%),
   input-bg: map.get($shared, dark-800),

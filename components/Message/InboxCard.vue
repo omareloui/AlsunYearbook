@@ -16,9 +16,9 @@ onBeforeMount(async () => {
   <div class="inbox">
     <ImageBase
       class="image"
-      :src="!message.isAnonymous ? useUserImage(message.author) : ''"
+      :src="!message.isAnonymous ? useUserImage(message.author!) : ''"
       :alt="`${
-        !message.isAnonymous ? message.author.name.first : 'Anonymous'
+        !message.isAnonymous ? message.author!.name.first : 'Anonymous'
       }'s image`"
       is-square
       :is-anonymous="message.isAnonymous"
@@ -26,13 +26,14 @@ onBeforeMount(async () => {
 
     <div class="author">
       {{
-        (!message.isAnonymous && useUserFullName(message.author)) || "Anonymous"
+        (!message.isAnonymous && useUserFullName(message.author!)) || "Anonymous"
       }}
     </div>
 
-    <div class="content">
-      {{ message.message }}
-    </div>
+    <PreviewMarkDown
+      :content="message.message"
+      class="content"
+    ></PreviewMarkDown>
 
     <div class="time">{{ formattedDate }}</div>
 
@@ -75,12 +76,10 @@ onBeforeMount(async () => {
       @include fs-2xl;
     }
   }
+
   .content {
     grid-area: content;
-    white-space: pre-wrap;
     @include clr-txt(main, 0.85);
-    @include fw-semibold;
-    @include break-word;
   }
 
   .time {
