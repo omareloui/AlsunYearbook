@@ -8,6 +8,7 @@ const props = defineProps<{ user: User }>();
 
 const messagesStore = useMessagesStore();
 
+let isSending = false;
 const formData = reactive({
   message: "",
   receiver: props.user._id.toString(),
@@ -15,6 +16,9 @@ const formData = reactive({
 } as SendMessage);
 
 async function sendMessage() {
+  if (isSending) return;
+  isSending = true;
+  const sleep = useSleep();
   const notify = useNotify();
 
   try {
@@ -22,7 +26,10 @@ async function sendMessage() {
     notify.success("Sent message.");
     emit("close");
   } catch (e) {
-    notify.error(e.message);
+    notify.error((e as Error).message);
+  } finally {
+    await sleep(500);
+    isSending = false;
   }
 }
 </script>
