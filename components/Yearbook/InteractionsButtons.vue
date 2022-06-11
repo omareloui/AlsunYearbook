@@ -8,7 +8,7 @@ const { user } = defineProps<{ user: User }>();
 
 const yearbookStore = useYearbookStore();
 const authStore = useAuthStore();
-const isMe = authStore.user._id === user._id;
+const isMe = authStore.user!._id === user._id;
 
 const emit = defineEmits([
   "make-close-friend",

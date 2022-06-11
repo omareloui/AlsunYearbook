@@ -3,9 +3,11 @@ import _ from "lodash";
 export function useArrowNavigation({
   next,
   prev,
+  pause,
 }: {
   next: string;
   prev: string;
+  pause?: () => boolean;
 }) {
   const debouncedNavigation = _.debounce(navigateTo, 500);
 
@@ -18,6 +20,7 @@ export function useArrowNavigation({
   }
 
   function onKeyUp(e: KeyboardEvent) {
+    if (pause && pause()) return;
     if (e.code === "ArrowRight") return debouncedNavigation(next);
     if (e.code === "ArrowLeft") return debouncedNavigation(prev);
   }

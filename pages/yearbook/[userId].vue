@@ -18,6 +18,7 @@ const isLeaveMessageOpen = ref(false);
 const { addListeners, removeListeners } = useArrowNavigation({
   next: `/yearbook/${next.socialMedia.fb}`,
   prev: `/yearbook/${prev.socialMedia.fb}`,
+  pause: () => isLeaveMessageOpen.value,
 });
 
 const scrollTop = useScrollToTop();
