@@ -5,8 +5,8 @@ const props = withDefaults(
     identifier?: string;
     label?: string;
     notRequired?: boolean;
-    modelValue: FileList;
-    error?: { message: string; field: string; clear: () => void };
+    modelValue: FileList | null;
+    error?: { message: string; field: string | null; clear: () => void };
     hasDropArea?: boolean;
     isUploading?: boolean;
   }>(),
@@ -20,7 +20,7 @@ const props = withDefaults(
 );
 
 const previewImageContainer = ref(null as null | HTMLElement);
-const preview = ref("");
+const preview = ref("" as string | null);
 const emit = defineEmits(["update:modelValue"]);
 
 const content = useModelWrapper(props, emit);
@@ -103,7 +103,7 @@ function onDrop(files: FileList) {
         :name="name"
         type="file"
         accept="image/png,image/jpg,image/jpeg,image/svg+xml"
-        @change="onChange"
+        @change="onChange($event as InputEvent)"
       />
       <span v-if="!notRequired" class="image-input__required-patch"></span>
     </div>

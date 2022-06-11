@@ -12,7 +12,7 @@ const props = withDefaults(
     isLarge?: boolean;
     notRequired?: boolean;
     type?: string;
-    error?: { message: string; field: string; clear: () => void };
+    error?: { message: string; field: string | null; clear: () => void };
   }>(),
   { isLarge: false, notRequired: false, type: "text" }
 );

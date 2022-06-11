@@ -13,7 +13,7 @@ import type {
 const usersStore = useUsersStore();
 
 const error = reactive({
-  field: null,
+  field: null as null | string,
   message: "",
   clear: () => {
     error.message = "";
@@ -42,7 +42,7 @@ const isEdit = computed(() => !!userToEdit);
 const isImageRequired = computed(() => {
   if (
     isEdit.value &&
-    !useUserIsInYearbook(userToEdit.role) &&
+    !useUserIsInYearbook(userToEdit!.role) &&
     isInYearbook.value
   )
     return true;
@@ -89,7 +89,9 @@ async function submitEdit() {
         await useTokenedFetch("/api/users/validate-edit", requestOptions);
         notify.info("Uploading the image. That could take a while.");
         isUploadingImage.value = true;
-        const { original, thumbnail } = await imageUploader.upload(image.value);
+        const res = await imageUploader.upload(image.value);
+        if (!res) return;
+        const { original, thumbnail } = res;
 
         userData.image = original;
         userData.thumbnail = thumbnail;
@@ -108,7 +110,8 @@ async function submitEdit() {
     usersStore.updateUser(user);
 
     navigateTo(`/dashboard/users/${user.socialMedia.fb}`);
-  } catch (e) {
+  } catch (err) {
+    const e = err as Error;
     setError(e.message);
     notify.error(e.message);
   } finally {
@@ -130,7 +133,9 @@ async function submitCreate() {
       await useTokenedFetch("/api/users/validate-create", requestOptions);
       notify.info("Uploading the image. That could take a while.");
       isUploadingImage.value = true;
-      const { original, thumbnail } = await imageUploader.upload(image.value);
+      const res = await imageUploader.upload(image.value!);
+      if (!res) return;
+      const { original, thumbnail } = res;
 
       userData.image = original;
       userData.thumbnail = thumbnail;
@@ -151,7 +156,8 @@ async function submitCreate() {
     // TODO: Add user to the store if needed.
 
     navigateTo(`/dashboard/users/${user.socialMedia.fb}`);
-  } catch (e) {
+  } catch (err) {
+    const e = err as Error;
     setError(e.message);
     notify.error(e.message);
   } finally {
@@ -199,14 +205,14 @@ function setError(message: string) {
       name="thirdName"
       label="Third name"
       placeholder="Enter third name"
-      v-model="userData.thirdName"
+      v-model="(userData.thirdName as string)"
       not-required
     />
     <InputText
       name="nickname"
       label="Nickname"
       placeholder="Enter nickname"
-      v-model="userData.nickname"
+      v-model="(userData.nickname as string)"
       not-required
     />
 
@@ -229,7 +235,7 @@ function setError(message: string) {
       v-if="isEdit"
       name="authorityRole"
       label="Authority Role"
-      v-model="userData.authorityRole"
+      v-model="(userData.authorityRole as string)"
       :options="authorityRoleOptions"
     />
 
@@ -249,7 +255,7 @@ function setError(message: string) {
       name="instagram"
       label="Instagram"
       placeholder="Enter Instagram's link or id"
-      v-model="userData.ig"
+      v-model="(userData.ig as string)"
       not-required
     />
     <InputText
@@ -258,7 +264,7 @@ function setError(message: string) {
       name="twitter"
       label="Twitter"
       placeholder="Enter Twitter's link or id"
-      v-model="userData.twt"
+      v-model="(userData.twt as string)"
       not-required
     />
     <InputText
@@ -267,7 +273,7 @@ function setError(message: string) {
       name="youtube"
       label="YouTube"
       placeholder="Enter YouTube's channel link or id"
-      v-model="userData.yt"
+      v-model="(userData.yt as string)"
       not-required
     />
 
@@ -287,7 +293,7 @@ function setError(message: string) {
       name="quote"
       label="Quote"
       placeholder="Enter a quote"
-      v-model="userData.quote"
+      v-model="(userData.quote as string)"
       :not-required="!isInYearbook"
     />
     <InputTextarea
@@ -295,7 +301,7 @@ function setError(message: string) {
       name="job"
       label="Current job"
       placeholder="Enter the current job"
-      v-model="userData.currentJob"
+      v-model="(userData.currentJob as string)"
       not-required
     />
 

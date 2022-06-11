@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from "~~/store/useAuth";
-import type { UpdateMe, User } from "types";
+import type { UpdateMe } from "types";
 
 useHead({ title: "Edit Profile" });
 
@@ -59,7 +59,7 @@ async function update() {
       <InputText
         :error="error"
         type="password"
-        v-model="formData.oldPassword"
+        v-model="(formData.oldPassword as string)"
         name="oldPassword"
         label="Old Password"
         placeholder="Enter old password"
@@ -70,7 +70,7 @@ async function update() {
       <InputText
         :error="error"
         type="password"
-        v-model="formData.newPassword"
+        v-model="(formData.newPassword as string)"
         name="newPassword"
         label="New Password"
         placeholder="Enter new password"
