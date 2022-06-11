@@ -1,7 +1,9 @@
 export function useGetSecondsFromString() {
   return (string: string) => {
-    const minutesMatch = string.match(/(^\d+)m$/);
+    const secondsMatch = string.match(/(^\d+)s$/);
+    if (secondsMatch) return parseInt(secondsMatch[1], 10);
 
+    const minutesMatch = string.match(/(^\d+)m$/);
     if (minutesMatch) return parseInt(minutesMatch[1], 10) * 60;
 
     const daysMatch = string.match(/(^\d+)d$/);

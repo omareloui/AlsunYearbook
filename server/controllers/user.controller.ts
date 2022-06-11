@@ -117,7 +117,7 @@ export class UserController {
       affectedFields
     );
 
-    return user;
+    return user as UserInterface;
   });
 
   static toggleShow = defineEventHandler(async event => {

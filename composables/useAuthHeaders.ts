@@ -6,9 +6,8 @@ export function useAuthHeaders() {
     const refreshToken = useCookie(REFRESH_TOKEN_NAME).value;
 
     return {
-      ...(jwt && refreshToken
-        ? { authorization: `Bearer ${jwt}`, "x-refresh-token": refreshToken }
-        : {}),
+      authorization: jwt ? `Bearer ${jwt}` : undefined,
+      "x-refresh-token": refreshToken,
     };
   };
 }

@@ -48,9 +48,14 @@ export const useAuthStore = defineStore("auth", {
       navigateTo("/yearbook");
     },
 
+    async refreshTokens() {
+      return await $fetch("/api/auth/refresh-tokens", {
+        headers: { "x-refresh-token": useAuthHeaders()()["x-refresh-token"] },
+      });
+    },
+
     setTokens(accessToken: Token, refreshToken: Token) {
       const cookies = Cookie();
-      console.log(accessToken);
       cookies.set(JWT_NAME, accessToken.body, {
         maxAge: getSecondsFromString(accessToken.expiration as string),
       });

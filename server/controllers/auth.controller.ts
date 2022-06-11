@@ -1,15 +1,14 @@
 import { User } from "server/models";
 import { UpdateMe } from "types";
-import { extractFBId, hash, compareHash, createTokens } from "server/utils";
+import {
+  extractFBId,
+  hash,
+  compareHash,
+  createTokens,
+  refreshTokens,
+} from "server/utils";
 
-import { CompatibilityEvent } from "h3";
-import { useConstants } from "~~/composables/useConstants";
-import { useParseDateInSeconds } from "~~/composables/useParseDate";
-
-import { config } from "server/config";
 import { hasToBeAuthenticated } from "server/policies";
-
-const { JWT_NAME, REFRESH_TOKEN_NAME } = useConstants();
 
 export class AuthController {
   static checkFBID = defineEventHandler(async event => {
@@ -73,8 +72,6 @@ export class AuthController {
 
     const [token, refreshToken] = await createTokens(user);
 
-    this.setCookies(event, token.body, refreshToken.body);
-
     return { user, token, refreshToken };
   });
 
@@ -92,7 +89,6 @@ export class AuthController {
     const isValidPassword = await compareHash(password, user.password!);
     if (!isValidPassword) throw createError({ message: "Incorrect password." });
     const [token, refreshToken] = await createTokens(user);
-    // this.setCookies(event, token.body, refreshToken.body);
     return { user, token, refreshToken };
   });
 
@@ -101,10 +97,12 @@ export class AuthController {
     if (!context.user) return {};
     const user = await User.findOne({ _id: context.user.id });
     if (!user) throw createError({ message: "Can't find the user" });
-    const [token, refreshToken] = createTokens(user);
-    this.setCookies(event, token.body, refreshToken.body);
-    return { user, token, refreshToken };
+    return { user };
   });
+
+  static refreshTokens = defineEventHandler(async event =>
+    refreshTokens(event.req.headers["x-refresh-token"] as string)
+  );
 
   static updateMe = defineEventHandler(async event => {
     const { req, context } = event;
@@ -152,43 +150,13 @@ export class AuthController {
       await user.save();
 
       const [token, refreshToken] = createTokens(user);
-      this.setCookies(event, token.body, refreshToken.body);
+      // TODO: update the cookies
     }
 
     return user;
   });
 
   /* ============== Utils ============== */
-  static setCookies(
-    event: CompatibilityEvent,
-    jwt: string,
-    refreshToken: string
-  ) {
-    const options = { path: "/", sameSite: "lax" as const };
-
-    [
-      {
-        name: JWT_NAME,
-        content: jwt,
-        maxAge: useParseDateInSeconds(config.tokens.jwt.expiration),
-      },
-      {
-        name: REFRESH_TOKEN_NAME,
-        content: refreshToken,
-        maxAge: useParseDateInSeconds(config.tokens.refresh.expiration),
-      },
-    ].forEach(x =>
-      setCookie(event, x.name, x.content, { ...options, maxAge: x.maxAge })
-    );
-  }
-
-  static removeCookies(event: CompatibilityEvent) {
-    [
-      { name: JWT_NAME, content: "" },
-      { name: REFRESH_TOKEN_NAME, content: "" },
-    ].forEach(x => deleteCookie(event, x.name));
-  }
-
   private static validateSignData({
     username,
     password,
