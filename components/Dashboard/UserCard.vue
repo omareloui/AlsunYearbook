@@ -5,6 +5,8 @@ import { useCapitalize } from "~~/composables/useCapitalize";
 
 const { user } = defineProps<{ user: User }>();
 
+const isInYearbook = useUserIsInYearbook(user.role);
+
 const userHelpers = useUserHelpers(user);
 const emit = defineEmits(["toggle-show", "reset"]);
 </script>
@@ -13,10 +15,11 @@ const emit = defineEmits(["toggle-show", "reset"]);
   <div class="card">
     <ImageBase
       class="card__image"
-      :src="userHelpers.image"
+      :src="isInYearbook ? userHelpers.image : ''"
       :alt="`${user.name.first}'s image`"
       is-square
       border-radius="lg"
+      :is-anonymous="!isInYearbook"
     />
     <div class="card__info">
       <LinkBase
@@ -34,7 +37,7 @@ const emit = defineEmits(["toggle-show", "reset"]);
       </div>
 
       <div class="role">
-        {{ useCapitalize(user.role) }}
+        {{ useCapitalize(user.authorityRole) }} — {{ useCapitalize(user.role) }}
       </div>
     </div>
 
