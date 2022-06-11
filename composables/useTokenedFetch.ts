@@ -11,7 +11,9 @@ export async function useTokenedFetch(...params: Parameters<typeof $fetch>) {
 
   if (!headers.authorization && headers["x-refresh-token"]) {
     const authStore = useAuthStore();
-    const { token, refreshToken } = await authStore.refreshTokens();
+    const { token, refreshToken } = await $fetch("/api/auth/refresh-tokens", {
+      headers: { "x-refresh-token": useAuthHeaders()()["x-refresh-token"] },
+    });
     finalAccessToken = `Bearer ${token.body}`;
     finalRefreshToken = refreshToken.body;
     authStore.setTokens(token, refreshToken);

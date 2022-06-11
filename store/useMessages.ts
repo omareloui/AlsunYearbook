@@ -1,6 +1,8 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 
-import { Message, SendMessage } from "~~/@types";
+import { Message, SendMessage } from "types";
+
+import { useTokenedFetch } from "~~/composables/useTokenedFetch";
 
 export const useMessagesStore = defineStore("messages", {
   state: () => ({

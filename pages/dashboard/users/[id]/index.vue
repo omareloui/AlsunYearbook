@@ -14,7 +14,7 @@ const userHelpers = useUserHelpers(user, {
   imageRes: "original",
 });
 
-useMeta({ title: `${userHelpers.fullName} | Dashboard` });
+useHead({ title: `${userHelpers.fullName} | Dashboard` });
 
 const scrollTop = useScrollToTop();
 

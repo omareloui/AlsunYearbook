@@ -25,7 +25,7 @@ async function update() {
   const notify = useNotify();
 
   try {
-    const user = (await useCustomFetch("/api/auth/update-me", {
+    const user = (await useTokenedFetch("/api/auth/update-me", {
       method: "PUT",
       body: formData,
     })) as User;

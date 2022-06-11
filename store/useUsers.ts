@@ -1,5 +1,8 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
-import type { User, UserActivities } from "~~/@types";
+
+import type { User, UserActivities } from "types";
+
+import { useTokenedFetch } from "~~/composables/useTokenedFetch";
 
 export const useUsersStore = defineStore("users", {
   state: () => ({
@@ -40,7 +43,7 @@ export const useUsersStore = defineStore("users", {
   actions: {
     async fetchUsers() {
       if (this.fetchedUsers) return;
-      this.users = await $fetch("/api/users", { headers: useAuthHeaders()() });
+      this.users = await useTokenedFetch("/api/users");
       this.setShown();
       this.fetchedUsers = true;
     },
@@ -48,7 +51,7 @@ export const useUsersStore = defineStore("users", {
     fetchUser(userId: string) {
       const user = this.getById(userId);
       if (user) return user;
-      return useCustomFetch(`/api/users/user?id=${userId}`) as Promise<User>;
+      return useTokenedFetch(`/api/users/user?id=${userId}`) as Promise<User>;
     },
 
     getById(userId: string) {
@@ -80,7 +83,7 @@ export const useUsersStore = defineStore("users", {
 
       const notify = useNotify();
       try {
-        const user = (await useCustomFetch(
+        const user = (await useTokenedFetch(
           `/api/users/edit/toggle-show`,
           requestOptions
         )) as User;
@@ -107,7 +110,7 @@ export const useUsersStore = defineStore("users", {
       const notify = useNotify();
 
       try {
-        const user = (await useCustomFetch(
+        const user = (await useTokenedFetch(
           "/api/users/edit/reset",
           requestOptions
         )) as User;
@@ -126,7 +129,7 @@ export const useUsersStore = defineStore("users", {
       );
       if (activitiesFromCache) return activitiesFromCache.activities;
 
-      const activities: UserActivities = await $fetch(
+      const activities: UserActivities = await useTokenedFetch(
         `/api/users/activities?id=${userId}`
       );
 

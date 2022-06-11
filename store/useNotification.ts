@@ -1,5 +1,5 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
-import type { Notification, NotificationType } from "~~/@types";
+import type { Notification, NotificationType } from "types";
 
 export const useNotificationStore = defineStore("notify", {
   state: () => ({

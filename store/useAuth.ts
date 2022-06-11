@@ -3,6 +3,7 @@ import { defineStore, acceptHMRUpdate } from "pinia";
 
 import { useConstants } from "~~/composables/useConstants";
 import { useGetSecondsFromString } from "~~/composables/useGetSecondsFromString";
+import { useTokenedFetch } from "~~/composables/useTokenedFetch";
 
 import type { SignType, Authentication, User, Token } from "types";
 
@@ -34,7 +35,7 @@ export const useAuthStore = defineStore("auth", {
       formData: { fbId?: string; username: string; password: string },
       type: SignType
     ) {
-      const { user, token, refreshToken } = await $fetch(
+      const { user, token, refreshToken } = await useTokenedFetch(
         `/api/auth/sign${type}`,
         {
           method: "POST",
@@ -48,30 +49,16 @@ export const useAuthStore = defineStore("auth", {
       navigateTo("/yearbook");
     },
 
-    async refreshTokens() {
-      return await $fetch("/api/auth/refresh-tokens", {
-        headers: { "x-refresh-token": useAuthHeaders()()["x-refresh-token"] },
-      });
-    },
-
     setTokens(accessToken: Token, refreshToken: Token) {
       const cookies = Cookie();
       cookies.set(JWT_NAME, accessToken.body, {
+        path: "/",
         maxAge: getSecondsFromString(accessToken.expiration as string),
       });
       cookies.set(REFRESH_TOKEN_NAME, refreshToken.body, {
+        path: "/",
         maxAge: getSecondsFromString(refreshToken.expiration as string),
       });
-    },
-
-    setTokensOnServer(accessToken: Token, refreshToken: Token) {
-      useCookie(JWT_NAME, {
-        maxAge: getSecondsFromString(accessToken.expiration as string),
-      }).value = accessToken.body;
-
-      useCookie(REFRESH_TOKEN_NAME, {
-        maxAge: getSecondsFromString(refreshToken.expiration as string),
-      }).value = refreshToken.body;
     },
 
     async signout() {

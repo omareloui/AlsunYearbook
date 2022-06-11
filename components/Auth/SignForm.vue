@@ -26,7 +26,7 @@ const error = reactive({
 async function checkFBId() {
   const notify = useNotify();
   try {
-    const data = await useCustomFetch("/api/auth/check-fb", {
+    const data = await useTokenedFetch("/api/auth/check-fb", {
       method: "POST",
       body: { id: formData.fbId },
     });

@@ -1,6 +1,8 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import { Action } from "types";
 
+import { useTokenedFetch } from "~~/composables/useTokenedFetch";
+
 export const useDashboardStore = defineStore("dashboard", {
   state: () => ({
     actions: [] as Action[],
@@ -10,9 +12,7 @@ export const useDashboardStore = defineStore("dashboard", {
   actions: {
     async fetchActions() {
       if (this.fetchedActions) return;
-      this.actions = await $fetch("/api/actions", {
-        headers: useAuthHeaders()(),
-      });
+      this.actions = await useTokenedFetch("/api/actions");
       this.fetchedActions = true;
     },
   },

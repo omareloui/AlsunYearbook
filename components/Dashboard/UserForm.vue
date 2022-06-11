@@ -86,7 +86,7 @@ async function submitEdit() {
 
     if (isInYearbook.value) {
       if (image.value) {
-        await useCustomFetch("/api/users/validate-edit", requestOptions);
+        await useTokenedFetch("/api/users/validate-edit", requestOptions);
         notify.info("Uploading the image. That could take a while.");
         isUploadingImage.value = true;
         const { original, thumbnail } = await imageUploader.upload(image.value);
@@ -101,7 +101,7 @@ async function submitEdit() {
       userData.currentJob = undefined;
     }
 
-    const user = await useCustomFetch("/api/users/edit", requestOptions);
+    const user = await useTokenedFetch("/api/users/edit", requestOptions);
 
     notify.success(`Edited ${user.name.first} successfully.`);
 
@@ -127,7 +127,7 @@ async function submitCreate() {
     const requestOptions = { method: "POST", body: userData };
 
     if (isInYearbook.value) {
-      await useCustomFetch("/api/users/validate-create", requestOptions);
+      await useTokenedFetch("/api/users/validate-create", requestOptions);
       notify.info("Uploading the image. That could take a while.");
       isUploadingImage.value = true;
       const { original, thumbnail } = await imageUploader.upload(image.value);
@@ -141,7 +141,7 @@ async function submitCreate() {
       userData.currentJob = undefined;
     }
 
-    const user = (await useCustomFetch(
+    const user = (await useTokenedFetch(
       "/api/users/create",
       requestOptions
     )) as User;

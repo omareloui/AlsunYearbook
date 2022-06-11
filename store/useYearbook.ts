@@ -1,8 +1,9 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import type { CloseFriend, User, YearbookSection } from "types";
-import { useSortUsers } from "~~/composables/useSortUsers";
 
+import { useSortUsers } from "~~/composables/useSortUsers";
 import { useYearbookSections } from "~~/composables/useYearbookSections";
+import { useTokenedFetch } from "~~/composables/useTokenedFetch";
 
 export const useYearbookStore = defineStore("yearbook", {
   state: () => ({
