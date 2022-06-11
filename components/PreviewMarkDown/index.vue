@@ -18,19 +18,53 @@ onMounted(() => {
 </script>
 
 <template>
-  <transition name="fade" mode="out-in">
-    <Component
-      :is="tag"
-      v-if="parsedContent"
-      v-html="parsedContent"
-      class="content"
-    ></Component>
-    <Spinner v-else />
-  </transition>
+  <div>
+    <transition name="fade" mode="out-in">
+      <Component
+        :is="tag"
+        v-if="parsedContent"
+        v-html="parsedContent"
+        class="content"
+        v-bind="$attrs"
+      ></Component>
+
+      <div v-else class="skeleton-loading" v-bind="$attrs">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <style scoped lang="scss">
 @use "~~/assets/styles/mixins" as *;
+
+.skeleton-loading {
+  display: grid;
+  gap: 8px;
+
+  > div {
+    opacity: 0.4;
+    animation: skeleton-loading 1s linear infinite alternate;
+    @include h(25px);
+
+    &:nth-child(1) {
+      @include w(20%);
+    }
+    &:nth-child(2) {
+      @include w(70%);
+    }
+    &:nth-child(4) {
+      @include w(95%);
+    }
+    &:nth-child(5) {
+      @include w(80%);
+    }
+  }
+}
 
 .content {
   @include break-word;
