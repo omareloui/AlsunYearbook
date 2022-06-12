@@ -51,8 +51,10 @@ const authorityHelper = useAuthorityHelper();
 
 section.dashboard-cards {
   @include mt(20px);
-  @include flex($gap: 30px, $wrap: true, $center: true);
   @include w(fit-content);
   @include mx(auto);
+  @include flex($gap: 30px, $wrap: true);
+  justify-content: center;
+  align-items: center;
 }
 </style>
