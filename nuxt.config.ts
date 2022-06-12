@@ -54,20 +54,14 @@ export default defineNuxtConfig({
 
       { name: "twitter:card", content: "summary_large_image" },
       { property: "twitter:domain", content: "alsun.herokuapp.com" },
-      {
-        property: "twitter:url",
-        content: "https://alsun.herokuapp.com/images/heading.png",
-      },
+      { property: "twitter:url", content: "https://alsun.herokuapp.com" },
       { name: "twitter:title", content: "Alsun Yearbook" },
       {
         name: "twitter:description",
         content:
           "A yearbook for University of Ain Shams' Alsun's class of 2017/2021.",
       },
-      {
-        name: "twitter:image",
-        content: "https://alsun.herokuapp.com/images/heading.png",
-      },
+      { name: "twitter:image", content: "/images/heading.png" },
     ],
 
     link: [
