@@ -139,10 +139,9 @@ onBeforeUnmount(() => {
       <div class="canvas-container">
         <h3 class="canvas-container__title">Authorities</h3>
         <div class="canvas-container__body">
-          <div
-            class="canvas-container__skeleton-load"
-            :class="{ 'canvas-container__skeleton-load--loaded': !isLoading }"
-          ></div>
+          <Transition name="fade">
+            <div v-if="isLoading" class="canvas-container__skeleton-load"></div>
+          </Transition>
           <canvas ref="authoritiesCanvasRef"></canvas>
         </div>
       </div>
