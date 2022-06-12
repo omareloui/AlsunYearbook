@@ -47,6 +47,8 @@ export default defineNuxtConfig({
       { property: "og:image:width", content: "1280" },
       { property: "og:image:height", content: "640" },
 
+      { property: "og:update_time", content: "1655071039" },
+
       { name: "twitter:card", content: "summary_large_image" },
       { property: "twitter:domain", content: "alsun.herokuapp.com" },
       { property: "twitter:url", content: "https://alsun.herokuapp.com" },
