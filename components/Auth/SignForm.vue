@@ -24,15 +24,16 @@ const error = reactive({
 });
 
 async function checkFBId() {
-  const notify = useNotify();
   try {
     const data = await useTokenedFetch("/api/auth/check-fb", {
       method: "POST",
       body: { id: formData.fbId },
     });
     confirmedFbId.value = data;
-  } catch (e) {
-    notify.error((e as Error).message, { duration: 5000 });
+  } catch (err) {
+    const e = err as FetchError;
+    setError(e.data.message);
+    useNotify().error(e.data.message, { duration: 5000 });
   }
 }
 
