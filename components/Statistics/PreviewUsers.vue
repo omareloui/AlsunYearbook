@@ -111,13 +111,13 @@ onMounted(async () => {
   <StatisticsSection title="Users" :count="users.totalUsersCount">
     <div class="canvases">
       <div class="canvas-container">
-        <canvas id="canvas1" width="400" height="400"></canvas>
+        <canvas id="canvas1"></canvas>
       </div>
       <div class="canvas-container">
-        <canvas id="canvas2" width="400" height="400"></canvas>
+        <canvas id="canvas2"></canvas>
       </div>
       <div class="canvas-container">
-        <canvas id="canvas3" width="400" height="400"></canvas>
+        <canvas id="canvas3"></canvas>
       </div>
     </div>
   </StatisticsSection>
@@ -130,8 +130,9 @@ onMounted(async () => {
   @include flex($wrap: true, $gap: 40px);
 
   .canvas-container {
-    @include w(max 600px);
     @include mx(auto);
+    @include w(100%);
+    @include w(max 400px);
     @include pa(25px 15px);
     @include clr-bg(secondary);
     @include br-lg;
