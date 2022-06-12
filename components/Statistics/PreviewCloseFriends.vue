@@ -46,7 +46,7 @@ defineProps<{ closeFriends: CloseFriendsStatistics }>();
 
 .top-close-friends {
   display: grid;
-  gap: 40px 10px;
+  gap: 40px 80px;
   @include w(max 600px);
   @include mx(auto);
   @include my(50px);
@@ -61,13 +61,13 @@ defineProps<{ closeFriends: CloseFriendsStatistics }>();
 
     &__icon > :first-child {
       @include h(60px);
-      @include mb(20px);
+      @include mb(30px);
     }
 
     &__users {
       .user {
         @include center-text;
-        @include mb(10px);
+        @include mb(20px);
 
         &__name {
           @include fs-lg;
@@ -75,7 +75,7 @@ defineProps<{ closeFriends: CloseFriendsStatistics }>();
 
         &__count {
           @include clr-txt(fade);
-          @include fs-base;
+          @include fs-sm;
         }
       }
     }

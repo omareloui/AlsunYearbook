@@ -37,7 +37,7 @@ defineProps<{ messages: MessagesStatistics }>();
 
 .top-messengers {
   display: grid;
-  gap: 40px 10px;
+  gap: 40px 80px;
   @include w(max 600px);
   @include mx(auto);
   @include my(50px);
@@ -52,13 +52,13 @@ defineProps<{ messages: MessagesStatistics }>();
 
     &__icon > :first-child {
       @include h(60px);
-      @include mb(20px);
+      @include mb(30px);
     }
 
     &__users {
       .user {
         @include center-text;
-        @include mb(10px);
+        @include mb(20px);
 
         &__name {
           @include fs-lg;
@@ -66,7 +66,7 @@ defineProps<{ messages: MessagesStatistics }>();
 
         &__count {
           @include clr-txt(fade);
-          @include fs-base;
+          @include fs-sm;
         }
       }
     }

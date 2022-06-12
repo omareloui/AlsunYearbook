@@ -3,28 +3,40 @@ import type { UsersStatistics } from "types";
 
 const { users } = defineProps<{ users: UsersStatistics }>();
 
+const authoritiesCanvasRef = ref(null as null | HTMLCanvasElement);
+const rolesCanvasRef = ref(null as null | HTMLCanvasElement);
+const registrationsCanvasRef = ref(null as null | HTMLCanvasElement);
+
+const isLoading = ref(true);
+let charts: unknown[] = [];
+
 onMounted(async () => {
+  isLoading.value = false;
+
   const chartJs = await import("chart.js");
   const { Chart, registerables } = chartJs;
 
   Chart.register(...registerables);
 
-  const ctx1 = (document.querySelector(
-    "#canvas1"
-  ) as HTMLCanvasElement)!.getContext("2d")!;
-  const ctx2 = (document.querySelector(
-    "#canvas2"
-  ) as HTMLCanvasElement)!.getContext("2d")!;
-  const ctx3 = (document.querySelector(
-    "#canvas3"
-  ) as HTMLCanvasElement)!.getContext("2d")!;
+  const authoritiesCanvas = authoritiesCanvasRef.value;
+  const rolesCanvas = rolesCanvasRef.value;
+  const registrationsCanvas = registrationsCanvasRef.value;
+
+  if (!authoritiesCanvas || !rolesCanvas || !registrationsCanvas) return;
+
+  const authoritiesContext = authoritiesCanvas.getContext("2d")!;
+  const rolesContext = rolesCanvas.getContext("2d")!;
+  const registrationsContext = registrationsCanvas.getContext("2d")!;
 
   const { ADMIN, ASSISTANT_ADMIN, ASSISTANT_TO_ADMIN, MODERATOR, USER } =
     users.authorityRoleCount;
   const { STUDENT, PROFESSOR, SPECIAL_MENTION, VISITOR } = users.rolesCount;
 
-  new Chart(ctx1, {
+  const authoritiesChart = new Chart(authoritiesContext, {
     type: "doughnut",
+    options: {
+      cutout: "40%",
+    },
     data: {
       labels: [
         "Admins",
@@ -35,75 +47,70 @@ onMounted(async () => {
       ],
       datasets: [
         {
-          label: "Authority Roles",
           data: [ADMIN, ASSISTANT_ADMIN, ASSISTANT_TO_ADMIN, MODERATOR, USER],
           backgroundColor: [
-            "rgba(255, 99, 132, 0.2)",
-            "rgba(54, 162, 235, 0.2)",
-            "rgba(255, 206, 86, 0.2)",
-            "rgba(75, 192, 192, 0.2)",
-            "rgba(153, 102, 255, 0.2)",
+            "hsl(201, 100%, 67%)",
+            "hsl(0, 100%, 70%)",
+            "hsl(43, 100%, 67%)",
+            "hsl(180, 48%, 52%)",
+            "hsl(260, 100%, 70%)",
           ],
-          borderColor: [
-            "rgba(255, 99, 132, 1)",
-            "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",
-          ],
-          borderWidth: 1,
+          borderRadius: 8,
+          spacing: 4,
         },
       ],
     },
   });
 
-  new Chart(ctx2, {
+  const rolesChart = new Chart(rolesContext, {
     type: "doughnut",
+    options: {
+      cutout: "40%",
+    },
     data: {
       labels: ["Students", "Professors", "Special Mentions", "Visitors"],
       datasets: [
         {
-          label: "Roles",
           data: [STUDENT, PROFESSOR, SPECIAL_MENTION, VISITOR],
           backgroundColor: [
-            "rgba(255, 99, 132, 0.2)",
-            "rgba(54, 162, 235, 0.2)",
-            "rgba(255, 206, 86, 0.2)",
-            "rgba(75, 192, 192, 0.2)",
+            "hsl(201, 100%, 67%)",
+            "hsl(0, 100%, 70%)",
+            "hsl(43, 100%, 67%)",
+            "hsl(260, 100%, 70%)",
           ],
-          borderColor: [
-            "rgba(255, 99, 132, 1)",
-            "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-          ],
-          borderWidth: 1,
+          borderRadius: 8,
+          spacing: 4,
         },
       ],
     },
   });
 
-  new Chart(ctx3, {
+  const registrationsChart = new Chart(registrationsContext, {
     type: "doughnut",
+    options: { cutout: "40%" },
     data: {
       labels: ["Registered", "Not Registered"],
       datasets: [
         {
-          label: "Registrations",
           data: [
             users.totalUsersCount - users.notRegisteredCount,
             users.notRegisteredCount,
           ],
-          backgroundColor: [
-            "rgba(54, 162, 235, 0.2)",
-            "rgba(255, 99, 132, 0.2)",
-          ],
-          borderColor: ["rgba(54, 162, 235, 1)", "rgba(255, 99, 132, 1)"],
-          borderWidth: 1,
+          backgroundColor: ["hsl(201, 100%, 67%)", "hsl(0, 100%, 70%)"],
+          borderRadius: 8,
+          spacing: 4,
         },
       ],
     },
   });
+
+  [authoritiesChart, rolesChart, registrationsChart].forEach(c =>
+    charts.push(c)
+  );
+});
+
+onBeforeUnmount(() => {
+  (charts as { destroy: () => void }[]).forEach(c => c.destroy());
 });
 </script>
 
@@ -111,13 +118,33 @@ onMounted(async () => {
   <StatisticsSection title="Users" :count="users.totalUsersCount">
     <div class="canvases">
       <div class="canvas-container">
-        <canvas id="canvas1"></canvas>
+        <h3 class="canvas-container__title">Registrations</h3>
+
+        <div class="canvas-container__body">
+          <Transition name="fade">
+            <div v-if="isLoading" class="canvas-container__skeleton-load"></div>
+          </Transition>
+          <canvas ref="registrationsCanvasRef"></canvas>
+        </div>
       </div>
       <div class="canvas-container">
-        <canvas id="canvas2"></canvas>
+        <h3 class="canvas-container__title">Roles</h3>
+        <div class="canvas-container__body">
+          <Transition name="fade">
+            <div v-if="isLoading" class="canvas-container__skeleton-load"></div>
+          </Transition>
+          <canvas ref="rolesCanvasRef"></canvas>
+        </div>
       </div>
       <div class="canvas-container">
-        <canvas id="canvas3"></canvas>
+        <h3 class="canvas-container__title">Authorities</h3>
+        <div class="canvas-container__body">
+          <div
+            class="canvas-container__skeleton-load"
+            :class="{ 'canvas-container__skeleton-load--loaded': !isLoading }"
+          ></div>
+          <canvas ref="authoritiesCanvasRef"></canvas>
+        </div>
       </div>
     </div>
   </StatisticsSection>
@@ -136,6 +163,34 @@ onMounted(async () => {
     @include pa(25px 15px);
     @include clr-bg(secondary);
     @include br-lg;
+
+    &__title {
+      @include center-text;
+      @include mt(10px);
+      @include mb(20px);
+      @include clr-txt(fade);
+      @include fs-lg;
+    }
+
+    &__body {
+      @include pos-r;
+      aspect-ratio: 1 / 1;
+    }
+
+    &__skeleton-load {
+      @include center;
+
+      opacity: 0.4;
+      animation: skeleton-loading 0.5s linear infinite alternate;
+      @include size(100%);
+      @include br-md;
+      @include tran(opacity);
+
+      &--loaded {
+        opacity: 0;
+        animation: none;
+      }
+    }
   }
 }
 </style>
