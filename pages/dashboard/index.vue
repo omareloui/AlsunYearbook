@@ -18,11 +18,17 @@ const authorityHelper = useAuthorityHelper();
         </template>
       </DashboardCard>
 
+      <DashboardCard to="/dashboard/statistics" title="statistics">
+        <template #icon>
+          <IconStatistics />
+        </template>
+      </DashboardCard>
+
       <DashboardCard
         v-if="
           authorityHelper.hasAccess(
             'ASSISTANT_TO_ADMIN',
-            authStore.user.authorityRole
+            authStore.user!.authorityRole
           )
         "
         to="/dashboard/actions"

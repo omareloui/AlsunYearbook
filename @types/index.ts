@@ -11,3 +11,4 @@ export * from "./CloseFriend";
 export * from "./Action";
 export * from "./Message";
 export * from "./FetchError";
+export * from "./Statistics";

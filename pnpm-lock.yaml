@@ -9,6 +9,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^5.0.0
   '@typescript-eslint/parser': ^5.0.0
   bcrypt: ^5.0.1
+  chart.js: ^3.8.0
   cloudinary: ^1.28.1
   cookie-universal: ^2.1.5
   cross-env: ^7.0.3
@@ -38,6 +39,7 @@ specifiers:
 dependencies:
   '@pinia/nuxt': 0.1.8_pinia@2.0.11
   bcrypt: 5.0.1
+  chart.js: 3.8.0
   cloudinary: 1.28.1
   cookie-universal: 2.1.5
   dompurify: 2.3.8
@@ -1656,6 +1658,10 @@ packages:
   /chardet/0.7.0:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
     dev: true
+
+  /chart.js/3.8.0:
+    resolution: {integrity: sha512-cr8xhrXjLIXVLOBZPkBZVF6NDeiVIrPLHcMhnON7UufudL+CNeRrD+wpYanswlm8NpudMdrt3CHoLMQMxJhHRg==}
+    dev: false
 
   /chokidar/3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
@@ -6794,7 +6800,7 @@ packages:
     dev: true
 
   /wcwidth/1.0.1:
-    resolution: {integrity: sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=}
+    resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
     dependencies:
       defaults: 1.0.3
     dev: true
