@@ -42,16 +42,22 @@ export default defineNuxtConfig({
           "A yearbook for University of Ain Shams' Alsun's class of 2017/2021.",
       },
 
-      { property: "og:image", content: "/images/heading.png?v=2" },
+      { property: "og:image", content: "/images/heading.png" },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1280" },
       { property: "og:image:height", content: "640" },
 
-      { property: "og:update_time", content: "1655071039" },
+      {
+        property: "og:update_time",
+        content: Math.floor(Number(new Date()) / 1000),
+      },
 
       { name: "twitter:card", content: "summary_large_image" },
       { property: "twitter:domain", content: "alsun.herokuapp.com" },
-      { property: "twitter:url", content: "https://alsun.herokuapp.com" },
+      {
+        property: "twitter:url",
+        content: "https://alsun.herokuapp.com/images/heading.png",
+      },
       { name: "twitter:title", content: "Alsun Yearbook" },
       {
         name: "twitter:description",
@@ -60,7 +66,7 @@ export default defineNuxtConfig({
       },
       {
         name: "twitter:image",
-        content: "/images/heading.png?v=2",
+        content: "https://alsun.herokuapp.com/images/heading.png",
       },
     ],
 
