@@ -6,6 +6,11 @@ defineProps<{ messages: MessagesStatistics }>();
 
 <template>
   <StatisticsSection title="Messages" :count="messages.totalMessageCount">
+    <template #subtitle>
+      <p>{{ messages.unreadCount }} unread messages</p>
+      <p>{{ messages.anonymousCount }} anonymous messages</p>
+    </template>
+
     <div class="top-messengers">
       <div
         v-for="topRole in (['topReceivers','topSenders'] as const)"

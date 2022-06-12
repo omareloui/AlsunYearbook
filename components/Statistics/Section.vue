@@ -4,8 +4,13 @@ defineProps<{ title: string; count: number }>();
 
 <template>
   <section>
-    <h2 class="messages__title">{{ title }}</h2>
-    <p class="messages__count">{{ count }} records</p>
+    <h2 class="statistics-section__title">{{ title }}</h2>
+
+    <div class="statistics-section__subtitle">
+      <p class="statistics-section__count">{{ count }} records</p>
+      <slot name="subtitle"></slot>
+    </div>
+
     <slot></slot>
   </section>
 </template>
@@ -13,9 +18,9 @@ defineProps<{ title: string; count: number }>();
 <style scoped lang="scss">
 @use "~~/assets/styles/mixins" as *;
 
-.messages {
+.statistics-section {
   &__title,
-  &__count {
+  &__subtitle {
     @include center-text;
   }
 
@@ -23,7 +28,8 @@ defineProps<{ title: string; count: number }>();
     @include fs-3xl;
   }
 
-  &__count {
+  &__subtitle {
+    @include fs-sm;
     @include clr-txt(fade);
     @include mb(20px);
   }

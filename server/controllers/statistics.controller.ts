@@ -119,6 +119,7 @@ export class StatisticsController {
 
     const totalMessageCount = messages.length;
     const anonymous = [] as MessageInterface[];
+    const unread = [] as MessageInterface[];
 
     const messagesCounter = {} as {
       [UserId: string]: { user: UserInterface; send: number; received: number };
@@ -127,6 +128,7 @@ export class StatisticsController {
     messages.forEach(m => {
       const msg = m as unknown as MessageInterface;
       if (m.isAnonymous) anonymous.push(msg);
+      if (!m.isRead) unread.push(msg);
 
       const author = m.author as unknown as UserInterface;
       const receiver = m.receiver as unknown as UserInterface;
@@ -159,6 +161,7 @@ export class StatisticsController {
     return {
       totalMessageCount,
       anonymousCount: anonymous.length,
+      unreadCount: unread.length,
       topReceivers,
       topSenders,
     };

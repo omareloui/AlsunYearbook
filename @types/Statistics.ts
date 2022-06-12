@@ -24,6 +24,7 @@ export interface CloseFriendsStatistics {
 export interface MessagesStatistics {
   totalMessageCount: number;
   anonymousCount: number;
+  unreadCount: number;
   topReceivers: { user: User; send: number; received: number }[];
   topSenders: { user: User; send: number; received: number }[];
 }
