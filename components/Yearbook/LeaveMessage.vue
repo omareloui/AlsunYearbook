@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SendMessage, User } from "~~/@types";
+import type { SendMessage, User, FetchError } from "types";
 import { useCapitalize } from "~~/composables/useCapitalize";
 import { useMessagesStore } from "~~/store/useMessages";
 
@@ -25,8 +25,9 @@ async function sendMessage() {
     await messagesStore.send(formData);
     notify.success("Sent message.");
     emit("close");
-  } catch (e) {
-    notify.error((e as Error).message);
+  } catch (err) {
+    const e = err as FetchError;
+    notify.error(e.data.message);
   } finally {
     await sleep(500);
     isSending = false;

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 import { Message } from "server/models";
-import { hasToBeInYearbook } from "server/policies";
+import { hasToBeAuthenticated, hasToBeInYearbook } from "server/policies";
 
 import type { Message as MessageInterface, SendMessage } from "types";
 
@@ -43,8 +43,9 @@ export class MessageController {
   });
 
   static send = defineEventHandler(async event => {
+    hasToBeAuthenticated(event);
+
     const { req, context } = event;
-    hasToBeInYearbook(event);
 
     const { message, receiver, isAnonymous } = (await useBody(
       req

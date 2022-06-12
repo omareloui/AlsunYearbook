@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import type { Message } from "~~/@types";
-import { useUserImage } from "~~/composables/useUserImage";
-import { useUserFullName } from "~~/composables/useUserFullName";
+import type { Message } from "types";
 
 const { message } = defineProps<{ message: Message }>();
 
 const formattedDate = ref("");
+
 onBeforeMount(async () => {
   const { default: moment } = await import("moment");
   formattedDate.value = moment(message.createdAt).format("h:mm a");
@@ -28,6 +27,12 @@ onBeforeMount(async () => {
       {{
         (!message.isAnonymous && useUserFullName(message.author!)) || "Anonymous"
       }}
+      <span
+        class="author__role"
+        v-if="!message.isAnonymous && !useUserIsInYearbook(message.author!)"
+      >
+        ({{ useCapitalize(message.author!.role) }})
+      </span>
     </div>
 
     <PreviewMarkDown
@@ -74,6 +79,11 @@ onBeforeMount(async () => {
 
     @include lt-tablet {
       @include fs-2xl;
+    }
+
+    &__role {
+      @include clr-txt(fade);
+      @include fs-base;
     }
   }
 
