@@ -42,7 +42,10 @@ export default defineNuxtConfig({
           "A yearbook for University of Ain Shams' Alsun's class of 2017/2021.",
       },
 
-      { property: "og:image", content: "/images/heading.png" },
+      {
+        property: "og:image",
+        content: "https://alsun.herokuapp.com/images/heading.png?v=2",
+      },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1280" },
       { property: "og:image:height", content: "640" },
@@ -60,7 +63,7 @@ export default defineNuxtConfig({
       },
       {
         name: "twitter:image",
-        content: "/images/heading.png",
+        content: "https://alsun.herokuapp.com/images/heading.png?v=2",
       },
     ],
 
