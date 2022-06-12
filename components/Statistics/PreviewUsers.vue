@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import Chart from "chart.js/auto";
-
 import type { UsersStatistics } from "types";
 
 const { users } = defineProps<{ users: UsersStatistics }>();
 
-onMounted(() => {
+onMounted(async () => {
+  const chartJs = await import("chart.js");
+  const { Chart, registerables } = chartJs;
+
+  Chart.register(...registerables);
+
   const ctx1 = (document.querySelector(
     "#canvas1"
   ) as HTMLCanvasElement)!.getContext("2d")!;
