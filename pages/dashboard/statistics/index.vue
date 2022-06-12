@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import type { Statistics } from "types";
+import { useStatisticsStore } from "~~/store/useStatistics";
 
-const { users, messages, closeFriends } = (await useTokenedFetch(
-  "/api/statistics"
-)) as Statistics;
+const statisticsStore = useStatisticsStore();
+
+const { data } = await useAsyncData("statistics", async () => {
+  await statisticsStore.fetchStatistics();
+  return statisticsStore.statistics!;
+});
+const { users, closeFriends, messages } = data.value;
 </script>
 
 <template>
