@@ -32,7 +32,7 @@ defineProps<{ closeFriends: CloseFriendsStatistics }>();
                     : "hasCloseFriend"
                 ]
               }}
-              messages
+              friends
             </p>
           </div>
         </div>
