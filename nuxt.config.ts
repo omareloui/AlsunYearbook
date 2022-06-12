@@ -18,11 +18,8 @@ export default defineNuxtConfig({
     public: { isProd: process.env.NODE_ENV === "production" },
   },
 
-  head: {
-    title: "Alsun Yearbook | Class of 2017/2021",
-  },
-
   meta: {
+    title: "Alsun Yearbook | Class of 2017/2021",
     meta: [{ name: "theme-color", content: "#ffee57" }],
     link: [
       { charset: "utf-8" },
