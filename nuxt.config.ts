@@ -20,17 +20,52 @@ export default defineNuxtConfig({
 
   meta: {
     title: "Alsun Yearbook | Class of 2017/2021",
-    meta: [{ name: "theme-color", content: "#ffee57" }],
-    link: [
+
+    meta: [
       { charset: "utf-8" },
 
+      { name: "theme-color", content: "#ffee57" },
+
       {
-        hid: "description",
         name: "description",
         content:
           "A yearbook for University of Ain Shams' Alsun's class of 2017/2021.",
       },
 
+      { property: "og:url", content: "https://alsun.herokuapp.com" },
+      { property: "og:title", content: "Alsun Yearbook" },
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Alsun Yearbook" },
+      {
+        property: "og:description",
+        content:
+          "A yearbook for University of Ain Shams' Alsun's class of 2017/2021.",
+      },
+
+      {
+        property: "og:image",
+        content: "https://alsun.hereokuapp.com/images/heading.png",
+      },
+      { property: "og:image:type", content: "image/png" },
+      { property: "og:image:width", content: "1280" },
+      { property: "og:image:height", content: "640" },
+
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "twitter:domain", content: "alsun.herokuapp.com" },
+      { property: "twitter:url", content: "https://alsun.herokuapp.com" },
+      { name: "twitter:title", content: "Alsun Yearbook" },
+      {
+        name: "twitter:description",
+        content:
+          "A yearbook for University of Ain Shams' Alsun's class of 2017/2021.",
+      },
+      {
+        name: "twitter:image",
+        content: "https://alsun.herokuapp.com/images/heading.png",
+      },
+    ],
+
+    link: [
       {
         hid: "apple-touch-icon",
         rel: "apple-touch-icon",

@@ -4,7 +4,7 @@ An online yearbook created for my college, Alsun, Ain Shams. Includes a display
 of students and professors, a messaging system, a dashboard to manage the users
 and track the data.
 
-![Yearbook Heading](/docs/static/heading.png)
+![Yearbook Heading](/public//images/heading.png)
 
 ---
 
