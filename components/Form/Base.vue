@@ -32,6 +32,7 @@ form {
 
   .submit {
     @include mt(20px);
+    @include clr-txt(dark);
   }
 }
 </style>

@@ -14,13 +14,13 @@ const authorityHelper = useAuthorityHelper();
     <section class="dashboard-cards">
       <DashboardCard to="/dashboard/users" title="users">
         <template #icon>
-          <IconUsers />
+          <IconUsers color="var(--clr-text-dark)" />
         </template>
       </DashboardCard>
 
       <DashboardCard to="/dashboard/statistics" title="statistics">
         <template #icon>
-          <IconStatistics />
+          <IconStatistics color="var(--clr-text-dark)" />
         </template>
       </DashboardCard>
 
@@ -35,7 +35,7 @@ const authorityHelper = useAuthorityHelper();
         title="actions"
       >
         <template #icon>
-          <IconActions />
+          <IconActions color="var(--clr-text-dark)" />
         </template>
       </DashboardCard>
     </section>

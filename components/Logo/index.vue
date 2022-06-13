@@ -3,6 +3,7 @@ withDefaults(defineProps<{ color?: string }>(), {
   color: "var(--clr-text-main)",
 });
 </script>
+
 <template>
   <svg viewBox="0 0 706 862.3">
     <path

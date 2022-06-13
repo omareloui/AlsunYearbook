@@ -56,6 +56,8 @@ $light: (
   safe: hsl(112, 92%, 49%),
   success: hsl(112, 92%, 49%),
   info: hsl(201, 100%, 67%),
+  quotes: map.get($shared, light-100),
+  navigation-buttons-background: map.get($shared, light-800),
 );
 
 $default: map.merge($shared, $light);
@@ -64,9 +66,9 @@ $dark: (
   text-main: map.get($shared, text-light),
   text-fade: map.get($neutrals, light-100),
   text-invert: map.get($shared, text-dark),
-  background-main: map.get($shared, dark-800),
-  background-secondary: map.get($shared, dark-900),
-  background-tertiary: map.get($shared, dark-700),
+  background-main: #131417,
+  background-secondary: #1e1f26,
+  background-tertiary: #545454,
   background-invert: map.get($shared, light-900),
   box-shadow: hsl(0, 0%, 98%),
   input-bg: map.get($shared, dark-800),
@@ -81,4 +83,6 @@ $dark: (
   safe: hsl(112, 87%, 33%),
   success: hsl(112, 87%, 33%),
   info: hsl(201, 72%, 43%),
+  quotes: map.get($shared, dark-100),
+  navigation-buttons-background: map.get($shared, dark-100),
 );

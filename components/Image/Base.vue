@@ -70,10 +70,18 @@ onUnmounted(removeObserver);
     <div v-if="isLoading" class="skeleton-overlay"></div>
 
     <transition name="fade">
-      <IconNotFound v-if="notFound && !isAnonymous" class="not-found-icon" />
+      <IconNotFound
+        v-if="notFound && !isAnonymous"
+        class="not-found-icon"
+        color="var(--clr-text-dark)"
+      />
     </transition>
 
-    <IconAnonymous v-if="isAnonymous" class="anonymous" />
+    <IconAnonymous
+      v-if="isAnonymous"
+      class="anonymous"
+      color="var(--clr-text-dark)"
+    />
 
     <img
       :alt="alt"
@@ -160,7 +168,7 @@ onUnmounted(removeObserver);
   }
 
   &--anonymous {
-    @include clr-bg(light-800, 0.8);
+    @include clr-bg(tertiary, 0.8);
   }
 }
 </style>

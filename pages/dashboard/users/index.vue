@@ -22,7 +22,7 @@ const debouncedSearch = debounce(usersStore.search, 300);
       is-large
       class="users-dashboard__add-user-link"
     >
-      <template #icon><IconAddUser /></template>
+      <template #icon><IconAddUser color="var(--clr-text-dark)" /></template>
       Add a user
     </LinkButtonWithIcon>
 
@@ -64,6 +64,7 @@ const debouncedSearch = debounce(usersStore.search, 300);
   &__add-user-link {
     @include mt(20px);
     @include mx(auto);
+    @include clr-txt(dark);
   }
 
   &__cards {

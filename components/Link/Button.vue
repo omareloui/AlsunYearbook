@@ -34,6 +34,7 @@ withDefaults(
 
   &--cta {
     @include clr-bg(primary);
+    @include clr-txt(dark);
   }
 
   &--large {

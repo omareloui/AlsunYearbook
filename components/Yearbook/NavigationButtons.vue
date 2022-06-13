@@ -14,23 +14,32 @@ const { next, prev, homeIcon, home } = defineProps<{
       :to="prev"
       class="yearbook-nav-links__link yearbook-nav-links__link--prev"
     >
-      <IconLeft />
+      <IconLeft color="var(--clr-text-dark)" />
     </LinkBase>
 
     <LinkBase
       :to="home"
       class="yearbook-nav-links__link yearbook-nav-links__link--back"
     >
-      <IconGraduationHat v-if="homeIcon === 'students'" />
-      <IconProfessor v-else-if="homeIcon === 'professors'" />
-      <IconUsers v-else-if="homeIcon === 'users'" />
+      <IconGraduationHat
+        v-if="homeIcon === 'students'"
+        color="var(--clr-text-dark)"
+      />
+      <IconProfessor
+        v-else-if="homeIcon === 'professors'"
+        color="var(--clr-text-dark)"
+      />
+      <IconUsers
+        v-else-if="homeIcon === 'users'"
+        color="var(--clr-text-dark)"
+      />
     </LinkBase>
 
     <LinkBase
       :to="next"
       class="yearbook-nav-links__link yearbook-nav-links__link--next"
     >
-      <IconRight />
+      <IconRight color="var(--clr-text-dark)" />
     </LinkBase>
   </div>
 </template>
@@ -50,7 +59,7 @@ const { next, prev, homeIcon, home } = defineProps<{
     @include br-cr;
     @include no-underline;
     @include tran;
-    @include clr-bg(light-800);
+    @include clr-bg(navigation-buttons-background);
     @include remove-android-highlight;
 
     &--next,

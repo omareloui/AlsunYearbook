@@ -21,7 +21,7 @@ onUnmounted(destroy);
 <template>
   <transition name="fade">
     <ButtonBase v-if="isScrolled" class="scroll-up" @click="scrollToTop">
-      <IconScrollUp />
+      <IconScrollUp color="var(--clr-text-dark)" />
     </ButtonBase>
   </transition>
 </template>

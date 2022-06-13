@@ -9,15 +9,35 @@ defineProps<{ user: User }>();
 <template>
   <div class="roles">
     <div class="roles__role roles__role--auth">
-      <IconAdmin class="icon" v-if="useUserHasAuthority(user)" />
-      <IconUser class="icon" v-else />
+      <IconAdmin
+        class="icon"
+        v-if="useUserHasAuthority(user)"
+        color="var(--clr-text-dark)"
+      />
+      <IconUser class="icon" v-else color="var(--clr-text-dark)" />
       <span class="text">{{ useCapitalize(user.authorityRole) }}</span>
     </div>
     <div class="roles__role roles__role--uni">
-      <IconGraduationHat v-if="user.role === 'STUDENT'" class="icon" />
-      <IconProfessor v-else-if="user.role === 'PROFESSOR'" class="icon" />
-      <IconSpecial v-else-if="user.role === 'SPECIAL_MENTION'" class="icon" />
-      <IconVisitor v-else-if="user.role === 'VISITOR'" class="icon" />
+      <IconGraduationHat
+        v-if="user.role === 'STUDENT'"
+        class="icon"
+        color="var(--clr-dark-text)"
+      />
+      <IconProfessor
+        v-else-if="user.role === 'PROFESSOR'"
+        class="icon"
+        color="var(--clr-dark-text)"
+      />
+      <IconSpecial
+        v-else-if="user.role === 'SPECIAL_MENTION'"
+        class="icon"
+        color="var(--clr-dark-text)"
+      />
+      <IconVisitor
+        v-else-if="user.role === 'VISITOR'"
+        class="icon"
+        color="var(--clr-dark-text)"
+      />
       <span class="text">{{ useCapitalize(user.role) }}</span>
     </div>
   </div>

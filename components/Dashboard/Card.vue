@@ -18,7 +18,7 @@ defineProps<{ to: string; title: string }>();
   @include pa(1.2%);
   @include size(150px);
   @include clr-bg(primary);
-  @include clr-txt;
+  @include clr-txt(dark);
   @include no-underline;
   @include br-lg;
   @include float(2);

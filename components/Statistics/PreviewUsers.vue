@@ -56,6 +56,7 @@ onMounted(async () => {
             "hsl(260, 100%, 70%)",
           ],
           borderRadius: 8,
+          borderWidth: 0,
           spacing: 4,
         },
       ],
@@ -79,6 +80,7 @@ onMounted(async () => {
             "hsl(260, 100%, 70%)",
           ],
           borderRadius: 8,
+          borderWidth: 0,
           spacing: 4,
         },
       ],
@@ -98,6 +100,7 @@ onMounted(async () => {
           ],
           backgroundColor: ["hsl(201, 100%, 67%)", "hsl(0, 100%, 70%)"],
           borderRadius: 8,
+          borderWidth: 0,
           spacing: 4,
         },
       ],
@@ -119,7 +122,6 @@ onBeforeUnmount(() => {
     <div class="canvases">
       <div class="canvas-container">
         <h3 class="canvas-container__title">Registrations</h3>
-
         <div class="canvas-container__body">
           <Transition name="fade">
             <div v-if="isLoading" class="canvas-container__skeleton-load"></div>

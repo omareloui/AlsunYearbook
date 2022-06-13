@@ -79,6 +79,7 @@ function onLoaded() {
     @include fs-lg;
     @include uppercase;
     @include w(100%);
+    @include clr-txt(dark);
 
     &__line {
       &--hidden {

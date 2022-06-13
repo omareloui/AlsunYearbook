@@ -1,6 +1,6 @@
 <template>
   <div class="logo">
-    <Logo />
+    <Logo color="var(--clr-text-dark)" />
   </div>
 </template>
 

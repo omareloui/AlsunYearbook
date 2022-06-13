@@ -1,6 +1,8 @@
 <script setup lang="ts">
+// import { useThemeStore } from "~~/store/useTheme";
 import { useAuthStore } from "~~/store/useAuth";
 
+// const themeStore = useThemeStore();
 const authStore = useAuthStore();
 
 const isOpen = ref(false);
@@ -32,10 +34,10 @@ onUnmounted(() => removeEventListener("resize", setIsTablet));
   <Container class="navbar">
     <div class="head">
       <LinkBase v-if="isLargerThanTablet" to="/" class="logo-link">
-        <Logo class="logo" />
+        <Logo class="logo" color="var(--clr-text-dark)" />
       </LinkBase>
       <LinkBase v-else to="/yearbook" class="logo-link">
-        <Logo class="logo" />
+        <Logo class="logo" color="var(--clr-text-dark)" />
       </LinkBase>
 
       <NavbarBurgerButton
@@ -49,6 +51,9 @@ onUnmounted(() => removeEventListener("resize", setIsTablet));
       <nav class="body" v-if="isOpen || isLargerThanTablet">
         <ul>
           <div class="links-block links-block--nav">
+            <!-- <li>
+              <ButtonBase @click="themeStore.toggleTheme">Toggle theme</ButtonBase>
+            </li> -->
             <li>
               <LinkBase to="/yearbook" @click="toggle">Yearbook</LinkBase>
             </li>
@@ -143,7 +148,7 @@ onUnmounted(() => removeEventListener("resize", setIsTablet));
 
         ::v-deep(a),
         ::v-deep(button) {
-          @include clr-txt;
+          @include clr-txt(dark);
           @include fw-black;
           @include fs-lg;
           @include no-underline;

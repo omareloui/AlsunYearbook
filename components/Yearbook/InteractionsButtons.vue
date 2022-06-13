@@ -26,7 +26,7 @@ const emit = defineEmits([
           class="interactions-buttons__button"
           @click="emit('make-close-friend')"
         >
-          <IconCloseFriend />
+          <IconCloseFriend color="var(--clr-text-dark)" />
           Add close friend
         </ButtonBase>
 
@@ -35,7 +35,7 @@ const emit = defineEmits([
           class="interactions-buttons__button"
           @click="emit('remove-close-friend')"
         >
-          <IconRemoveCloseFriend />
+          <IconRemoveCloseFriend color="var(--clr-text-dark)" />
           Remove close friend
         </ButtonBase>
       </transition>
@@ -46,7 +46,7 @@ const emit = defineEmits([
       v-if="!isMe"
       @click="emit('open-leave-message')"
     >
-      <IconWrite />
+      <IconWrite color="var(--clr-text-dark)" />
       Leave a message
     </ButtonBase>
 
@@ -55,7 +55,7 @@ const emit = defineEmits([
       class="interactions-buttons__button"
       to="/profile/edit"
     >
-      <IconSettings />
+      <IconSettings color="var(--clr-text-dark)" />
       Edit profile
     </LinkBase>
 
@@ -64,7 +64,7 @@ const emit = defineEmits([
       class="interactions-buttons__button"
       :to="`/dashboard/users/${user.socialMedia.fb}`"
     >
-      <IconDashboard />
+      <IconDashboard color="var(--clr-text-dark)" />
       Show in Dashboard
     </LinkBase>
 
@@ -73,7 +73,7 @@ const emit = defineEmits([
       class="interactions-buttons__button"
       :to="`/dashboard/users/${user.socialMedia.fb}/edit`"
     >
-      <IconSettings />
+      <IconSettings color="var(--clr-text-dark)" />
       Edit {{ useCapitalize(user.name.first) }}
     </LinkBase>
   </div>
@@ -99,7 +99,7 @@ const emit = defineEmits([
   &__button {
     @include flex($gap: 10px, $center-v: true);
     @include clr-bg(primary);
-    @include clr-txt;
+    @include clr-txt(dark);
     @include no-underline;
     @include brdr(none);
     @include br-lg;

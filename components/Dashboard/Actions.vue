@@ -17,8 +17,8 @@ const emit = defineEmits(["toggle-show", "reset"]);
       :title="user.isShown ? 'Hide user' : 'Show user'"
     >
       <transition name="fade" mode="out-in">
-        <IconShow v-if="!user.isShown" />
-        <IconHide v-else />
+        <IconShow v-if="!user.isShown" color="var(--clr-text-dark)" />
+        <IconHide v-else color="var(--clr-text-dark)" />
       </transition>
     </ButtonBase>
 
@@ -28,7 +28,7 @@ const emit = defineEmits(["toggle-show", "reset"]);
         class="action action--reset"
         @click="emit('reset')"
       >
-        <IconReset />
+        <IconReset color="var(--clr-text-dark)" />
       </ButtonBase>
     </transition>
 
@@ -36,7 +36,7 @@ const emit = defineEmits(["toggle-show", "reset"]);
       class="action action--edit"
       :to="`/dashboard/users/${user.socialMedia.fb}/edit`"
     >
-      <IconSettings />
+      <IconSettings color="var(--clr-text-dark)" />
     </LinkBase>
   </div>
 </template>

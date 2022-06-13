@@ -6,11 +6,11 @@ defineProps<{ quote: string }>();
   <div class="quote-container">
     <IconOpenQuote
       class="quote-icon quote-icon--open"
-      color="var(--clr-light-100)"
+      color="var(--clr-quotes)"
     />
     <IconCloseQuote
       class="quote-icon quote-icon--close"
-      color="var(--clr-light-100)"
+      color="var(--clr-quotes)"
     />
     <q class="quote">{{ quote }}</q>
   </div>

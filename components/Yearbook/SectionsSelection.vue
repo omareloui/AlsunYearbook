@@ -57,6 +57,7 @@ async function select(section: YearbookSection) {
 
     &--current {
       @include clr-bg(primary);
+      @include clr-txt(dark);
     }
 
     @include lt-mobile {

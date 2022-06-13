@@ -8,16 +8,19 @@ const messagesStore = useMessagesStore();
 
 <template>
   <section class="me">
-    <MeSectionCard :to="`/yearbook/${authStore.user.socialMedia.fb}`">
-      <IconProfile />
+    <MeSectionCard :to="`/yearbook/${authStore.user!.socialMedia.fb}`">
+      <IconProfile color="var(--clr-text-dark)" />
     </MeSectionCard>
 
     <MeSectionCard to="/inbox">
-      <IconInbox :has-notifications="messagesStore.unread.length > 0" />
+      <IconInbox
+        :has-notifications="messagesStore.unread.length > 0"
+        color="var(--clr-text-dark)"
+      />
     </MeSectionCard>
 
     <MeSectionCard to="/sent-messages">
-      <IconSentMessages />
+      <IconSentMessages color="var(--clr-text-dark)" />
     </MeSectionCard>
   </section>
 </template>

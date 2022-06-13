@@ -12,7 +12,7 @@ defineProps<{ sm: UserSocialMedia }>();
       new-tab
       :to="`https://facebook.com/${sm.fb}`"
     >
-      <IconFaceBook />
+      <IconFaceBook color="var(--clr-text-dark)" />
     </LinkBase>
     <LinkBase
       v-if="sm.ig"
@@ -20,7 +20,7 @@ defineProps<{ sm: UserSocialMedia }>();
       new-tab
       :to="`https://instagram.com/${sm.ig}`"
     >
-      <IconInstagram />
+      <IconInstagram color="var(--clr-text-dark)" />
     </LinkBase>
     <LinkBase
       v-if="sm.twt"
@@ -28,7 +28,7 @@ defineProps<{ sm: UserSocialMedia }>();
       new-tab
       :to="`https://twitter.com/${sm.twt}`"
     >
-      <IconTwitter />
+      <IconTwitter color="var(--clr-text-dark)" />
     </LinkBase>
     <LinkBase
       v-if="sm.yt"
@@ -36,7 +36,7 @@ defineProps<{ sm: UserSocialMedia }>();
       new-tab
       :to="`https://youtube.com/channel/${sm.yt}`"
     >
-      <IconTwitter />
+      <IconYouTube color="var(--clr-text-dark)" />
     </LinkBase>
   </div>
 </template>

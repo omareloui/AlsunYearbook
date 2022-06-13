@@ -48,8 +48,8 @@ const emit = defineEmits(["toggle-show", "reset"]);
         @click="emit('toggle-show', user.socialMedia.fb)"
       >
         <transition name="fade" mode="out-in">
-          <IconShow v-if="!user.isShown" />
-          <IconHide v-else />
+          <IconShow v-if="!user.isShown" color="var(--clr-text-dark)" />
+          <IconHide v-else color="var(--clr-text-dark)" />
         </transition>
       </ButtonBase>
 
@@ -59,7 +59,7 @@ const emit = defineEmits(["toggle-show", "reset"]);
           class="action action--reset"
           @click="emit('reset', user.socialMedia.fb)"
         >
-          <IconReset />
+          <IconReset color="var(--clr-text-dark)" />
         </ButtonBase>
       </transition>
     </div>

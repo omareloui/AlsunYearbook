@@ -37,7 +37,7 @@ function toggle() {
   .line {
     @include pos-a(left 0);
     @include size(100% var(--line-height));
-    @include clr-bg(text-main);
+    @include clr-bg(text-dark);
     @include br-bl;
     @include tran;
 

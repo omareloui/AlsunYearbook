@@ -10,6 +10,7 @@
   @include mx(auto);
   @include pa(5px 20px);
   @include clr-bg(primary);
+  @include clr-txt(dark);
   @include br-bl;
   @include fw-bold;
   @include fs-sm;

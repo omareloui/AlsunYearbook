@@ -12,7 +12,7 @@ const { isLoading } = defineProps<{ isLoading: boolean }>();
 @use "~~/assets/styles/mixins" as *;
 
 .yearbook-patch {
-  @include clr-bg(text-main);
+  @include clr-bg(text-dark);
   @include br-cr;
   @include size(35px);
   @include pa(20%);
